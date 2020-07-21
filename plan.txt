@@ -41,3 +41,17 @@ Items:
     - complication can extend item
 
     added look, touch, and (for fun) lick verbs. only thing left is take, however this requires the inventory.
+
+    wait should add a use method, so instead of obstacle having a resolve could have item have a use method
+        this could take in a second parameter for the obstacle, if it is null the object is used alone,
+        would need to add a function for using alone and the use with function
+        use with will just call the obstacle's resolve function
+
+    should also make item abstract and have each item be it's own class since they will eventually all have different effects
+    and currently may sometimes do different things when used
+
+    could consider doing the same for obstacle but I don't feel it is as necessary
+
+    can call use when the user enters a set command and has the item in their inventory
+    may want to make each item's itemIs something that can be output directly to the user so that they know what to type for each item
+    maybe put them in quotes to highlight them
