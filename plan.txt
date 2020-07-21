@@ -12,3 +12,28 @@ basic plan:
         for now it will call the victory method
     - player can look around, see some stuff then pick up the key and leave, expand from there
 
+rooms:
+    each room is initialised with a list of features - i.e. objects -
+    along with having a description of the room's layout and any other
+    data about the room such as checks that an obstacle has been passed
+        that prevent access to an object until the player deals with them
+
+    rooms need:
+        - a text description
+        - array of items
+        - array of complications
+        - map of items to the complication - if any - that block them
+        - methods to handle the complications - takes in the complication and the item being used on it
+
+    could make each room it's own class that implements the room interface so that a room is always initialised the same
+    while following a standard template, and moving from room to room would be as simple as replacing one object with another object
+    though not (usually) a new object since the player's changes should (usually) remain
+
+complications:
+    each complication is created with a description a variable to store the object that can be used to solve the issue
+    a boolean representing whether or not it has been solved and a string that states what it is
+
+Items:
+    each item is initialised with a description and a string that states what it is
+    as well as methods for what happens when you interact with them in certain ways
+
