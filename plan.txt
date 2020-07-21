@@ -1,0 +1,9 @@
+text adventure basic requirements:
+    - move around the room - room should be split into sections each section contains different parts of the room
+    - objects in the room - a class for intractable objects
+    - ability to interact with objects - objects have interaction methods
+    - can pick up objects - an inventory class or maybe an array in a player class
+    - can use objects on other objects - an important interaction method, only called on objects in inventory
+
+basic plan - have a room, which contains a few objects
+
