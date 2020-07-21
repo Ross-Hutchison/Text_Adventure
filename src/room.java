@@ -6,5 +6,4 @@ public abstract class room {
     private obstacle[] obstacles;   // an array of all obstacles in the current room
     private HashMap<item, obstacle> blocked;    // a map that shows what obstacle blocks each item (if any) - so the program knows if the user can approach them
 
-    
 }

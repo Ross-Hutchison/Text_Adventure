@@ -39,3 +39,5 @@ Items:
     as well as methods for what happens when you interact with them in certain ways - may need variables for any messages output
 
     - complication can extend item
+
+    added look, touch, and (for fun) lick verbs. only thing left is take, however this requires the inventory.
