@@ -1,3 +1,0 @@
-interface room_interface {
-
-}
