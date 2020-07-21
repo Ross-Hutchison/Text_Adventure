@@ -5,5 +5,10 @@ text adventure basic requirements:
     - can pick up objects - an inventory class or maybe an array in a player class
     - can use objects on other objects - an important interaction method, only called on objects in inventory
 
-basic plan - have a room, which contains a few objects
+basic plan:
+    - have a room, which contains a few objects, the player can interact with them
+    - one of the objects is a key another is a door, the door will have a method to open it,
+        when you interact with it they tend to call a method that moves you to a new location
+        for now it will call the victory method
+    - player can look around, see some stuff then pick up the key and leave, expand from there
 
