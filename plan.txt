@@ -55,3 +55,19 @@ Items:
     can call use when the user enters a set command and has the item in their inventory
     may want to make each item's itemIs something that can be output directly to the user so that they know what to type for each item
     maybe put them in quotes to highlight them
+
+Player:
+    currently will just have an inventory - a fixed size array of items that they are carrying, can expand upon it when the base is complete
+        e.g. add health or ways to increase carrying capacity, other details about the player that could change
+
+     will also have methods for altering the inventory such as addToInventory
+
+     was going to add switch in there but maybe instead add that as a use method in item?
+     so when you call it on an item it checks that you're holding that item and if so replaces it with the given item
+
+     would be a pain since I need to access the inventory, could pass the player or inventory in I guess
+
+     or could have the method called on the player object and take both items in
+        this is preferred, should be easier to understand and keeps inventory management in player.java
+
+      ah but i would also need to take in the room so I could leave the object, makes a bit more sense than giving the player to a switch method
