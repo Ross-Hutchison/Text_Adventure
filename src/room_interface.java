@@ -1,0 +1,3 @@
+interface room_interface {
+
+}

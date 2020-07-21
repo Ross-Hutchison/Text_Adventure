@@ -37,3 +37,6 @@ Items:
     each item is initialised with a description and a string that states what it is
     as well as methods for what happens when you interact with them in certain ways
 
+
+Room as a class is extended by the other room types, it contains the variables and implements the room_interface which has the methods
+so the abstract room class holds the generic methods
