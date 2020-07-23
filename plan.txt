@@ -80,8 +80,25 @@ if i'm going to be creating Rooms and items i'll want to create packages to grou
 need a package for Rooms
 a package for items
 obstacles extend items so maybe have them in a single package, interactivity?, could have subpackages?  stick with one for now and see
-player doesn't need it's own package, though later i'll be creating a game class to keep main simple so maybe they can be grouped?
+player doesn't need it's own package, though later i'll be creating a Game class to keep main simple so maybe they can be grouped?
 
 for now have Rooms and Interaction, player.java imports Rooms.room, Interaction.item and Interaction.obstacle shouldn't need the specified
 types i don't think - consider using Interfaces instead of classes - look into how interfaces transfer variables
 
+look into factories cause I just remembered they exist
+
+Notes on testing: as long as the room is initialised correctly,
+    - even if there are no blockages the map should map all items to null obstacles - maybe change later for efficiency
+
+then the function would work, however there is an issue:
+    I forgot to remove the item from the room when it is added to the player's inventory
+    this means that items can be duplicated
+
+so the remove method can't take the object from the room directly without taking it as a parameter
+could instead have a wrapper method in room that takes the player and item in - the room could act as the control
+for everything that happens in it - the methods that affect the pieces are called as part of room methods
+for different situations
+
+room will now need to include player so give it a package of game to store it in - see earlier notes
+
+that now works as intended, now generate a wrapper for switching

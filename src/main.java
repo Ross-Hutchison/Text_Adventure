@@ -1,5 +1,6 @@
 import Interaction.*;
 import Rooms.*;
+import Game.player;
 
 import java.util.HashMap;
 
@@ -22,10 +23,10 @@ public class main {
         tutorialRoom tutorialRoom = new tutorialRoom(tutRoomDes, tutRoomItms, tutRoomObs, tutRoomBlocks);
 
 
-        davedave.addToInventory(key_1);
-        davedave.addToInventory(choco_1);
+        tutorialRoom.playerTakesItem(davedave, key_1);
+        tutorialRoom.playerTakesItem(davedave, choco_1);
 
-        davedave.switchX_With_Y(key_1, choco_1, tutorialRoom);
+        tutorialRoom.playerSwitchesItems(davedave, key_1, choco_1);
 
 
     }

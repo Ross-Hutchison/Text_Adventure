@@ -1,3 +1,5 @@
+package Game;
+
 import Interaction.item;
 import Interaction.obstacle;
 import Rooms.room;
@@ -22,7 +24,7 @@ public class player {
     }
 
     /*
-        Goes through the player's inventory and checks for the Interaction.item the player wants to
+        Goes through the Game.player's inventory and checks for the Interaction.item the Game.player wants to
         leave then goes through the room's array of items to check that the wanted Interaction.item
         is present in it. if both these checks match check if the Interaction.item can be reached
         if all checks pass then switch the inventory and room items
@@ -33,7 +35,7 @@ public class player {
         int inventoryIndex = 0;
         int roomIndex = 0;
 
-        for (int i = 0; i < inventory.length; i++) {    // check the player has the Interaction.item they want to leave
+        for (int i = 0; i < inventory.length; i++) {    // check the Game.player has the Interaction.item they want to leave
             if (inventory[i] == toLeave) {
                 has_X = true;
                 inventoryIndex = i;
