@@ -5,7 +5,7 @@ import Rooms.room;
 import java.util.HashMap;
 
 public class player {
-    private int inventorySize = 5;
+    private int inventorySize = 1;
     private int currentlyHolding = 0;
     private item[] inventory = new item[inventorySize];
 

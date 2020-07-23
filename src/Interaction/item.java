@@ -1,11 +1,15 @@
 package Interaction;
 
 public abstract class item {
-    private String itemIs;
-    private String description;
-    private String feelsLike;
-    private String tastesLike;
-    private String usedAlone;
+     String itemIs;
+     String description;
+     String feelsLike;
+     String tastesLike;
+     String usedAlone;
+
+    public item(){
+
+    }
 
     public item(String itemIs, String description, String feelsLike, String tastesLike, String usedAlone) {
         this.itemIs = itemIs;
