@@ -12,13 +12,13 @@ basic plan:
         for now it will call the victory method
     - player can look around, see some stuff then pick up the key and leave, expand from there
 
-rooms:
+Rooms:
     each room is initialised with a list of features - i.e. objects -
     along with having a description of the room's layout and any other
     data about the room such as checks that an obstacle has been passed
         that prevent access to an object until the player deals with them
 
-    rooms need:
+    Rooms need:
         - a text description
         - array of items
         - array of complications
@@ -71,3 +71,17 @@ Player:
         this is preferred, should be easier to understand and keeps inventory management in player.java
 
       ah but i would also need to take in the room so I could leave the object, makes a bit more sense than giving the player to a switch method
+
+Now that that's done i'll need to test it by creating a room and having a player with restricted inventory - 1 -
+try to pick up two items then switch
+
+if i'm going to be creating Rooms and items i'll want to create packages to group them
+
+need a package for Rooms
+a package for items
+obstacles extend items so maybe have them in a single package, interactivity?, could have subpackages?  stick with one for now and see
+player doesn't need it's own package, though later i'll be creating a game class to keep main simple so maybe they can be grouped?
+
+for now have Rooms and Interaction, player.java imports Rooms.room, Interaction.item and Interaction.obstacle shouldn't need the specified
+types i don't think - consider using Interfaces instead of classes - look into how interfaces transfer variables
+

@@ -1,3 +1,5 @@
+package Interaction;
+
 public abstract class obstacle extends item {
     private boolean solved;
     private item solvedBy;

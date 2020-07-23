@@ -1,3 +1,5 @@
+package Interaction;
+
 public abstract class item {
     private String itemIs;
     private String description;

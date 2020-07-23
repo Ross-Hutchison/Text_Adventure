@@ -1,3 +1,7 @@
+import Interaction.item;
+import Interaction.obstacle;
+import Rooms.room;
+
 import java.util.HashMap;
 
 public class player {
@@ -14,9 +18,9 @@ public class player {
     }
 
     /*
-        Goes through the player's inventory and checks for the item the player wants to
-        leave then goes through the room's array of items to check that the wanted item
-        is present in it. if both these checks match check if the item can be reached
+        Goes through the player's inventory and checks for the Interaction.item the player wants to
+        leave then goes through the room's array of items to check that the wanted Interaction.item
+        is present in it. if both these checks match check if the Interaction.item can be reached
         if all checks pass then switch the inventory and room items
      */
     public void switchX_With_Y(item toLeave, item toTake, room whereToLeave) {
@@ -25,7 +29,7 @@ public class player {
         int inventoryIndex = 0;
         int roomIndex = 0;
 
-        for (int i = 0; i < inventory.length; i++) {    // check the player has the item they want to leave
+        for (int i = 0; i < inventory.length; i++) {    // check the player has the Interaction.item they want to leave
             if (inventory[i] == toLeave) {
                 has_X = true;
                 inventoryIndex = i;
@@ -37,7 +41,7 @@ public class player {
         }
         else {
             item[] roomHas = whereToLeave.getItems();
-            for (int i = 0; i < roomHas.length; i++) {  // check that the desired item is present in the room (should always be but best to be safe)
+            for (int i = 0; i < roomHas.length; i++) {  // check that the desired Interaction.item is present in the room (should always be but best to be safe)
                 if (roomHas[i] == toTake) {
                     Y_present = true;
                     roomIndex = i;
@@ -51,7 +55,7 @@ public class player {
                 HashMap<item, obstacle> blockMap = whereToLeave.getBlockedBy();
                 obstacle blockage = blockMap.get(toTake);
 
-                if(blockage == null || blockage.getSolved()) {  // if item is unblocked
+                if(blockage == null || blockage.getSolved()) {  // if Interaction.item is unblocked
                     item temp = inventory[inventoryIndex];
                     inventory[inventoryIndex] = roomHas[roomIndex];
                     roomHas[roomIndex] = temp;
