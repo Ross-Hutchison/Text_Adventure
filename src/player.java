@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class player {
     private int inventorySize = 5;
     private int currentlyHolding = 0;
@@ -11,7 +13,53 @@ public class player {
         else return false;
     }
 
-    public void switchWith(item toLeave, item toTake, room whereToLeave){
+    /*
+        Goes through the player's inventory and checks for the item the player wants to
+        leave then goes through the room's array of items to check that the wanted item
+        is present in it. if both these checks match check if the item can be reached
+        if all checks pass then switch the inventory and room items
+     */
+    public void switchX_With_Y(item toLeave, item toTake, room whereToLeave) {
+        boolean has_X = false;
+        boolean Y_present = false;
+        int inventoryIndex = 0;
+        int roomIndex = 0;
 
+        for (int i = 0; i < inventory.length; i++) {    // check the player has the item they want to leave
+            if (inventory[i] == toLeave) {
+                has_X = true;
+                inventoryIndex = i;
+                break;
+            }
+        }
+        if(!has_X) {
+            System.out.println("You do not have " + toLeave.getItemIs());
+        }
+        else {
+            item[] roomHas = whereToLeave.getItems();
+            for (int i = 0; i < roomHas.length; i++) {  // check that the desired item is present in the room (should always be but best to be safe)
+                if (roomHas[i] == toTake) {
+                    Y_present = true;
+                    roomIndex = i;
+                    break;
+                }
+            }
+            if(!Y_present) {
+                System.out.println(toTake.getItemIs() + " is not present");
+            }
+            else {
+                HashMap<item, obstacle> blockMap = whereToLeave.getBlockedBy();
+                obstacle blockage = blockMap.get(toTake);
+
+                if(blockage == null || blockage.getSolved()) {  // if item is unblocked
+                    item temp = inventory[inventoryIndex];
+                    inventory[inventoryIndex] = roomHas[roomIndex];
+                    roomHas[roomIndex] = temp;
+                }
+                else {
+                    System.out.println("Cannot reach the " + toTake.getItemIs() + ", it is blocked by " + blockage.getItemIs());
+                }
+            }
+        }
     }
 }

@@ -21,4 +21,8 @@ public abstract class obstacle extends item {
             System.out.println(resolvedMsg);
         }
     }
+
+    public boolean getSolved() {
+         return solved;
+    }
 }
