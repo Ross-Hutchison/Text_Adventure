@@ -40,5 +40,18 @@ public class main {
         System.out.println("\nyou use the chocolate:");
         tutorialRoom.playerUsedItem(davedave, choco_1);
 
+        System.out.println("----------------------");
+
+        System.out.println("\nyou look at the key:");
+        tutorialRoom.playerLooksAtItem(davedave, key_1);
+
+        System.out.println("\nyou feel the key:");
+        tutorialRoom.playerTouchedItem(davedave, key_1);
+
+        System.out.println("\nyou taste the key:");
+        tutorialRoom.playerTastedItem(davedave, key_1);
+
+        System.out.println("\nyou use the key:");
+        tutorialRoom.playerUsedItem(davedave, key_1);
     }
 }
