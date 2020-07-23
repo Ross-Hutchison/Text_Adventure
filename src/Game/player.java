@@ -11,6 +11,13 @@ public class player {
     private int currentlyHolding = 0;
     private item[] inventory = new item[inventorySize];
 
+    public boolean hasItemInInventory(item checkFor) {
+        for (item current : inventory) {
+            if(current == checkFor) return true;
+        }
+        return false;
+    }
+
     public boolean addToInventory(item toAdd) {
         if(currentlyHolding != inventorySize) {
             inventory[currentlyHolding++] = toAdd;

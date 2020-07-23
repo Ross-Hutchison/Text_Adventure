@@ -106,4 +106,23 @@ that now works as intended, now generate a wrapper for switching
 back to working on player now that that has been handled, the player can take items and switch one for another
 dropping an item can be added later since it is not really necessary just helpful
 
-no other base player requirements that I can think of should merge this with master  
+no other base player requirements that I can think of should merge this with master
+
+now I create room wrapper methods for the item interaction methods
+    these currently just call the item interaction method but I can use them for
+    things such as player inventory checks for using or licking items etc since these wrappers contain the player object
+
+ Also remember to set up obstacles to override the default item methods
+ since while the same actions can be applied to them, obstacles would likely be interacted with
+ in different ways, for example you need to pick up items to use or lick them, but you can't pick up obstacles
+ also at some point I should let obstacles be blocked by other obstacles
+
+ Also currently using the items directly in methods - this will likely require a method in room, that uses each item's itemIs
+ to find the item that it represents, maybe a map maybe there's a better solution
+
+    current idea when generating a room create a map of itemIs : item since the user's text input will use the itemIs directly
+    that would mean the input could:
+        first be checked to ensure it's a valid input
+        then split into the necessary parts - itemIs(s) and the verb mostly
+        then use the find method and/or map to get the desired items directly
+            so they can be passed into the wrapped methods

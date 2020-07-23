@@ -17,7 +17,7 @@ public class main {
         tutRoomBlocks.put(choco_1, null);
 
         String tutRoomDes = "a very boring room, the walls are grey stone, the floor is grey stone " +
-                "it contains two pillars on the left one is " + key_1.getItemIs() + " and on the other is " + choco_1.getItemIs();
+                "it contains two pillars on the left one is a " + key_1.getItemIs() + " and on the other is " + choco_1.getItemIs();
 
 
         tutorialRoom tutorialRoom = new tutorialRoom(tutRoomDes, tutRoomItms, tutRoomObs, tutRoomBlocks);
@@ -28,6 +28,17 @@ public class main {
 
         tutorialRoom.playerSwitchesItems(davedave, key_1, choco_1);
 
+        System.out.println("\nyou look at the chocolate:");
+        tutorialRoom.playerLooksAtItem(davedave, choco_1);
+
+        System.out.println("\nyou feel the chocolate:");
+        tutorialRoom.playerTouchedItem(davedave, choco_1);
+
+        System.out.println("\nyou taste the chocolate:");
+        tutorialRoom.playerTastedItem(davedave, choco_1);
+
+        System.out.println("\nyou use the chocolate:");
+        tutorialRoom.playerUsedItem(davedave, choco_1);
 
     }
 }

@@ -31,7 +31,7 @@ public abstract class item {
         System.out.println(this.feelsLike);
     }
 
-    public void lick() {
+    public void taste() {
         System.out.println(this.tastesLike);
     }
 

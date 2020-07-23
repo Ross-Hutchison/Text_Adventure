@@ -59,4 +59,34 @@ public abstract class room {
         }
     }
 
+    /*
+        the next group of methods aren't really very necessary currently
+        but could be useful later if interaction is expanded
+     */
+//-------------------------------------------------------------------------------------
+    public void playerLooksAtItem(player p, item lookedAt) {
+        lookedAt.lookAt();
+    }
+
+    public void playerTouchedItem(player p, item touched) {
+        obstacle blockage = blockedBy.get(touched);
+        if(blockage == null || blockage.getSolved()) touched.touch();
+        else System.out.println("you go to touch the " + touched.getItemIs() + "but find yourself stopped by a " + blockage.getItemIs());
+    }
+
+    public void playerTastedItem(player p, item licked) {
+        if(p.hasItemInInventory(licked)) licked.taste();
+        else System.out.println("If you're going to taste something at least be dignified and pick it up first");
+    }
+
+    public void playerUsedItem(player p, item used) {
+        if(p.hasItemInInventory(used)) used.use();
+        else System.out.println("you suddenly remember that in order to use something you normally have to have it with you");
+    }
+
+    public void playerUsedItemWithAnother(player p, item used, obstacle usedOn) { //obstacles currently can't be blocked
+        if(p.hasItemInInventory(used)) used.useWith(usedOn);
+        else System.out.println("you reach for your " + used.getItemIs() + " but realise you don't have one : (");
+    }
+
 }
