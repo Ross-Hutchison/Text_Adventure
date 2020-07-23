@@ -12,9 +12,13 @@ public class player {
     public boolean addToInventory(item toAdd) {
         if(currentlyHolding != inventorySize) {
             inventory[currentlyHolding++] = toAdd;
+            System.out.println("picked up " + toAdd.getItemIs());
             return true;
         }
-        else return false;
+        else {
+            System.out.println("Inventory is full");
+            return false;
+        }
     }
 
     /*
