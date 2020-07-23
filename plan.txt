@@ -102,3 +102,8 @@ for different situations
 room will now need to include player so give it a package of game to store it in - see earlier notes
 
 that now works as intended, now generate a wrapper for switching
+
+back to working on player now that that has been handled, the player can take items and switch one for another
+dropping an item can be added later since it is not really necessary just helpful
+
+no other base player requirements that I can think of should merge this with master  
