@@ -126,3 +126,22 @@ now I create room wrapper methods for the item interaction methods
         then split into the necessary parts - itemIs(s) and the verb mostly
         then use the find method and/or map to get the desired items directly
             so they can be passed into the wrapped methods
+
+Before setting up the standard tutorial room I'll need to test obstacle resolution
+to do this, i'll create a door object that overrides use to show a win message when it opens and close the program
+to open you would use use on it - which i'll need to add the override methods in obstacle.java
+then create the door class
+
+an issue:
+    the check that the item is held is currently part of the room wrapper for use
+    however this means that obstacles passed in would need to be picked up which is not allowed
+    so I need to move the check inside the item.java ues method
+
+    but this would require those methods take in the player
+
+    a solution could be that the player would have the interaction methods
+    and these could take in an item and call the related method from item
+
+
+    Could be helpful but as far as I can see rn just seems overcomplicated - added a check for type obstacle that skips
+    the inventory check for use

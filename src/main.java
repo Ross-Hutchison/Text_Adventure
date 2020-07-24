@@ -9,15 +9,17 @@ public class main {
         player davedave = new player();
         key key_1 = new key();
         chocolate choco_1 = new chocolate();
+        woodenDoor door_1 = new woodenDoor(key_1);
 
         item[] tutRoomItms = new item[] {key_1, choco_1};
-        obstacle[] tutRoomObs = null;
+        obstacle[] tutRoomObs = new obstacle[]{door_1};
         HashMap<item, obstacle> tutRoomBlocks = new HashMap<>();
         tutRoomBlocks.put(key_1, null);
         tutRoomBlocks.put(choco_1, null);
 
         String tutRoomDes = "a very boring room, the walls are grey stone, the floor is grey stone " +
-                "it contains two pillars on the left one is a " + key_1.getItemIs() + " and on the other is " + choco_1.getItemIs();
+                "it contains two pillars on the left one is a " + key_1.getItemIs() + " and on the other is " + choco_1.getItemIs() +
+                " at the end of the room there is a " + door_1.getItemIs();
 
 
         tutorialRoom tutorialRoom = new tutorialRoom(tutRoomDes, tutRoomItms, tutRoomObs, tutRoomBlocks);
@@ -53,5 +55,18 @@ public class main {
 
         System.out.println("\nyou use the key:");
         tutorialRoom.playerUsedItem(davedave, key_1);
+
+        System.out.println("\nyou try the door");
+        tutorialRoom.playerUsedItem(davedave, door_1);
+
+        System.out.println("\n you pick up the key leaving the chocolate");
+        tutorialRoom.playerSwitchesItems(davedave, choco_1, key_1);
+
+        System.out.println("\n you use the key");
+        tutorialRoom.playerUsedItemWithAnother(davedave, key_1, door_1);
+
+        System.out.println("\nyou try the door again");
+        tutorialRoom.playerUsedItem(davedave, door_1);
+
     }
 }
