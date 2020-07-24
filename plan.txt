@@ -165,3 +165,14 @@ an issue:
     generate the tutorial room
     set up the game class so it knows where it is and is ready to carry out player instructions
     output the description of the room
+
+About rooms:
+    rooms should stay their own class - though it might make sense to make room item and obstacle interfaces?
+        no they can't be interfaces as while those can ensure methods are passed on variables can't be without being static
+
+    rooms CAN be created with a full constructor but have an empty constructor
+    that allows for the creation of generic rooms of each type that are always the same
+    and specially designed. - this also means that it is much easier to alter a specific room since you just change one file
+    also makes it much easier to alter which rooms connect where since you just switch the object type
+
+    so one thing is that doors need to lead too and from places - will need to add an additional value to door which is leadsTo

@@ -3,7 +3,7 @@ package Interaction;
 public class chocolate extends item {
 
     public chocolate() {
-        this.itemIs = "\"chocolate\"";
+        this.itemIs = "\"chocolate bar\"";
         this.description = "a bar of Schokolade brand chocolate, a cartoon chocolate bar smiles on the wrapper, " +
                 "\"eat me\" its eyes seem to say, something is strangely disturbing about it";
 

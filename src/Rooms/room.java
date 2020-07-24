@@ -10,6 +10,7 @@ public abstract class room {
      item[] items;   // an array of the items in the current room - if later allow dropping may need to make a list but for now number of items per room is fixed
      obstacle[] obstacles;   // an array of all obstacles in the current room
      HashMap<item, obstacle> blockedBy;    // a map that shows what Interaction.obstacle blocks each Interaction.item (if any) - so the program knows if the user can approach them
+     HashMap<String, item> itemIsToItem;
     final String TAKE_OBST_ERR_MSG = "Taking that might be a bit ambitious \n - you cannot pick up obstacles";
     final String TAKE_NULL_OBJ_ERR_MSG = "That object doesn't seem to exist \n - you may have done something VERY wrong, or it's a glitch";
     final String USED_OBST_WITH_OBST_ERR_MSG = "Maybe combining two obstacles isn't the way to clear the path \n - use items with obstacles not other obstacles";
@@ -28,6 +29,8 @@ public abstract class room {
     public item[] getItems() {
         return items;
     }
+
+    public String getDescription() {return description;}
 
     public HashMap<item, obstacle> getBlockedBy() {
         return blockedBy;

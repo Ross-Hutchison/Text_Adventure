@@ -1,9 +1,14 @@
 package Interaction;
 
+import Rooms.room;
+
 public class woodenDoor extends obstacle {
 
-    public woodenDoor(item solvedBy) {
+    room leadsTo;
+
+    public woodenDoor(item solvedBy, room leadsTo) {
         super(solvedBy);
+        this.leadsTo = leadsTo;
         this.solved = false;
         this.itemIs = "wooden door";
         this.description = "A large brown wooden door with a rectangular base and rounded top \n" +

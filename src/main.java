@@ -14,7 +14,7 @@ public class main {
 
         control.outputGameStartPara();  // the paragraph that shows the game has started
 
-
+        control.setUpGame();
 
         while(!control.getGameEnd()) {
             try {

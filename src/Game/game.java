@@ -1,9 +1,12 @@
 package Game;
 
+import Rooms.*;
+
 public class game {
 
     private boolean gameEnd = false;
     private String endMsg = "";
+    private room currentRoom;
 
     public void outputCommandFormats() {
         System.out.println("--------------------");
@@ -22,15 +25,18 @@ public class game {
     }
 
     public void outputGameStartPara() {
-        System.out.println("You don't remember how you ended up here, but if it was important you probably would so it's probably fine\n" +
+        System.out.println("you wake up on the floor in a dusty room\n" +
+                "You don't remember how you ended up here, but if it was important you probably would so it's probably fine\n" +
                 "though while that's the case, it's probably best to try leave the room, you don't have to, but i'd appreciate it");
     }
 
     /*
         before any input is processed
+        need to generate the tutorial room
      */
     public void setUpGame() {
-
+        currentRoom = new tutorialRoom();
+        System.out.println(currentRoom.getDescription());
     }
 
     public void processInput(String input) {
