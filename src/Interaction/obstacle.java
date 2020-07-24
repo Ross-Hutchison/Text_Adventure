@@ -48,7 +48,7 @@ public abstract class obstacle extends item {
     }
 
     @Override
-    public void useWith(obstacle useOn) {   // should never happen
+    public void useOn(obstacle useOn) {   // should never happen
         System.out.println("why have you tried this - stop");
     }
 }

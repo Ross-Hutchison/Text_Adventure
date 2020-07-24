@@ -1,75 +1,31 @@
-import Interaction.*;
-import Rooms.*;
-import Game.player;
+import Game.game;
 
-import java.util.HashMap;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class main {
     public static void main(String[] args) {
-        player davedave = new player();
-        key key_1 = new key();
-        chocolate choco_1 = new chocolate();
-        woodenDoor door_1 = new woodenDoor(key_1);
+        game control = new game();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        item[] tutRoomItms = new item[] {key_1, choco_1};
-        obstacle[] tutRoomObs = new obstacle[]{door_1};
-        HashMap<item, obstacle> tutRoomBlocks = new HashMap<>();
-        tutRoomBlocks.put(key_1, null);
-        tutRoomBlocks.put(choco_1, null);
+        control.outputIntroPara();
+        control.outputCommandFormats(); // outputs the information on how to control the game
 
-        String tutRoomDes = "a very boring room, the walls are grey stone, the floor is grey stone " +
-                "it contains two pillars on the left one is a " + key_1.getItemIs() + " and on the other is " + choco_1.getItemIs() +
-                " at the end of the room there is a " + door_1.getItemIs();
+        control.outputGameStartPara();  // the paragraph that shows the game has started
 
 
-        tutorialRoom tutorialRoom = new tutorialRoom(tutRoomDes, tutRoomItms, tutRoomObs, tutRoomBlocks);
 
+        while(!control.getGameEnd()) {
+            try {
+                String input = reader.readLine();
+                control.processInput(input);
+            }
+            catch (IOException e) {
+                System.out.println("ERROR: "  + e.getMessage());
 
-        tutorialRoom.playerTakesItem(davedave, key_1);
-        tutorialRoom.playerTakesItem(davedave, choco_1);
-
-        tutorialRoom.playerSwitchesItems(davedave, key_1, choco_1);
-
-        System.out.println("\nyou look at the chocolate:");
-        tutorialRoom.playerLooksAtItem(davedave, choco_1);
-
-        System.out.println("\nyou feel the chocolate:");
-        tutorialRoom.playerTouchedItem(davedave, choco_1);
-
-        System.out.println("\nyou taste the chocolate:");
-        tutorialRoom.playerTastedItem(davedave, choco_1);
-
-        System.out.println("\nyou use the chocolate:");
-        tutorialRoom.playerUsedItem(davedave, choco_1);
-
-        System.out.println("----------------------");
-
-        System.out.println("\nyou look at the key:");
-        tutorialRoom.playerLooksAtItem(davedave, key_1);
-
-        System.out.println("\nyou feel the key:");
-        tutorialRoom.playerTouchedItem(davedave, key_1);
-
-        System.out.println("\nyou taste the key:");
-        tutorialRoom.playerTastedItem(davedave, key_1);
-
-        System.out.println("\nyou use the key:");
-        tutorialRoom.playerUsedItem(davedave, key_1);
-
-        System.out.println("\nyou try the door");
-        tutorialRoom.playerUsedItem(davedave, door_1);
-
-        System.out.println("\n you pick up the key leaving the chocolate");
-        tutorialRoom.playerSwitchesItems(davedave, choco_1, key_1);
-
-        System.out.println("\n you use the key");
-        tutorialRoom.playerUsedItemWithAnother(davedave, key_1, door_1);
-
-        System.out.println("\n you use the key again");
-        tutorialRoom.playerUsedItemWithAnother(davedave, key_1, door_1);
-
-        System.out.println("\nyou try the door again");
-        tutorialRoom.playerUsedItem(davedave, door_1);
-
+            }
+        }
+        System.out.println(control.getEndMsg());
     }
 }

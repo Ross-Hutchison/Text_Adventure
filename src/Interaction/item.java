@@ -39,7 +39,7 @@ public abstract class item {
         System.out.println(this.usedAlone);
     }
 
-    public void useWith(obstacle useOn){
+    public void useOn(obstacle useOn){
         useOn.resolve(this);
     }
 }

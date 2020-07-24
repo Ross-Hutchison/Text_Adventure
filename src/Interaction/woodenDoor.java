@@ -9,7 +9,8 @@ public class woodenDoor extends obstacle {
         this.description = "A large brown wooden door with a rectangular base and rounded top \n" +
                 " there is a large metal ring for a handle and below it a large keyhole";
         this.feelsLike = "the rough wood of the door seems likely to leave splinters, the door rung is cold and heavy";
-        this.tastesLike = "after picking the splinter out of your tongue you note a distinct oak taste, it pairs poorly with the metallic taste of the handle";
+        this.tastesLike = "after picking the splinter out of your tongue you note a distinct oak taste, " +
+                "it pairs poorly with the metallic taste of the handle";
         this.usedAlone = "the door swings open slowly, the hinges creaking slightly";
 
         this.resolvedMsg = "the key turns, the lock clicks satisfyingly";
@@ -22,8 +23,7 @@ public class woodenDoor extends obstacle {
     public void use() {
         super.use();
         if(solved) {
-            System.out.println("congratulations you win");
-            System.exit(1);
+            System.out.println("you go through the door");
         }
     }
 }

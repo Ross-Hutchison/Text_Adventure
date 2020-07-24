@@ -87,9 +87,9 @@ public abstract class room {
         else System.out.println("you suddenly remember that in order to use something you normally have to have it with you");
     }
 
-    public void playerUsedItemWithAnother(player p, item used, obstacle usedOn) { //obstacles currently can't be blocked
+    public void playerUsedItemOnObstacle(player p, item used, obstacle usedOn) { //obstacles currently can't be blocked
         if(used instanceof obstacle) System.out.println(USED_OBST_WITH_OBST_ERR_MSG);
-        else if(p.hasItemInInventory(used)) used.useWith(usedOn);
+        else if(p.hasItemInInventory(used)) used.useOn(usedOn);
         else System.out.println("you reach for your " + used.getItemIs() + " but realise you don't have one : (");
     }
 
