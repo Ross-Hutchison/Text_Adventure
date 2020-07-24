@@ -65,6 +65,9 @@ public class main {
         System.out.println("\n you use the key");
         tutorialRoom.playerUsedItemWithAnother(davedave, key_1, door_1);
 
+        System.out.println("\n you use the key again");
+        tutorialRoom.playerUsedItemWithAnother(davedave, key_1, door_1);
+
         System.out.println("\nyou try the door again");
         tutorialRoom.playerUsedItem(davedave, door_1);
 
