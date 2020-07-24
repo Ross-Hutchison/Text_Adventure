@@ -145,3 +145,23 @@ an issue:
 
     Could be helpful but as far as I can see rn just seems overcomplicated - added a check for type obstacle that skips
     the inventory check for use
+
+ Now that the basic mechanics are sorted I'll need to set up the actual game part of the game
+ main should be mostly empty it should just have:
+
+ a loop for while the game isn't over
+ in this loop take in a user input and pass it into a method that makes a move
+ this can be from a class dedicated to organising the game's operations
+ this will eventually set a value for a variable in game representing the ending message
+ when the loop ends this message is output and the game - program - ends
+
+ game will be a class in the Game package
+ it will contain variables and methods that determine what the game as a whole does
+ e.g process user input and decide which room to load or move to- what method from room is called and on what items
+
+ so the process first before the input process I'll need a set up method
+    this will:
+    output a brief introductory passage
+    generate the tutorial room
+    set up the game class so it knows where it is and is ready to carry out player instructions
+    output the description of the room
