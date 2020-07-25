@@ -176,3 +176,36 @@ About rooms:
     also makes it much easier to alter which rooms connect where since you just switch the object type
 
     so one thing is that doors need to lead too and from places - will need to add an additional value to door which is leadsTo
+
+The Game Process:
+    now that the game class can be used to initialise the start of the game I need to set up the processing of UI
+
+    the game will every iteration of the main-while loop take in text from the user
+    this text will be checked - format? length? regex??? - as part of, or before processing method??
+    after being checked will be processed and the item(s) and verb will be isolated
+    these will be used to determine what method is called and on which item
+
+    could check the format before the processing then the actual contents during it
+
+    to check the actual contents I'll need to get the map of Strings to Items for the current room and check it contains the key
+    if it does check the verb and use that to decide what method is called
+
+    ISSUE you can look at something when it's in your inventory or in the room
+    so i'll need to check both - currently don't remove items from the rooms String,item HM
+    need to do make that part of take item room wrapper method
+
+    also need to remove it and from the item list and the map in the switchX_With_Y method
+        this method already takes in the room in order to allow the item's to be switched between the room's item array and the player's inventory
+        just need to have it also add the key for the new item and remove it for the old item
+
+    now that taking and switching items removes/adds them from the room's Str-item HM I need
+    to have the game class check both the room's items and the player's inventory when a
+    user tries to interact with an item
+
+    this required me to alter the player method for searching inventory to use the String itemIs to search
+    since I can't pass the item in directly if it doesn't exist in the inventory or room
+
+    need a way of searching the inventory - could just go through the array since it will likely be small - like at the largest 20 likely closer to 10 at most -
+    or could make it another Map - for now iterate
+
+    OR could make the search return the item or null if it's not there
