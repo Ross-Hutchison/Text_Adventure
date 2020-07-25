@@ -11,11 +11,15 @@ public class player {
     private int currentlyHolding = 0;
     private item[] inventory = new item[inventorySize];
 
-    public boolean hasItemInInventory(item checkFor) {
+    /*
+        returns the desired item if it is part of the player's inventory
+        or null if it is not
+     */
+    public item hasItemInInventory(String checkFor) {
         for (item current : inventory) {
-            if(current == checkFor) return true;
+            if(current != null && current.getItemIs().equals(checkFor)) return current;
         }
-        return false;
+        return null;
     }
 
     public boolean addToInventory(item toAdd) {
@@ -69,9 +73,13 @@ public class player {
                 obstacle blockage = blockMap.get(toTake);
 
                 if(blockage == null || blockage.getSolved()) {  // if Interaction.item is unblocked
+                    // switches the item in inventory with the item in the room's item array
                     item temp = inventory[inventoryIndex];
                     inventory[inventoryIndex] = roomHas[roomIndex];
                     roomHas[roomIndex] = temp;
+                    // removes the key in the room's String to item HM for the old item and adds one for the new item
+                    whereToLeave.getItemIsToItem().remove(toTake.getItemIs());
+                    whereToLeave.getItemIsToItem().put(toLeave.getItemIs(), toLeave);
                 }
                 else {
                     System.out.println("Cannot reach the " + toTake.getItemIs() + ", it is blocked by " + blockage.getItemIs());

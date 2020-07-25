@@ -1,21 +1,34 @@
 package Game;
 
 import Rooms.*;
+import Interaction.item;
+
+import java.util.HashMap;
+import java.util.regex.*;
 
 public class game {
 
-    private boolean gameEnd = false;
-    private String endMsg = "";
+    private boolean gameEnd;
+    private String endMsg;
     private room currentRoom;
+    private player Jo;
+    private final String VERB_OBJECT_INPUT = "^((lookAt)|(touch)|(use)|(taste)|(take)) [a-zA-Z' ]+$";
+    private final String ITEM_VERB_ITEM_INPUT = "^[a-zA-Z' ]+ (useOn)|(switchWith) [a-zA-Z' ]+$";
+    private final String INVALID_COMMAND_ERR_MSG = "this is not a valid command, please look at the format paragraph";
+
+    private Pattern verbObjectPattern = Pattern.compile(VERB_OBJECT_INPUT);
+    private Pattern itemVerbItemPattern = Pattern.compile(ITEM_VERB_ITEM_INPUT);
 
     public void outputCommandFormats() {
         System.out.println("--------------------");
-        System.out.println("Verbs: lookAt, touch, use, useOn, taste");
+        System.out.println("Verbs: lookAt, touch, take, use, taste, useOn, switchWith");
         System.out.println("Items and Obstacles will be highlighted in text using \"\" use the exact encased text when referring to them");
         System.out.println("e.g. \"big key\" \"door\" - lookAt big key  ");
         System.out.println("Verb formats: \"lookAt [item name]\" \n" +
-                "\"touch [item name]\"  etc, one exception \n" +
-                "\"[item name] useOn [obstacle name]\"");
+                "\"touch [item name]\"  etc.\n" +
+                "two exceptions\n" +
+                "\"[item name] useOn [obstacle name]\"\n" +
+                "\"[item name] switchWith [item name]\"");
         System.out.println("--------------------");
     }
 
@@ -33,16 +46,78 @@ public class game {
     /*
         before any input is processed
         need to generate the tutorial room
+        and any other
      */
     public void setUpGame() {
         currentRoom = new tutorialRoom();
+        gameEnd = false;
+        endMsg = "no end message yet game is only beginning";
+        Jo = new player(); // the canonical name of the PC is Jo
+
         System.out.println(currentRoom.getDescription());
+        System.out.println("--------------------\n");
     }
 
     public void processInput(String input) {
-        System.out.println(input);
-        gameEnd = true;
-        endMsg = "you win!";
+        Matcher verbObjMatcher = verbObjectPattern.matcher(input);
+        if (verbObjMatcher.matches()) processVerbObject(input);
+        else {
+            Matcher itemVerbItemMatcher = itemVerbItemPattern.matcher(input);
+            if (itemVerbItemMatcher.matches()) processItemVerbItem(input);
+            else {
+                System.out.println(INVALID_COMMAND_ERR_MSG);
+            }
+        }
+
+
+    }
+
+    private void processItemVerbItem(String input) {
+
+    }
+
+    /*
+        splits input by space taking the first as the verb
+        then takes it and uses it to isolate the item's itemIs descriptor
+        this is used to check the item is present in the current room
+        before being used to fetch the desired item object
+
+        the verb is then checked to determine which function is carried out
+     */
+    private void processVerbObject(String input) {
+        String[] parts = input.split(" "); //separate the input by ' '
+        String verb = parts[0];
+        parts = input.split(verb + " "); //splits the input into two parts - the verb and the item
+        String item = "\"" + parts[1] + "\"";
+        item itemObj;
+
+        HashMap<String, item> itemChecker = currentRoom.getItemIsToItem();
+
+        if (itemChecker.containsKey(item)) itemObj = itemChecker.get(item);
+        else itemObj = Jo.hasItemInInventory(item);
+
+        if (itemObj != null) {   // if the item was found in the room or player's inventory
+            switch (verb) {
+                case "take":
+                    currentRoom.playerTakesItem(Jo, itemObj);
+                    break;
+                case "touch":
+                    currentRoom.playerTouchedItem(Jo, itemObj);
+                    break;
+                case "lookAt":
+                    currentRoom.playerLooksAtItem(Jo, itemObj);
+                    break;
+                case "use":
+                    currentRoom.playerUsedItem(Jo, itemObj);
+                    break;
+                case "taste":
+                    currentRoom.playerTastedItem(Jo, itemObj);
+                    break;
+            }
+        } else
+            System.out.println("you turn your attention to the " + item + "\n" +
+                    "but you must have hallucinated it\n" +
+                    "- this item is not currently present in your inventory or the current room");
     }
 
     public boolean getGameEnd() {

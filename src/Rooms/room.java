@@ -15,11 +15,12 @@ public abstract class room {
     final String TAKE_NULL_OBJ_ERR_MSG = "That object doesn't seem to exist \n - you may have done something VERY wrong, or it's a glitch";
     final String USED_OBST_WITH_OBST_ERR_MSG = "Maybe combining two obstacles isn't the way to clear the path \n - use items with obstacles not other obstacles";
 
-    public room(String description, item[] items, obstacle[] obstacles, HashMap<item, obstacle> blockedBy){
+    public room(String description, item[] items, obstacle[] obstacles, HashMap<item, obstacle> blockedBy, HashMap<String, item> itemIsToItem){
         this.description = description;
         this.items = items;
         this.obstacles = obstacles;
         this.blockedBy = blockedBy;
+        this.itemIsToItem = itemIsToItem;
     }
 
     public room(){
@@ -36,6 +37,8 @@ public abstract class room {
         return blockedBy;
     }
 
+    public HashMap<String, item> getItemIsToItem() { return itemIsToItem;}
+
     public void playerTakesItem(player p, item toTake) {
         if(toTake == null) System.out.println(TAKE_NULL_OBJ_ERR_MSG);
         else if(toTake instanceof obstacle) System.out.println(TAKE_OBST_ERR_MSG);
@@ -45,6 +48,7 @@ public abstract class room {
                 for (int i = 0; i < this.items.length; i++) {
                     if(this.items[i] == toTake) this.items[i] = null;
                 }
+                this.itemIsToItem.remove(toTake.getItemIs());   // removes the item from the room's map of
             }
         }
     }
@@ -60,14 +64,10 @@ public abstract class room {
         else if(toTake instanceof obstacle) System.out.println(TAKE_OBST_ERR_MSG);
         else {
             p.switchX_With_Y(toLeave, toTake, this); //the player method needs data on the room so it takes it as a parameter
+
         }
     }
 
-    /*
-        the next group of methods aren't really very necessary currently
-        but could be useful later if interaction is expanded
-     */
-//-------------------------------------------------------------------------------------
     public void playerLooksAtItem(player p, item lookedAt) {
         lookedAt.lookAt();
     }
@@ -80,19 +80,19 @@ public abstract class room {
 
     public void playerTastedItem(player p, item licked) {
         if(licked instanceof  obstacle)  licked.taste();
-        if(p.hasItemInInventory(licked)) licked.taste();
+        if(p.hasItemInInventory(licked.getItemIs()) != null) licked.taste();
         else System.out.println("If you're going to taste something at least be dignified and pick it up first");
     }
 
     public void playerUsedItem(player p, item used) {
         if(used instanceof obstacle) used.use();
-        else if(p.hasItemInInventory(used)) used.use();
+        else if(p.hasItemInInventory(used.getItemIs()) != null) used.use();
         else System.out.println("you suddenly remember that in order to use something you normally have to have it with you");
     }
 
     public void playerUsedItemOnObstacle(player p, item used, obstacle usedOn) { //obstacles currently can't be blocked
         if(used instanceof obstacle) System.out.println(USED_OBST_WITH_OBST_ERR_MSG);
-        else if(p.hasItemInInventory(used)) used.useOn(usedOn);
+        else if(p.hasItemInInventory(used.getItemIs()) != null) used.useOn(usedOn);
         else System.out.println("you reach for your " + used.getItemIs() + " but realise you don't have one : (");
     }
 
