@@ -208,4 +208,6 @@ The Game Process:
     need a way of searching the inventory - could just go through the array since it will likely be small - like at the largest 20 likely closer to 10 at most -
     or could make it another Map - for now iterate
 
-    OR could make the search return the item or null if it's not there
+    OR could make the search return the item or null if it's not there - did this
+
+    Now need to set up the processing of switching and using items with obstacles 
