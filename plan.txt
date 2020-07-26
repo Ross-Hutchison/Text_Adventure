@@ -210,4 +210,11 @@ The Game Process:
 
     OR could make the search return the item or null if it's not there - did this
 
-    Now need to set up the processing of switching and using items with obstacles 
+    having millions of classes for each room and item is a terrible idea tbh
+    the benefit they give is god but can be achieved in another way for less cost
+
+    current plan - create two factory classes in the Game package - 1 for item and another for rooms
+    they will use methods to create instances of room and item - now no longer abstract -
+    in specific ways - this means the rooms are easy to change but removes the need for countless classes
+
+    Now need to set up the processing of switching and using items with obstacles
