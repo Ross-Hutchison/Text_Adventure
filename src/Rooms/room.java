@@ -5,7 +5,8 @@ import Interaction.obstacle;
 import Game.player;
 import java.util.HashMap;
 
-public abstract class room {
+public
+class room {
      String description; // a brief description o the current room
      item[] items;   // an array of the items in the current room - if later allow dropping may need to make a list but for now number of items per room is fixed
      obstacle[] obstacles;   // an array of all obstacles in the current room

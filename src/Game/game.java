@@ -8,6 +8,8 @@ import java.util.regex.*;
 
 public class game {
 
+    private roomFactory roomGenerator = new roomFactory();
+
     private boolean gameEnd;
     private String endMsg;
     private room currentRoom;
@@ -49,7 +51,7 @@ public class game {
         and any other
      */
     public void setUpGame() {
-        currentRoom = new tutorialRoom();
+        currentRoom = roomGenerator.createTutorialRoom();
         gameEnd = false;
         endMsg = "no end message yet game is only beginning";
         Jo = new player(); // the canonical name of the PC is Jo

@@ -1,6 +1,6 @@
 package Interaction;
 
-public abstract class obstacle extends item {
+public class obstacle extends item {
      boolean solved;
      item solvedBy;
      String resolvedMsg;

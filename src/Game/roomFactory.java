@@ -1,0 +1,41 @@
+package Game;
+
+import java.util.HashMap;
+
+import Game.interactionFactory;
+import Interaction.item;
+import Interaction.obstacle;
+import Rooms.room;
+
+public class roomFactory {
+
+    private static interactionFactory itemGenerator = new interactionFactory();
+
+    public room createTutorialRoom() {
+        // generating the item array for the room
+        item key = itemGenerator.createKey();
+        item choco = itemGenerator.createChocolate();
+        item[] items = new item[]{choco, key};
+        // generating the obstacle array
+        obstacle door = itemGenerator.createWoodenDoor(null, key);
+        obstacle[] obstacles = new obstacle[]{door};
+        // generating the HashMap for blocked items
+        HashMap<item, obstacle>blockedBy = new HashMap<>();
+        blockedBy.put(choco, null);
+        blockedBy.put(key, null);
+        // generates the map of Strings to items
+        HashMap<String, item>itemIsToItem = new HashMap<>();
+        itemIsToItem.put(key.getItemIs(), key);
+        itemIsToItem.put(choco.getItemIs(), choco);
+        // writing the description
+        String description = "the room is small and rather dull, the walls are grey brick, \n" +
+                "and the floor is made of old wooden planks, several are rotting and most squeak when you walk over them\n" +
+                "at the other end of the room there is a sturdy looking wooden door\n" +
+                "laying on the floor by where your head was is a " + choco.getItemIs() + "\n" +
+                "sitting on the floor by the door is a " + key.getItemIs();
+
+        room tutorialRoom = new room(description, items, obstacles, blockedBy, itemIsToItem);
+        return tutorialRoom;
+    }
+
+}

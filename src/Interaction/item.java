@@ -1,6 +1,6 @@
 package Interaction;
 
-public abstract class item {
+public class item {
      String itemIs;
      String description;
      String feelsLike;
