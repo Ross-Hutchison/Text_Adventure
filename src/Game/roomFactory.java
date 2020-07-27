@@ -2,7 +2,6 @@ package Game;
 
 import java.util.HashMap;
 
-import Game.interactionFactory;
 import Interaction.item;
 import Interaction.obstacle;
 import Rooms.room;

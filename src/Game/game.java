@@ -14,12 +14,10 @@ public class game {
     private String endMsg;
     private room currentRoom;
     private player Jo;
-    private final String VERB_OBJECT_INPUT = "^((lookAt)|(touch)|(use)|(taste)|(take)) [a-zA-Z' ]+$";
-    private final String ITEM_VERB_ITEM_INPUT = "^[a-zA-Z' ]+ (useOn)|(switchWith) [a-zA-Z' ]+$";
-    private final String INVALID_COMMAND_ERR_MSG = "this is not a valid command, please look at the format paragraph";
 
-    private Pattern verbObjectPattern = Pattern.compile(VERB_OBJECT_INPUT);
-    private Pattern itemVerbItemPattern = Pattern.compile(ITEM_VERB_ITEM_INPUT);
+    private final String INVALID_COMMAND_ERR_MSG = "this is not a valid command, please look at the format paragraph";
+    private Pattern verbObjectPattern = Pattern.compile("a");
+    private Pattern itemVerbItemPattern = Pattern.compile("a");
 
     public void outputCommandFormats() {
         System.out.println("--------------------");

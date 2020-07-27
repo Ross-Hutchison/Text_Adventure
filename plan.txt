@@ -218,3 +218,57 @@ The Game Process:
     in specific ways - this means the rooms are easy to change but removes the need for countless classes
 
     Now need to set up the processing of switching and using items with obstacles
+
+    need to go back to game.java and create the input parsing for useWith and switchWith
+
+    I could use the split with the centre of the regex that finds verbs then
+    check that it was split into three parts - if there aren't three parts the input was invalid
+    otherwise process as normal
+
+    could have an issue where
+
+    big key useWith taste chocolate bar
+
+    would be accepted but would not be valid
+
+    also applies to the first check where for example "touch touch" would be allowed
+
+    need to include the condition that each item's description cannot include any of the verbs
+
+    will need to create another String for the verbs to make adding them to the regex easier
+
+    an use [^...] to say capture anything but this so would that work with [^(verbsGroup)]???
+
+    turns out the regex are just terrible in general
+
+    still terrible and I have no idea how to fix them
+
+    working on this part is actually painful and I hate it
+    honestly wish it wasn't needed. Seriously it's such a pain
+
+    The first Regex needs to:
+        start with one of the verb words
+        have a space
+        then have any number of other words
+        so long as it isn't one of the verb words
+
+    The second regex needs to:
+        Start with any number of words that aren't one of the verbs
+        followed by a space and either switchWith or useOn
+        then any number of words that aren't one of the verbs
+
+    Time for a complete restart methinks
+
+    before restart I had
+    ---------------------------------------------------------------
+
+    private final String verbs = "(lookAt|touch|use|taste|take)";
+        private final String VERB_OBJECT_INPUT = "^" + verbs + " (?!" + verbs + ")[a-zA-Z]+$";
+        private final String ITEM_VERB_ITEM_INPUT = "^[a-zA-Z' ]+ (useOn)|(switchWith) [a-zA-Z' ]+$";
+        private final String INVALID_COMMAND_ERR_MSG = "this is not a valid command, please look at the format paragraph";
+
+        private Pattern verbObjectPattern = Pattern.compile(VERB_OBJECT_INPUT);
+        private Pattern itemVerbItemPattern = Pattern.compile(ITEM_VERB_ITEM_INPUT);
+
+    ---------------------------------------------------------------
+
