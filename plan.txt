@@ -272,3 +272,38 @@ The Game Process:
 
     ---------------------------------------------------------------
 
+    maybe instead of one large regex I could use two smaller ones
+    I could use one to check for "verb words" then if it passes put the words through a second regex that checks they don't contain
+    any of the verbs - might not even need a second regex match could use .contains i think that can accept regex
+
+    can split by space to get the first verb then could use the length of that
+    to split the String in two and search the second section for the verbs
+
+    could use subSequence to get the second section and then check for the regex " verbs( )?" ???
+    using the space on either side means it only gets a word in the middle/ start of the chain of words
+    but not one at the end so try to add the optional space at the end
+
+    could add a " " to the start of item and then check for " verb" since
+    without the space it would find verbs in the middle or at the end of the item itemIs
+    but not the start, whereas with the space it will find any instance
+
+    will need to remove the " at the start and end of the item description or the check will always fail
+
+    test now passes when it should
+
+    so the first regex is nearly sorted though I'll need to add the lookAt and
+    switchWith to the array since they're not part of verbs
+
+    that's done now need to set up the check for the second regex
+
+
+    for the second need to start with a word then one or more words with spaces first
+    then one of the two verbs
+    then one or more spaces followed by words
+
+    it seems to work well now
+
+    Now the processing section of it
+
+    one it passes the regex - need to find some way to split into three parts
+    the two items and the verb

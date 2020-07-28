@@ -19,7 +19,7 @@ public class main {
         while(!control.getGameEnd()) {
             try {
                 String input = reader.readLine();
-//                control.processInput("taste big key");
+//                control.processInput("taste touch");
                 control.processInput(input);
             }
             catch (IOException e) {
