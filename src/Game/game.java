@@ -2,6 +2,7 @@ package Game;
 
 import Rooms.*;
 import Interaction.item;
+import Interaction.obstacle;
 
 import java.util.HashMap;
 import java.util.regex.*;
@@ -15,8 +16,11 @@ public class game {
     private room currentRoom;
     private player Jo;
 
+    private final int itemVerbItem_requiredItems = 2;
+    private final int verbItem_requiredItems = 1;
     private final String INVALID_COMMAND_ERR_MSG = "this is not a valid command - please look at the format paragraph";
-    private final String COMMAND_HAS_VERBS_ERR_MSG = "this is not a valid command - please do not include multiple verbs in one command";
+    private final String REPEATED_VERBS_ERR_MSG = "this is not a valid command - please do not include multiple verbs in one command";
+    private final String TOO_MANY_ITEMS_ERR_MSG = "this is not a valid command - there are more than two items included";
     private final String verbs = "lookAt|touch|take|use|taste";
     private final String verbs_2 = "switchWith|useOn";
     private Pattern verbObjectPattern = Pattern.compile("^(" + verbs + ")( [a-zA-Z]+)+$");
@@ -76,8 +80,82 @@ public class game {
     }
 
     private void processItemVerbItem(String input) {
+        String[] verbs_2Arr = verbs_2.split("\\|"); // array of verbs for: "item verb item" format
+        String splitterVerb = null;
 
+        for (String verb : verbs_2Arr) {
+            verb = " " + verb + " ";    // looking for the verb outside of a word and not at the start or end of the input
+            int verbFirstIndex = input.indexOf(verb);
+            if (verbFirstIndex == -1)
+                continue;  // move to the next verb since current is not present
+            int verbLastIndex = input.lastIndexOf(verb);
+            if (verbFirstIndex != verbLastIndex) {   // there are more than one instances of the verb making it an invalid command
+                System.out.println(REPEATED_VERBS_ERR_MSG);
+                return;
+            } else {
+                splitterVerb = verb;
+                break;
+            }
+        }
+
+        if (splitterVerb == null) {  // if no verb rom verbs_2 are present - shouldn't be possible but important to be safe
+            System.out.println("somehow no valid verb is present - glitch in code has occurred");
+            return;
+        }
+
+        String[] items = input.split(splitterVerb);
+
+        if (items.length != itemVerbItem_requiredItems) { // also should never happen but just in case
+            System.out.println(TOO_MANY_ITEMS_ERR_MSG);
+            return;
+        }
+
+        for (int i = 0; i < itemVerbItem_requiredItems; i++) {    // surround both items with the "" needed for processing
+            items[i] = "\"" + items[i] + "\"";
+            if (checkItemForVerb(items[i])) {    // check each item is free of any other verbs
+                System.out.println(REPEATED_VERBS_ERR_MSG);
+                return;
+            }
+        }
+
+        HashMap<String, item> itemChecker = currentRoom.getItemIsToItem();
+        HashMap<String, obstacle> obstacleChecker = currentRoom.getItemIsToObstacle();
+
+        item itemObj1;
+
+        if (itemChecker.containsKey(items[0]))
+            itemObj1 = itemChecker.get(items[0]);
+        else itemObj1 = Jo.hasItemInInventory(items[0]);
+
+        if (itemObj1 != null) {
+            splitterVerb = splitterVerb.strip();
+
+            if (splitterVerb.equals("switchWith")) {
+                item itemObj2;
+                if (itemChecker.containsKey(items[1]))
+                    itemObj2 = itemChecker.get(items[1]);
+                else itemObj2 = Jo.hasItemInInventory(items[1]);
+                if (itemObj2 != null)
+                    currentRoom.playerSwitchesItems(Jo, itemObj1, itemObj2);
+                else
+                    System.out.println("the " + items[1] + " is not present");
+
+            } else if (splitterVerb.equals("useOn")) {
+                obstacle obstacleObj;
+                if (obstacleChecker.containsKey(items[1]))
+                    obstacleObj = obstacleChecker.get(items[1]);
+                else obstacleObj = null;
+
+                if (obstacleObj != null) {
+                    currentRoom.playerUsedItemOnObstacle(Jo, itemObj1, obstacleObj);
+                }
+                else {
+                    System.out.println("the " + items[1] + " is not present");
+                }
+            }
+        }
     }
+
 
     /*
         splits input by space taking the first as the verb
@@ -92,16 +170,18 @@ public class game {
         String verb = parts[0]; // takes the verb
         String item = "\"" + input.substring(verb.length() + 1) + "\"";  // uses the verb's length to take the set of words
 
-        if(checkItemForVerb(item)) {
-            System.out.println(COMMAND_HAS_VERBS_ERR_MSG);
+        if (checkItemForVerb(item)) {
+            System.out.println(REPEATED_VERBS_ERR_MSG);
             return;
         }
 
         item itemObj;
 
         HashMap<String, item> itemChecker = currentRoom.getItemIsToItem();
+        HashMap<String, obstacle> obstacleChecker = currentRoom.getItemIsToObstacle();
 
         if (itemChecker.containsKey(item)) itemObj = itemChecker.get(item);
+        else if(obstacleChecker.containsKey(item)) itemObj = obstacleChecker.get(item);
         else itemObj = Jo.hasItemInInventory(item);
 
         if (itemObj != null) {   // if the item was found in the room or player's inventory
@@ -129,15 +209,15 @@ public class game {
     }
 
     private boolean checkItemForVerb(String item) {
-        String[] verbsArr = verbs.split("\\|"); // verbs for: "verb item" format
-        String[] verbs_2Arr = verbs_2.split("\\|"); // verbs for: "item verb item" format
+        String[] verbsArr = verbs.split("\\|"); // array of verbs for: "verb item" format
+        String[] verbs_2Arr = verbs_2.split("\\|"); // array of verbs for: "item verb item" format
         // adds a space to the start and removes the "" surrounding it so that the below check will work
         String modifiedItem = " " + item.substring(1, item.length() - 1);
         for (String verb : verbsArr) {
-            if(modifiedItem.contains(" " + verb)) return true;
+            if (modifiedItem.contains(" " + verb)) return true;
         }
         for (String verb : verbs_2Arr) {
-            if(modifiedItem.contains(" " + verb)) return true;
+            if (modifiedItem.contains(" " + verb)) return true;
         }
         return false;
     }

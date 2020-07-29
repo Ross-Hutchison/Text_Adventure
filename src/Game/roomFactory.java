@@ -26,14 +26,17 @@ public class roomFactory {
         HashMap<String, item>itemIsToItem = new HashMap<>();
         itemIsToItem.put(key.getItemIs(), key);
         itemIsToItem.put(choco.getItemIs(), choco);
+        // generates the map of Strings to Obstacles
+        HashMap<String, obstacle> itemIsToObstacle = new HashMap<>();
+        itemIsToObstacle.put(door.getItemIs(), door);
         // writing the description
         String description = "the room is small and rather dull, the walls are grey brick, \n" +
                 "and the floor is made of old wooden planks, several are rotting and most squeak when you walk over them\n" +
-                "at the other end of the room there is a sturdy looking wooden door\n" +
+                "at the other end of the room there is a sturdy looking " + door.getItemIs() + "\n" +
                 "laying on the floor by where your head was is a " + choco.getItemIs() + "\n" +
                 "sitting on the floor by the door is a " + key.getItemIs();
 
-        room tutorialRoom = new room(description, items, obstacles, blockedBy, itemIsToItem);
+        room tutorialRoom = new room(description, items, obstacles, blockedBy, itemIsToItem, itemIsToObstacle);
         return tutorialRoom;
     }
 

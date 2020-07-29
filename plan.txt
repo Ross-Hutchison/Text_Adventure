@@ -307,3 +307,39 @@ The Game Process:
 
     one it passes the regex - need to find some way to split into three parts
     the two items and the verb
+
+    so I have a list of words separated by space then one of the verbs_2 verbs then another list of words
+
+    no check for the verbs so I can't just split by whichever verb the input contains
+
+    I could check for the number contained??? and if it's one and the other is 0 then I could use split
+
+    no specific method for finding the specific number in the String (at least not in java.String) though I could use
+    indexOf and lastIndexOf and compare the two values for each of the two verbs to see if there is more than one of them
+    remember checking for each of the verbs with a space on both sides since once I use that to split
+    into three (split gives the items and the check gives the verb) I can check that the items don't contain any verbs
+
+    want the method to iterate over verbs_2 so that if I ever add more the method still works
+    this means I can't store the first and last index of each verb as a variable
+    though I could use a 2d array or map of verb to array where the array is of size 2 and
+    holds the first index and last index of the verb it represents
+
+    might be smart to make the verbs and verbs_2 arrays global for the class
+    or make them as part of the process method - would need to pass them into the sub methods though -
+    instead of inside the check for verbs in items
+
+    for now just create the array again inside the method for checking the second type of input
+
+    iterate over the array and check if the index of the current verb in the input is not -1
+    and if it isn't -1 check the lastIndex is the same - if it is split by this
+    if the index is -1 switch to the next verb
+    if the index don't match then output an error message
+    all verbs won't be -1 since the regex has passed but on the off chance they somehow are output an error message
+
+    this method doesn't need to store the index at all
+
+    when determining which method to call need to use the verb to check if itemObj2 should be an item for switch or an obstacle for useWith
+    need to do the verb check before the check for if the items are present
+
+    issue is that the check would need to pass some information on to the switch - might be easier to check the second inside the
+    switch

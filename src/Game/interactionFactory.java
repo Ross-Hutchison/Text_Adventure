@@ -36,7 +36,7 @@ public class interactionFactory {
         room leadsTo = to;
         item solvedBy = solution;
         boolean solved = false;
-        String itemIs = "wooden door";
+        String itemIs = "\"wooden door\"";
         String description = "A large brown wooden door with a rectangular base and rounded top \n" +
                 " there is a large metal ring for a handle and below it a large keyhole";
         String feelsLike = "the rough wood of the door seems likely to leave splinters, the door rung is cold and heavy";

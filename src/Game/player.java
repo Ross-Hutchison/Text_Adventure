@@ -66,7 +66,10 @@ public class player {
                 }
             }
             if(!Y_present) {
-                System.out.println(toTake.getItemIs() + " is not present");
+                if(hasItemInInventory(toTake.getItemIs()) != null ) {
+                    System.out.println("you already have the " + toTake.getItemIs());
+                }
+                else System.out.println(toTake.getItemIs() + " is not present");
             }
             else {
                 HashMap<item, obstacle> blockMap = whereToLeave.getBlockedBy();
@@ -80,6 +83,8 @@ public class player {
                     // removes the key in the room's String to item HM for the old item and adds one for the new item
                     whereToLeave.getItemIsToItem().remove(toTake.getItemIs());
                     whereToLeave.getItemIsToItem().put(toLeave.getItemIs(), toLeave);
+
+                    System.out.println("switched the " + toLeave.getItemIs() + " with  the " + toTake.getItemIs());
                 }
                 else {
                     System.out.println("Cannot reach the " + toTake.getItemIs() + ", it is blocked by " + blockage.getItemIs());

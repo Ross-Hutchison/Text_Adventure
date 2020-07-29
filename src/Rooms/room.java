@@ -12,20 +12,18 @@ class room {
      obstacle[] obstacles;   // an array of all obstacles in the current room
      HashMap<item, obstacle> blockedBy;    // a map that shows what Interaction.obstacle blocks each Interaction.item (if any) - so the program knows if the user can approach them
      HashMap<String, item> itemIsToItem;
+     HashMap<String, obstacle> itemIsToObstacle;
     final String TAKE_OBST_ERR_MSG = "Taking that might be a bit ambitious \n - you cannot pick up obstacles";
     final String TAKE_NULL_OBJ_ERR_MSG = "That object doesn't seem to exist \n - you may have done something VERY wrong, or it's a glitch";
     final String USED_OBST_WITH_OBST_ERR_MSG = "Maybe combining two obstacles isn't the way to clear the path \n - use items with obstacles not other obstacles";
 
-    public room(String description, item[] items, obstacle[] obstacles, HashMap<item, obstacle> blockedBy, HashMap<String, item> itemIsToItem){
+    public room(String description, item[] items, obstacle[] obstacles, HashMap<item, obstacle> blockedBy, HashMap<String, item> itemIsToItem, HashMap<String, obstacle> itemIsToObstacle){
         this.description = description;
         this.items = items;
         this.obstacles = obstacles;
         this.blockedBy = blockedBy;
         this.itemIsToItem = itemIsToItem;
-    }
-
-    public room(){
-
+        this.itemIsToObstacle = itemIsToObstacle;
     }
 
     public item[] getItems() {
@@ -39,6 +37,8 @@ class room {
     }
 
     public HashMap<String, item> getItemIsToItem() { return itemIsToItem;}
+
+    public HashMap<String, obstacle> getItemIsToObstacle() { return itemIsToObstacle; }
 
     public void playerTakesItem(player p, item toTake) {
         if(toTake == null) System.out.println(TAKE_NULL_OBJ_ERR_MSG);
