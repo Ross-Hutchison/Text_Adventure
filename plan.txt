@@ -343,3 +343,12 @@ The Game Process:
 
     issue is that the check would need to pass some information on to the switch - might be easier to check the second inside the
     switch
+
+    now that the user input is set up I need to enable a method of winning the game
+
+    currently want to win when the door is unlocked and used
+
+    will require some way of calling a method specific to the room in a case specific to the room
+    ideally related to interacting with an item or obstacle in the room.
+
+    this would have been a lot easier if each room was a class however now that they aren't I'll need to find a new way
