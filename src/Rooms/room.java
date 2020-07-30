@@ -16,6 +16,7 @@ class room {
     final String TAKE_OBST_ERR_MSG = "Taking that might be a bit ambitious \n - you cannot pick up obstacles";
     final String TAKE_NULL_OBJ_ERR_MSG = "That object doesn't seem to exist \n - you may have done something VERY wrong, or it's a glitch";
     final String USED_OBST_WITH_OBST_ERR_MSG = "Maybe combining two obstacles isn't the way to clear the path \n - use items with obstacles not other obstacles";
+    final String USED_ITEM_WITH_ITEM_ERR_MSG = "nothing happens \n - use items on obstacles not on other items";
 
     public room(String description, item[] items, obstacle[] obstacles, HashMap<item, obstacle> blockedBy, HashMap<String, item> itemIsToItem, HashMap<String, obstacle> itemIsToObstacle){
         this.description = description;
@@ -101,7 +102,9 @@ class room {
     }
 
     public void playerUsedItemOnObstacle(player p, item used, obstacle usedOn) { //obstacles currently can't be blocked
+        System.out.println(usedOn);
         if(used instanceof obstacle) System.out.println(USED_OBST_WITH_OBST_ERR_MSG);
+        else if(itemIsToItem.get(usedOn.getItemIs()) != null) System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);
         else if(p.hasItemInInventory(used.getItemIs()) != null) used.useOn(usedOn);
         else System.out.println("you reach for your " + used.getItemIs() + " but realise you don't have one : (");
     }

@@ -21,6 +21,7 @@ public class game {
     private final String INVALID_COMMAND_ERR_MSG = "this is not a valid command - please look at the format paragraph";
     private final String REPEATED_VERBS_ERR_MSG = "this is not a valid command - please do not include multiple verbs in one command";
     private final String TOO_MANY_ITEMS_ERR_MSG = "this is not a valid command - there are more than two items included";
+    final String USED_ITEM_WITH_ITEM_ERR_MSG = "nothing happens \n - use items on obstacles not on other items";
     private final String verbs = "lookAt|touch|take|use|taste";
     private final String verbs_2 = "switchWith|useOn";
     private Pattern verbObjectPattern = Pattern.compile("^(" + verbs + ")( [a-zA-Z]+)+$");
@@ -174,7 +175,8 @@ public class game {
                     return null;
                 }
                 else {
-                    System.out.println("the " + items[1] + " is not present");
+                    if(itemChecker.get(items[1]) != null || Jo.hasItemInInventory(items[1]) != null) System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);
+                    else System.out.println("the " + items[1] + " is not present");
                     return null;
                 }
             }

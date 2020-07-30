@@ -432,3 +432,17 @@ processing events:
     if do nothing do nothing
 
     replace do nothing with a null value since that's what failure's return so it already symbolises no event
+
+    while testing I found that using one item on another gives the wrong error message
+    it should say that nothing happens and inform the user that useOn is for obstacles
+    but instead claims the second item is not present.
+
+    need to check when using useOn that the second item is an obstacle
+
+    it doesn't seem to reach the method in the room class
+
+    see where it gets to in game
+
+    fixed that
+
+    game set up is done I think - merge branches
