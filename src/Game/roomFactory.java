@@ -15,6 +15,7 @@ public class roomFactory {
         item key = itemGenerator.createKey();
         item choco = itemGenerator.createChocolate();
         item[] items = new item[]{choco, key};
+        int originalItemCount = items.length;
         // generating the obstacle array
         obstacle door = itemGenerator.createWoodenDoor(null, key);
         obstacle[] obstacles = new obstacle[]{door};
@@ -36,7 +37,7 @@ public class roomFactory {
                 "laying on the floor by where your head was is a " + choco.getItemIs() + "\n" +
                 "sitting on the floor by the door is a " + key.getItemIs();
 
-        room tutorialRoom = new room(description, items, obstacles, blockedBy, itemIsToItem, itemIsToObstacle);
+        room tutorialRoom = new room(description, items, obstacles, blockedBy, itemIsToItem, itemIsToObstacle, originalItemCount);
         return tutorialRoom;
     }
 

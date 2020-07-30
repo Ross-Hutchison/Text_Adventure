@@ -17,14 +17,16 @@ class room {
     final String TAKE_NULL_OBJ_ERR_MSG = "That object doesn't seem to exist \n - you may have done something VERY wrong, or it's a glitch";
     final String USED_OBST_WITH_OBST_ERR_MSG = "Maybe combining two obstacles isn't the way to clear the path \n - use items with obstacles not other obstacles";
     final String USED_ITEM_WITH_ITEM_ERR_MSG = "nothing happens \n - use items on obstacles not on other items";
+    int originalItemCount;
 
-    public room(String description, item[] items, obstacle[] obstacles, HashMap<item, obstacle> blockedBy, HashMap<String, item> itemIsToItem, HashMap<String, obstacle> itemIsToObstacle){
+    public room(String description, item[] items, obstacle[] obstacles, HashMap<item, obstacle> blockedBy, HashMap<String, item> itemIsToItem, HashMap<String, obstacle> itemIsToObstacle, int originalItemCount){
         this.description = description;
         this.items = items;
         this.obstacles = obstacles;
         this.blockedBy = blockedBy;
         this.itemIsToItem = itemIsToItem;
         this.itemIsToObstacle = itemIsToObstacle;
+        this.originalItemCount = originalItemCount;
     }
 
     public item[] getItems() {
@@ -40,6 +42,8 @@ class room {
     public HashMap<String, item> getItemIsToItem() { return itemIsToItem;}
 
     public HashMap<String, obstacle> getItemIsToObstacle() { return itemIsToObstacle; }
+
+    public int getOriginalItemCount() { return originalItemCount; }
 
     public void playerTakesItem(player p, item toTake) {
         if(toTake == null) System.out.println(TAKE_NULL_OBJ_ERR_MSG);

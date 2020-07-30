@@ -446,3 +446,27 @@ processing events:
     fixed that
 
     game set up is done I think - merge branches
+
+    want to have a box and when opened it adds a new item to the room
+
+    the box could be an item since you can pick it up
+    first have using it add an item to the room
+    then consider taking the box to boost inventory to three essentially allowing the player to carry two items
+    though this would potentially require a lot of work since it would require taking and switching to
+    have events attached which could require an increase to the event standard's complexity
+    since switching would need to include the taking event of one item and the dropping event of another
+
+    also will need to re-print the room's description whenever something changes
+    I this could cause problems but will need to be done
+
+    problems
+        - when you take an item it will be null in the room's item array which means that the description will contain a null
+            a fix would be to have a check for the used items indexes first and set the value for the ones that are null
+            to be "an empty space"
+
+            however this would require a check to be repeatedly made and so the description would need to be part of a method
+            this clashes with the factory class idea
+
+            a solution to this would be using a method in the game class called display current room
+            that would go through each of the room's item indexes and check if they're null setting them to "a blank space"
+            if they are  this would require that room be given a value of originalItemCount
