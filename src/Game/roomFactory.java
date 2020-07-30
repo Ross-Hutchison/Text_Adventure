@@ -14,7 +14,8 @@ public class roomFactory {
         // generating the item array for the room
         item key = itemGenerator.createKey();
         item choco = itemGenerator.createChocolate();
-        item[] items = new item[]{choco, key};
+        item box = itemGenerator.createBox(key);
+        item[] items = new item[]{choco, key, box};
         int originalItemCount = items.length;
         // generating the obstacle array
         obstacle door = itemGenerator.createWoodenDoor(null, key);
@@ -23,10 +24,12 @@ public class roomFactory {
         HashMap<item, obstacle>blockedBy = new HashMap<>();
         blockedBy.put(choco, null);
         blockedBy.put(key, null);
+        blockedBy.put(box, null);
         // generates the map of Strings to items
         HashMap<String, item>itemIsToItem = new HashMap<>();
         itemIsToItem.put(key.getItemIs(), key);
         itemIsToItem.put(choco.getItemIs(), choco);
+        itemIsToItem.put(box.getItemIs(), box);
         // generates the map of Strings to Obstacles
         HashMap<String, obstacle> itemIsToObstacle = new HashMap<>();
         itemIsToObstacle.put(door.getItemIs(), door);
@@ -35,7 +38,7 @@ public class roomFactory {
                 "and the floor is made of old wooden planks, several are rotting and most squeak when you walk over them\n" +
                 "at the other end of the room there is a sturdy looking " + door.getItemIs() + "\n" +
                 "laying on the floor by where your head was is a " + choco.getItemIs() + "\n" +
-                "sitting on the floor by the door is a " + key.getItemIs();
+                "sitting on the floor by the door is a " + box.getItemIs();
 
         room tutorialRoom = new room(description, items, obstacles, blockedBy, itemIsToItem, itemIsToObstacle, originalItemCount);
         return tutorialRoom;

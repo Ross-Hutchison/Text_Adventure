@@ -66,7 +66,12 @@ public class game {
         System.out.println("--------------------\n");
     }
 
-    public void processInput(String input) {
+    public void turn(String input) {
+        processInput(input);
+        System.out.println("\n" + currentRoom.getDescription());
+    }
+
+    private void processInput(String input) {
         Matcher verbObjMatcher = verbObjectPattern.matcher(input);
         String event = null;
         if (verbObjMatcher.matches()) event = processVerbObject(input);
@@ -90,6 +95,13 @@ public class game {
                 if(type.equals("winGame")) {
                     gameEnd = true;
                     endMsg = data;
+                }
+                else if(type.equals("addItem")) {
+                    String[] dataParts = data.split(",");
+                    String desc = currentRoom.getDescription();
+                    desc = desc.concat("\nThe " + dataParts[0] + " contains a " + dataParts[1]);
+                    currentRoom.setDescription(desc);
+                    item box = Jo.hasItemInInventory(dataParts[0]);
                 }
             }
             else {
@@ -159,9 +171,12 @@ public class game {
                 else itemObj2 = Jo.hasItemInInventory(items[1]);
                 if (itemObj2 != null) {
                     currentRoom.playerSwitchesItems(Jo, itemObj1, itemObj2);    // no event attached - ret null
+                    addItemToDescription(itemObj1);
+                    removeItemFromDescription(itemObj2);
                     return null;
                 }
                 else
+                    if(obstacleChecker.get(items[1]) != null) System.out.println("you can't take that with you \n - you cannot pick up objects");
                     System.out.println("the " + items[1] + " is not present");
 
             } else if (splitterVerb.equals("useOn")) {
@@ -216,6 +231,7 @@ public class game {
             switch (verb) {
                 case "take":
                     currentRoom.playerTakesItem(Jo, itemObj);   // no game event currently attached - ret null
+                    removeItemFromDescription(itemObj);
                     return null;
                 case "touch":
                     return currentRoom.playerTouchedItem(Jo, itemObj);
@@ -246,6 +262,16 @@ public class game {
             if (modifiedItem.contains(" " + verb)) return true;
         }
         return false;
+    }
+
+    private void removeItemFromDescription(item toRemove) {
+        String desc = currentRoom.getDescription().replaceFirst(toRemove.getItemIs(), "an empty space");
+        currentRoom.setDescription(desc);
+    }
+
+    private void addItemToDescription(item toAdd) {
+        String desc = currentRoom.getDescription().replaceFirst("an empty space", toAdd.getItemIs());
+        currentRoom.setDescription(desc);
     }
 
     public boolean getGameEnd() {

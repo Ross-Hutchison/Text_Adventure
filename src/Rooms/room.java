@@ -45,6 +45,8 @@ class room {
 
     public int getOriginalItemCount() { return originalItemCount; }
 
+    public void setDescription(String description) { this.description = description; }
+
     public void playerTakesItem(player p, item toTake) {
         if(toTake == null) System.out.println(TAKE_NULL_OBJ_ERR_MSG);
         else if(toTake instanceof obstacle) System.out.println(TAKE_OBST_ERR_MSG);

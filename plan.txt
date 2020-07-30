@@ -470,3 +470,52 @@ processing events:
             a solution to this would be using a method in the game class called display current room
             that would go through each of the room's item indexes and check if they're null setting them to "a blank space"
             if they are  this would require that room be given a value of originalItemCount
+
+            so I can't set an item to a String but I could change description to use the keyset of the itemIsToItem map
+            since those are Strings
+
+            OH NO WAIT
+
+            a way better idea is to take the description and search for the sections encased in ""
+            then checking the values of those to the keys of the hashMap and if they're not there replacing them with a blank space
+
+            should I change the actual value - it would require less replacement if I did that
+            but it could make adding items back in rather difficult
+            I would need to search for "a blank space" and replace it after switching items
+
+            it would be good to do the alteration of display earlier than i'm currently planning to do it
+            but also it might be important to do it after an event occurs?
+
+            probably not - it's important to display it after but I can change it before
+
+            so Change it when an item is taken or removed - and redisplay it at the end of every turn
+
+            oh and i'll need a setDescription method in room
+
+            when an item is taken - need to alter the description to find and replace the item's itemIs with "an empty space"
+            when a switch occurs - need to find the first "an empty space" and replace it with the left item, then do as above
+
+            I'll want a method for both of those
+
+            that now works so any altering of items will change the description
+
+            now need to set up the box item
+
+            how will the box hide an item?
+
+            I could give it a use event that generates a new item so the box constructor would need to take in a String
+
+            however it could be better to have it take in an item and then use itemIs of an existing item to identify it
+            this would require some way to hide existing items
+
+            well items are essentially only visible when they're added to the description
+            so if I add the item directly to the box's constructor and when the box is used
+            its event String can  be addItem-[the item's itemIs]
+
+            may still need to give item the hidden boolean so that you can't use items you shouldn't know exist
+
+            the addItem can  add a line of text on to the end of the description that states
+            "in the box is a [itemIs]"
+
+            Oops - forgot to add checks to ensure items only added or removed if the taking/ switching actually happens
+            OH POINT TO LOOK BACK TO - I could probably come up with an object based event system as opposed to a text based one

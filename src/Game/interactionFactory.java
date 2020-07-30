@@ -37,6 +37,22 @@ public class interactionFactory {
         return chocolate;
     }
 
+    public item createBox(item inside) {
+        String itemIs = "\"wooden box\"";
+        String description = "a small wooden box, it's lid seems to slot in place\n" +
+                "The lid is not aligned properly and so rests on top of the box half open.";
+
+        String feelsLike = "the wood is smooth, it's a very nicely crafted box";
+        String tastesLike = "the box does not taste as good as it looks";
+        String usedAlone = "you lift the lid of the box and look inside";
+        String useResult = "addItem-" + itemIs + "," + inside.getItemIs();
+        String touchResult = null;
+        String tasteResult = null;
+
+        item box = new item(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
+        return box;
+    }
+
     public obstacle createWoodenDoor(room to, item solution) {
 
         room leadsTo = to;

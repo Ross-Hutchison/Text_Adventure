@@ -25,6 +25,8 @@ public class item {
         return this.itemIs;
     }
 
+    public void setUseResult(String useResult) { this.useResult = useResult; }
+
     public void lookAt() {
         System.out.println(this.description);
     }

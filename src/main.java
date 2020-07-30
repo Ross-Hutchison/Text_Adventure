@@ -19,7 +19,7 @@ public class main {
         while(!control.getGameEnd()) {
             try {
                 String input = reader.readLine();
-                control.processInput(input);
+                control.turn(input);
             }
             catch (IOException e) {
                 System.out.println("ERROR: "  + e.getMessage());
