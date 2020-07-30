@@ -73,22 +73,31 @@ class room {
         lookedAt.lookAt();
     }
 
-    public void playerTouchedItem(player p, item touched) {
+    public String playerTouchedItem(player p, item touched) {
         obstacle blockage = blockedBy.get(touched);
-        if(blockage == null || blockage.getSolved()) touched.touch();
-        else System.out.println("you go to touch the " + touched.getItemIs() + "but find yourself stopped by a " + blockage.getItemIs());
+        if(blockage == null || blockage.getSolved()) return touched.touch();
+        else {
+            System.out.println("you go to touch the " + touched.getItemIs() + "but find yourself stopped by a " + blockage.getItemIs());
+            return null;
+        }
     }
 
-    public void playerTastedItem(player p, item licked) {
-        if(licked instanceof  obstacle)  licked.taste();
-        if(p.hasItemInInventory(licked.getItemIs()) != null) licked.taste();
-        else System.out.println("If you're going to taste something at least be dignified and pick it up first");
+    public String playerTastedItem(player p, item licked) {
+        if(licked instanceof  obstacle)  return licked.taste();
+        else if(p.hasItemInInventory(licked.getItemIs()) != null) return licked.taste();
+        else {
+            System.out.println("If you're going to taste something at least be dignified and pick it up first");
+            return null;
+        }
     }
 
-    public void playerUsedItem(player p, item used) {
-        if(used instanceof obstacle) used.use();
-        else if(p.hasItemInInventory(used.getItemIs()) != null) used.use();
-        else System.out.println("you suddenly remember that in order to use something you normally have to have it with you");
+    public String playerUsedItem(player p, item used) {
+        if(used instanceof obstacle) return used.use();
+        else if(p.hasItemInInventory(used.getItemIs()) != null) return used.use();
+        else {
+            System.out.println("you suddenly remember that in order to use something you normally have to have it with you");
+            return null;
+        }
     }
 
     public void playerUsedItemOnObstacle(player p, item used, obstacle usedOn) { //obstacles currently can't be blocked

@@ -352,3 +352,83 @@ The Game Process:
     ideally related to interacting with an item or obstacle in the room.
 
     this would have been a lot easier if each room was a class however now that they aren't I'll need to find a new way
+
+So what I could do is give room a result String - this would be set using added return values to the item interaction methods
+would need new Strings added to already large constructors
+
+at the end of processing the game can check the result String for instructions on what to do
+e.g did using an item win the game? could have the item on use return a String that instructs the game.java class
+to set the game to won and assign a specific victory method.
+
+cons:
+    - would need to follow a standard so that simple checks could apply to all types of messages
+    - would need to add a String for each interaction to the item constructor
+        - a pretty large number of added variables to an already large constructor
+
+Pros:
+    - simple to implement
+    - could be easily expanded if using a simple enough standard
+
+
+standard first idea:
+    keyword-additionalData
+
+    keywords would be words like winGame, harmPlayer, doNothing etc that tell the game what type of event has occurred
+
+    additional data would need a similar format for each keyword but could be slightly different
+    though for the initial use would just need to be a single line used whole
+    doNothing would have no additional data
+    winGame would just have the victory method
+
+
+OR I could add several methods to room.java instead of game.java - the items would need some kind of return values
+to determine which of these are carried out - now that I think about it it's essentially the same idea as above but
+the methods go in room. This is less effective since it puts methods mostly unrelated to the room into room
+and makes it more difficult to get the victory message to game.java
+
+For now I'll go with my first idea and see if I find any problems with doing it that way which could require a change in approach
+
+altering the items:
+    first altered the constructor
+    adding to item will add to obstacle as long as they aren't private
+    should lookAt have an interaction message - for the sake of execution simplicity yeh
+    so I don't need to check the command type
+
+    wait maybe not - depending on how game works I could return nothing from the lookAt method call
+
+    also the room would be returning the result of the method calls or null if the method is not called for whatever reason
+
+    game then returns the result of that from it's methods for input processing that decide on what methods get called and
+    the general process input will process the return value of whichever one is called
+
+    item does not need a useOn result string since this can be part of the obstacle's resolve/resolveFail strings
+
+altering the obstacles:
+    first add the item values to the obstacle constructor
+    then need to add values unique to obstacles
+
+    should they do something when they resolve or fail to resolve? Maybe but not necessary at the moment
+    just need to add one for when they're used without being resolved since use already returns a value
+
+    now need to go back and make the interaction methods with retValues actually return them
+
+altering room.java:
+    now that the item and obstacle methods return the String values i'll need to alter room.java's wrapper methods
+    so that they return the values returned by their functions - note: this process of doing things may remove the need for these wrappers
+    look into this at some point
+
+altering game:
+    now that room is sorted need to have game return the value of the room methods and process it - for now just output
+    at the end of the input processing method
+
+altering factories:
+    now that game s set up to handle the event system need to alter the factorise so the in use items and rooms are valid
+
+processing events:
+    now that the game can pass events to where they belong need to process them
+    if non null split by -
+    if result valid take first and check
+    if winGame then set additional data to win message and gameWon to true
+    if do nothing do nothing
+
+    replace do nothing with a null value since that's what failure's return so it already symbolises no event

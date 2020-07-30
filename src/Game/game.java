@@ -67,19 +67,40 @@ public class game {
 
     public void processInput(String input) {
         Matcher verbObjMatcher = verbObjectPattern.matcher(input);
-        if (verbObjMatcher.matches()) processVerbObject(input);
+        String event = null;
+        if (verbObjMatcher.matches()) event = processVerbObject(input);
         else {
             Matcher itemVerbItemMatcher = itemVerbItemPattern.matcher(input);
-            if (itemVerbItemMatcher.matches()) processItemVerbItem(input);
+            if (itemVerbItemMatcher.matches()) event = processItemVerbItem(input);
             else {
                 System.out.println(INVALID_COMMAND_ERR_MSG);
             }
         }
-
-
+        processEvent(event);
     }
 
-    private void processItemVerbItem(String input) {
+    private void processEvent(String event) {
+        if(event != null) {
+            String[] parts = event.split("-");
+            if(parts.length == 2) { //valid format is eventType-eventData
+                String type = parts[0];
+                String data = parts[1];
+
+                if(type.equals("winGame")) {
+                    gameEnd = true;
+                    endMsg = data;
+                }
+            }
+            else {
+                System.out.println("invalid event flag");
+            }
+        }
+    }
+
+    /*
+        returns null when the action does not lead to a game event such as winning
+     */
+    private String processItemVerbItem(String input) {
         String[] verbs_2Arr = verbs_2.split("\\|"); // array of verbs for: "item verb item" format
         String splitterVerb = null;
 
@@ -91,7 +112,7 @@ public class game {
             int verbLastIndex = input.lastIndexOf(verb);
             if (verbFirstIndex != verbLastIndex) {   // there are more than one instances of the verb making it an invalid command
                 System.out.println(REPEATED_VERBS_ERR_MSG);
-                return;
+                return null;
             } else {
                 splitterVerb = verb;
                 break;
@@ -100,21 +121,21 @@ public class game {
 
         if (splitterVerb == null) {  // if no verb rom verbs_2 are present - shouldn't be possible but important to be safe
             System.out.println("somehow no valid verb is present - glitch in code has occurred");
-            return;
+            return null;
         }
 
         String[] items = input.split(splitterVerb);
 
         if (items.length != itemVerbItem_requiredItems) { // also should never happen but just in case
             System.out.println(TOO_MANY_ITEMS_ERR_MSG);
-            return;
+            return null;
         }
 
         for (int i = 0; i < itemVerbItem_requiredItems; i++) {    // surround both items with the "" needed for processing
             items[i] = "\"" + items[i] + "\"";
             if (checkItemForVerb(items[i])) {    // check each item is free of any other verbs
                 System.out.println(REPEATED_VERBS_ERR_MSG);
-                return;
+                return null;
             }
         }
 
@@ -135,8 +156,10 @@ public class game {
                 if (itemChecker.containsKey(items[1]))
                     itemObj2 = itemChecker.get(items[1]);
                 else itemObj2 = Jo.hasItemInInventory(items[1]);
-                if (itemObj2 != null)
-                    currentRoom.playerSwitchesItems(Jo, itemObj1, itemObj2);
+                if (itemObj2 != null) {
+                    currentRoom.playerSwitchesItems(Jo, itemObj1, itemObj2);    // no event attached - ret null
+                    return null;
+                }
                 else
                     System.out.println("the " + items[1] + " is not present");
 
@@ -147,13 +170,16 @@ public class game {
                 else obstacleObj = null;
 
                 if (obstacleObj != null) {
-                    currentRoom.playerUsedItemOnObstacle(Jo, itemObj1, obstacleObj);
+                    currentRoom.playerUsedItemOnObstacle(Jo, itemObj1, obstacleObj); // no event attached - ret null
+                    return null;
                 }
                 else {
                     System.out.println("the " + items[1] + " is not present");
+                    return null;
                 }
             }
         }
+        return null;
     }
 
 
@@ -165,14 +191,14 @@ public class game {
 
         the verb is then checked to determine which function is carried out
      */
-    private void processVerbObject(String input) {
+    private String processVerbObject(String input) {
         String[] parts = input.split(" "); //separate the input by ' '
         String verb = parts[0]; // takes the verb
         String item = "\"" + input.substring(verb.length() + 1) + "\"";  // uses the verb's length to take the set of words
 
         if (checkItemForVerb(item)) {
             System.out.println(REPEATED_VERBS_ERR_MSG);
-            return;
+            return null;
         }
 
         item itemObj;
@@ -187,25 +213,23 @@ public class game {
         if (itemObj != null) {   // if the item was found in the room or player's inventory
             switch (verb) {
                 case "take":
-                    currentRoom.playerTakesItem(Jo, itemObj);
-                    break;
+                    currentRoom.playerTakesItem(Jo, itemObj);   // no game event currently attached - ret null
+                    return null;
                 case "touch":
-                    currentRoom.playerTouchedItem(Jo, itemObj);
-                    break;
+                    return currentRoom.playerTouchedItem(Jo, itemObj);
                 case "lookAt":
-                    currentRoom.playerLooksAtItem(Jo, itemObj);
-                    break;
+                    currentRoom.playerLooksAtItem(Jo, itemObj); // no game event currently attached - ret null
+                    return null;
                 case "use":
-                    currentRoom.playerUsedItem(Jo, itemObj);
-                    break;
+                    return currentRoom.playerUsedItem(Jo, itemObj);
                 case "taste":
-                    currentRoom.playerTastedItem(Jo, itemObj);
-                    break;
+                    return currentRoom.playerTastedItem(Jo, itemObj);
             }
         } else
             System.out.println("you turn your attention to the " + item + "\n" +
                     "but you must have hallucinated it\n" +
                     "- this item is not currently present in your inventory or the current room");
+        return null;
     }
 
     private boolean checkItemForVerb(String item) {
