@@ -524,3 +524,16 @@ processing events:
             for only altering desc when taking or switching works made the player and room switch methods boolean
             and altered them, the room take method, and the game switch statements so that the switch statment
             knows if the action was successful and alters desc only if it was
+
+    Plan for event limits - could add an additional part to the event String
+    it would be a use limit however this would require some way of knowing
+    which result String was being used for which item so would need a new format
+
+    eventType-itemInteractedWith-additionalData-useLimitData
+
+    eventType is a keyword like winGame, addItem etc
+    itemInteractedWith is the itemIs of the item that triggered the event
+    additionalData is any information needed to carry out the event i.e. the itemIs of the item revealed by opening a box
+    useLimitData - csv separation, contains the type of interaction the flag triggered and the number of times it can happen
+                        this is decreased unless it is noLim which means it can happen infinitely (implement later no need rn mostly for obstacles)
+                        if this number hits 0 need to set the item's result Str for that interaction to null
