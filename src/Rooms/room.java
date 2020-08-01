@@ -47,9 +47,15 @@ class room {
 
     public void setDescription(String description) { this.description = description; }
 
-    public void playerTakesItem(player p, item toTake) {
-        if(toTake == null) System.out.println(TAKE_NULL_OBJ_ERR_MSG);
-        else if(toTake instanceof obstacle) System.out.println(TAKE_OBST_ERR_MSG);
+    public boolean playerTakesItem(player p, item toTake) {
+        if(toTake == null) {
+            System.out.println(TAKE_NULL_OBJ_ERR_MSG);
+            return false;
+        }
+        else if(toTake instanceof obstacle) {
+            System.out.println(TAKE_OBST_ERR_MSG);
+            return false;
+        }
         else {
             boolean wasTaken = p.addToInventory(toTake);
             if(wasTaken) {
@@ -58,6 +64,7 @@ class room {
                 }
                 this.itemIsToItem.remove(toTake.getItemIs());   // removes the item from the room's map of
             }
+            return wasTaken;
         }
     }
 
@@ -67,11 +74,17 @@ class room {
 
         do later in separate branch
      */
-    public void playerSwitchesItems(player p, item toLeave, item toTake){
-        if(toTake == null) System.out.println(TAKE_NULL_OBJ_ERR_MSG);
-        else if(toTake instanceof obstacle) System.out.println(TAKE_OBST_ERR_MSG);
+    public boolean playerSwitchesItems(player p, item toLeave, item toTake){
+        if(toTake == null){
+            System.out.println(TAKE_NULL_OBJ_ERR_MSG);
+            return false;
+        }
+        else if(toTake instanceof obstacle) {
+            System.out.println(TAKE_OBST_ERR_MSG);
+            return false;
+        }
         else {
-            p.switchX_With_Y(toLeave, toTake, this); //the player method needs data on the room so it takes it as a parameter
+            return p.switchX_With_Y(toLeave, toTake, this); //the player method needs data on the room so it takes it as a parameter
 
         }
     }

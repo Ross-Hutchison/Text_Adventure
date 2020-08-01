@@ -518,4 +518,9 @@ processing events:
             "in the box is a [itemIs]"
 
             Oops - forgot to add checks to ensure items only added or removed if the taking/ switching actually happens
+            also need to add a limit to how many times an event can occur
             OH POINT TO LOOK BACK TO - I could probably come up with an object based event system as opposed to a text based one
+
+            for only altering desc when taking or switching works made the player and room switch methods boolean
+            and altered them, the room take method, and the game switch statements so that the switch statment
+            knows if the action was successful and alters desc only if it was

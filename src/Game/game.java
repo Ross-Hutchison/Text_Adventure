@@ -77,7 +77,8 @@ public class game {
         if (verbObjMatcher.matches()) event = processVerbObject(input);
         else {
             Matcher itemVerbItemMatcher = itemVerbItemPattern.matcher(input);
-            if (itemVerbItemMatcher.matches()) event = processItemVerbItem(input);
+            if (itemVerbItemMatcher.matches())
+                event = processItemVerbItem(input);
             else {
                 System.out.println(INVALID_COMMAND_ERR_MSG);
             }
@@ -86,25 +87,23 @@ public class game {
     }
 
     private void processEvent(String event) {
-        if(event != null) {
+        if (event != null) {
             String[] parts = event.split("-");
-            if(parts.length == 2) { //valid format is eventType-eventData
+            if (parts.length == 2) { //valid format is eventType-eventData
                 String type = parts[0];
                 String data = parts[1];
 
-                if(type.equals("winGame")) {
+                if (type.equals("winGame")) {
                     gameEnd = true;
                     endMsg = data;
-                }
-                else if(type.equals("addItem")) {
+                } else if (type.equals("addItem")) {
                     String[] dataParts = data.split(",");
                     String desc = currentRoom.getDescription();
                     desc = desc.concat("\nThe " + dataParts[0] + " contains a " + dataParts[1]);
                     currentRoom.setDescription(desc);
                     item box = Jo.hasItemInInventory(dataParts[0]);
                 }
-            }
-            else {
+            } else {
                 System.out.println("invalid event flag");
             }
         }
@@ -166,18 +165,22 @@ public class game {
 
             if (splitterVerb.equals("switchWith")) {
                 item itemObj2;
+                boolean actionSucceeded;
+
                 if (itemChecker.containsKey(items[1]))
                     itemObj2 = itemChecker.get(items[1]);
                 else itemObj2 = Jo.hasItemInInventory(items[1]);
                 if (itemObj2 != null) {
-                    currentRoom.playerSwitchesItems(Jo, itemObj1, itemObj2);    // no event attached - ret null
-                    addItemToDescription(itemObj1);
-                    removeItemFromDescription(itemObj2);
+                    actionSucceeded = currentRoom.playerSwitchesItems(Jo, itemObj1, itemObj2);    // no event attached - ret null
+
+                    if (actionSucceeded) {   //alters the description if two items were switched
+                        addItemToDescription(itemObj1);
+                        removeItemFromDescription(itemObj2);
+                    }
                     return null;
-                }
-                else
-                    if(obstacleChecker.get(items[1]) != null) System.out.println("you can't take that with you \n - you cannot pick up objects");
-                    System.out.println("the " + items[1] + " is not present");
+                } else if (obstacleChecker.get(items[1]) != null)
+                    System.out.println("you can't take that with you \n - you cannot pick up objects");
+                System.out.println("the " + items[1] + " is not present");
 
             } else if (splitterVerb.equals("useOn")) {
                 obstacle obstacleObj;
@@ -188,10 +191,11 @@ public class game {
                 if (obstacleObj != null) {
                     currentRoom.playerUsedItemOnObstacle(Jo, itemObj1, obstacleObj); // no event attached - ret null
                     return null;
-                }
-                else {
-                    if(itemChecker.get(items[1]) != null || Jo.hasItemInInventory(items[1]) != null) System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);
-                    else System.out.println("the " + items[1] + " is not present");
+                } else {
+                    if (itemChecker.get(items[1]) != null || Jo.hasItemInInventory(items[1]) != null)
+                        System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);
+                    else
+                        System.out.println("the " + items[1] + " is not present");
                     return null;
                 }
             }
@@ -224,14 +228,16 @@ public class game {
         HashMap<String, obstacle> obstacleChecker = currentRoom.getItemIsToObstacle();
 
         if (itemChecker.containsKey(item)) itemObj = itemChecker.get(item);
-        else if(obstacleChecker.containsKey(item)) itemObj = obstacleChecker.get(item);
+        else if (obstacleChecker.containsKey(item))
+            itemObj = obstacleChecker.get(item);
         else itemObj = Jo.hasItemInInventory(item);
 
         if (itemObj != null) {   // if the item was found in the room or player's inventory
             switch (verb) {
                 case "take":
-                    currentRoom.playerTakesItem(Jo, itemObj);   // no game event currently attached - ret null
-                    removeItemFromDescription(itemObj);
+                    boolean actionSucceeded;
+                    actionSucceeded = currentRoom.playerTakesItem(Jo, itemObj);   // no game event currently attached - ret null
+                    if(actionSucceeded) removeItemFromDescription(itemObj); // alters description only if the take is successful
                     return null;
                 case "touch":
                     return currentRoom.playerTouchedItem(Jo, itemObj);

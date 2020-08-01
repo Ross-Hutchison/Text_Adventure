@@ -40,7 +40,7 @@ public class player {
         is present in it. if both these checks match check if the Interaction.item can be reached
         if all checks pass then switch the inventory and room items
      */
-    public void switchX_With_Y(item toLeave, item toTake, room whereToLeave) {
+    public boolean switchX_With_Y(item toLeave, item toTake, room whereToLeave) {
         boolean has_X = false;
         boolean Y_present = false;
         int inventoryIndex = 0;
@@ -85,11 +85,13 @@ public class player {
                     whereToLeave.getItemIsToItem().put(toLeave.getItemIs(), toLeave);
 
                     System.out.println("switched the " + toLeave.getItemIs() + " with  the " + toTake.getItemIs());
+                    return true;
                 }
                 else {
                     System.out.println("Cannot reach the " + toTake.getItemIs() + ", it is blocked by " + blockage.getItemIs());
                 }
             }
         }
+        return false;
     }
 }
