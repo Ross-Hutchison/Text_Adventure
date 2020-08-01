@@ -87,37 +87,55 @@ public class game {
     }
 
     private void processEvent(String event) {
-        System.out.println(event);
         if (event != null) {
             String[] parts = event.split("-");
             if (parts.length == 5) { //valid format is eventType-itemCausingIt-additionalInformation-interactionType-usesLeft
                 String type = parts[0];
                 String cause = parts[1];
-                String addInfo = parts[2];
+                String additionalInfo = parts[2];
                 String interactionType = parts[3];
                 String usesLeft = parts[4];
 
                 switch (type) {
                     case "winGame":
                         gameEnd = true;
-                        endMsg = addInfo;
+                        endMsg = additionalInfo;
                         break;
                     case "revealItem":
                         String desc = currentRoom.getDescription();
-                        desc = desc.concat("\nThe " + cause + " revealed " + addInfo);
+                        desc = desc.concat("\nThe " + cause + " revealed " + additionalInfo);
                         currentRoom.setDescription(desc);
                         break;
+                    case "outputMessage":
+                        System.out.println(additionalInfo);
+                        break;
+                    case "usedUp":
+                        switch (interactionType) {  // there are different ways an item can be used up
+                            case "touchResult":
+                                System.out.println("poking the " + cause + "no longer does anything");
+                                break;
+                            case "tasteResult":
+                                System.out.println("you've finished the " + cause + " there is nothing left to eat");
+                                break;
+                            case "useResult":
+                                System.out.println("the " + cause + " has ceased to function");
+                                break;
+                            default:
+                                System.out.println("event- " + event + "\n Has an invalid interactionType");
+
+                        }
+                        return; // if the event is used up no need to process further
                     default:
-                        System.out.println("invalid event flag type");
+                        System.out.println("invalid event flag type:\n" + event);
                         break;
                 }
 
                 item toAlter;
                 HashMap<String, item> items = currentRoom.getItemIsToItem();
                 toAlter = items.get(cause);
-                if(toAlter == null) toAlter = Jo.hasItemInInventory(cause);
+                if (toAlter == null) toAlter = Jo.hasItemInInventory(cause);
 
-                if(toAlter == null) {
+                if (toAlter == null) {
                     System.out.println("something went horribly wrong with reducing the uses for event:\n" + event);
                     return;
                 }
@@ -126,28 +144,31 @@ public class game {
                 remainingUses--;
                 usesLeft = Integer.toString(remainingUses);
 
-                if (usesLeft.equals("0")) {  // if there are no uses left removes the event flag
+                String usedUpFlag = "usedUp-" + cause + "-" + additionalInfo + "-" + interactionType + "-" + usesLeft;   // the event is out of uses
+                String eventFlag = type + "-" + cause + "-" + additionalInfo + "-" + interactionType + "-" + usesLeft;  // there are still uses
+
+                if (usesLeft.equals("0")) {
                     switch (interactionType) {
                         case "touchResult":
-                            toAlter.setTouchResult(null);
+                            toAlter.setTouchResult(usedUpFlag);
                             break;
                         case "tasteResult":
-                            toAlter.setTasteResult(null);
+                            toAlter.setTasteResult(usedUpFlag);
                             break;
                         case "useResult":
-                            toAlter.setUseResult(null);
+                            toAlter.setUseResult(usedUpFlag);
                             break;
                     }
                 } else {  // adds the decreased count by resetting the message
                     switch (interactionType) {
                         case "touchResult":
-                            items.get(cause).setTouchResult(type + "-" + cause + "-" + addInfo + "-" + interactionType + "-" + usesLeft);
+                            toAlter.setTouchResult(eventFlag);
                             break;
                         case "tasteResult":
-                            items.get(cause).setTasteResult(type + "-" + cause + "-" + addInfo + "-" + interactionType + "-" + usesLeft);
+                            toAlter.setTasteResult(eventFlag);
                             break;
                         case "useResult":
-                            items.get(cause).setUseResult(type + "-" + cause + "-" + addInfo + "-" + interactionType + "-" + usesLeft);
+                            toAlter.setUseResult(eventFlag);
                             break;
                     }
                 }

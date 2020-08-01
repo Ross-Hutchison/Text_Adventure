@@ -27,11 +27,11 @@ public class interactionFactory {
                 "\"eat me\" its eyes seem to say, something is strangely disturbing about it";
 
         String feelsLike = "the wrapper crinkles under you hand, you can feel 6 rows of 3 squares, 18 delicious bites";   // maybe give a count for pieces left at some point - can be eaten one by one
-        String tastesLike = "despite the unease from how much the mascot wanted to be eaten, the chocolate is very delicious";
+        String tastesLike = "despite the unease from how much the mascot wanted to be eaten, you go to bite the chocolate";
         String usedAlone = "you contemplate the marketing choice behind the mascot. You don't come up with any answers";
         String useResult = null;
         String touchResult = null;
-        String tasteResult = null;
+        String tasteResult = "outputMessage-" + itemIs + "-The sweetness is overwhelming, the bar must be 90% sugar-tasteResult-1";
 
         item chocolate = new item(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
         return chocolate;

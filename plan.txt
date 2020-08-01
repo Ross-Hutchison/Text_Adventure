@@ -554,3 +554,12 @@ processing events:
     will be obstacles hashmap if its an obstacle in which case could be any interaction as the cause
 
     obstacles not included yet but limits seem to work
+
+    issue with limits - when it becomes null the event is ignored
+    this means that the user is not informed of the effect
+
+    instead of setting to null can leave null as the result of no event flag existing
+    and set used up flags to have the keyword usedUp
+    and set a handler for used up that informs the user
+
+

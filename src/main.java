@@ -26,6 +26,6 @@ public class main {
 
             }
         }
-        System.out.println(control.getEndMsg());
+        System.out.println("\n--------------------\n" + control.getEndMsg() + "\n--------------------");
     }
 }
