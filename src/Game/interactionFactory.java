@@ -45,7 +45,7 @@ public class interactionFactory {
         String feelsLike = "the wood is smooth, it's a very nicely crafted box";
         String tastesLike = "the box does not taste as good as it looks";
         String usedAlone = "you lift the lid of the box and look inside";
-        String useResult = "addItem-" + itemIs + "," + inside.getItemIs();
+        String useResult = "revealItem-" + itemIs + "-" + inside.getItemIs() + "-" + "useResult-1"; // can happen once
         String touchResult = null;
         String tasteResult = null;
 
@@ -71,7 +71,7 @@ public class interactionFactory {
         String alreadyResolvedMsg = "the door is already unlocked prodding it more probably won't achieve much";
         String usedWithoutSolveMsg = "you push at the door, it doesn't budge. It must be locked";
 
-        String useResult = "winGame-Congratulations you left the room!!!: you have won the game";
+        String useResult = "winGame-" + itemIs + "-Congratulations you left the room!!!: you have won the game-" + "useResult-1"; //can only win once
         String touchResult = null;
         String tasteResult = null;
         String useNonResolvedResult = null;

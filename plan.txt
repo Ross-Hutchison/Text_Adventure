@@ -537,3 +537,20 @@ processing events:
     useLimitData - csv separation, contains the type of interaction the flag triggered and the number of times it can happen
                         this is decreased unless it is noLim which means it can happen infinitely (implement later no need rn mostly for obstacles)
                         if this number hits 0 need to set the item's result Str for that interaction to null
+
+    Instead of splitting the useLimData just make it two parts
+
+    format:
+            eventType-itemInteractedWith-additionalData-interactionType-usesLeft
+
+    Resetting the item's value to null will require it's own method maybe?
+    No could just put it after the switch statement;
+
+    will need to account for using obstacles to cause events
+    and items in the inventory
+
+    could be in the items HashMap for the room if touch is the cause
+    will be in inventory if use or taste are the cause
+    will be obstacles hashmap if its an obstacle in which case could be any interaction as the cause
+
+    obstacles not included yet but limits seem to work

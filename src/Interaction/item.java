@@ -27,6 +27,10 @@ public class item {
 
     public void setUseResult(String useResult) { this.useResult = useResult; }
 
+    public void setTouchResult(String touchResult) { this.touchResult = touchResult; }
+
+    public void setTasteResult(String tasteResult) { this.tasteResult = tasteResult; }
+
     public void lookAt() {
         System.out.println(this.description);
     }

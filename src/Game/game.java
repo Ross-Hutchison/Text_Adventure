@@ -87,24 +87,72 @@ public class game {
     }
 
     private void processEvent(String event) {
+        System.out.println(event);
         if (event != null) {
             String[] parts = event.split("-");
-            if (parts.length == 2) { //valid format is eventType-eventData
+            if (parts.length == 5) { //valid format is eventType-itemCausingIt-additionalInformation-interactionType-usesLeft
                 String type = parts[0];
-                String data = parts[1];
+                String cause = parts[1];
+                String addInfo = parts[2];
+                String interactionType = parts[3];
+                String usesLeft = parts[4];
 
-                if (type.equals("winGame")) {
-                    gameEnd = true;
-                    endMsg = data;
-                } else if (type.equals("addItem")) {
-                    String[] dataParts = data.split(",");
-                    String desc = currentRoom.getDescription();
-                    desc = desc.concat("\nThe " + dataParts[0] + " contains a " + dataParts[1]);
-                    currentRoom.setDescription(desc);
-                    item box = Jo.hasItemInInventory(dataParts[0]);
+                switch (type) {
+                    case "winGame":
+                        gameEnd = true;
+                        endMsg = addInfo;
+                        break;
+                    case "revealItem":
+                        String desc = currentRoom.getDescription();
+                        desc = desc.concat("\nThe " + cause + " revealed " + addInfo);
+                        currentRoom.setDescription(desc);
+                        break;
+                    default:
+                        System.out.println("invalid event flag type");
+                        break;
+                }
+
+                item toAlter;
+                HashMap<String, item> items = currentRoom.getItemIsToItem();
+                toAlter = items.get(cause);
+                if(toAlter == null) toAlter = Jo.hasItemInInventory(cause);
+
+                if(toAlter == null) {
+                    System.out.println("something went horribly wrong with reducing the uses for event:\n" + event);
+                    return;
+                }
+
+                int remainingUses = Integer.parseInt(usesLeft); // decreases uses left and reconverts it to a String
+                remainingUses--;
+                usesLeft = Integer.toString(remainingUses);
+
+                if (usesLeft.equals("0")) {  // if there are no uses left removes the event flag
+                    switch (interactionType) {
+                        case "touchResult":
+                            toAlter.setTouchResult(null);
+                            break;
+                        case "tasteResult":
+                            toAlter.setTasteResult(null);
+                            break;
+                        case "useResult":
+                            toAlter.setUseResult(null);
+                            break;
+                    }
+                } else {  // adds the decreased count by resetting the message
+                    switch (interactionType) {
+                        case "touchResult":
+                            items.get(cause).setTouchResult(type + "-" + cause + "-" + addInfo + "-" + interactionType + "-" + usesLeft);
+                            break;
+                        case "tasteResult":
+                            items.get(cause).setTasteResult(type + "-" + cause + "-" + addInfo + "-" + interactionType + "-" + usesLeft);
+                            break;
+                        case "useResult":
+                            items.get(cause).setUseResult(type + "-" + cause + "-" + addInfo + "-" + interactionType + "-" + usesLeft);
+                            break;
+                    }
                 }
             } else {
-                System.out.println("invalid event flag");
+                System.out.println("invalid event flag format");
             }
         }
     }
@@ -237,7 +285,8 @@ public class game {
                 case "take":
                     boolean actionSucceeded;
                     actionSucceeded = currentRoom.playerTakesItem(Jo, itemObj);   // no game event currently attached - ret null
-                    if(actionSucceeded) removeItemFromDescription(itemObj); // alters description only if the take is successful
+                    if (actionSucceeded)
+                        removeItemFromDescription(itemObj); // alters description only if the take is successful
                     return null;
                 case "touch":
                     return currentRoom.playerTouchedItem(Jo, itemObj);
