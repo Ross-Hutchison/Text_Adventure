@@ -562,4 +562,7 @@ processing events:
     and set used up flags to have the keyword usedUp
     and set a handler for used up that informs the user
 
+    I think that this was the last of the basic operations - I'll try setting up a new room
+    
+
 
