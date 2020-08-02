@@ -243,8 +243,8 @@ public class game {
                     actionSucceeded = currentRoom.playerSwitchesItems(Jo, itemObj1, itemObj2);    // no event attached - ret null
 
                     if (actionSucceeded) {   //alters the description if two items were switched
-                        addItemToDescription(itemObj1);
-                        removeItemFromDescription(itemObj2);
+                        currentRoom.addItemToDescription(itemObj1);
+                        currentRoom.removeItemFromDescription(itemObj2);
                     }
                     return null;
                 } else if (obstacleChecker.get(items[1]) != null)
@@ -307,7 +307,7 @@ public class game {
                     boolean actionSucceeded;
                     actionSucceeded = currentRoom.playerTakesItem(Jo, itemObj);   // no game event currently attached - ret null
                     if (actionSucceeded)
-                        removeItemFromDescription(itemObj); // alters description only if the take is successful
+                        currentRoom.removeItemFromDescription(itemObj); // alters description only if the take is successful
                     return null;
                 case "touch":
                     return currentRoom.playerTouchedItem(Jo, itemObj);
@@ -338,16 +338,6 @@ public class game {
             if (modifiedItem.contains(" " + verb)) return true;
         }
         return false;
-    }
-
-    private void removeItemFromDescription(item toRemove) {
-        String desc = currentRoom.getDescription().replaceFirst(toRemove.getItemIs(), "an empty space");
-        currentRoom.setDescription(desc);
-    }
-
-    private void addItemToDescription(item toAdd) {
-        String desc = currentRoom.getDescription().replaceFirst("an empty space", toAdd.getItemIs());
-        currentRoom.setDescription(desc);
     }
 
     public boolean getGameEnd() {

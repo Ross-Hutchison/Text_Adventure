@@ -128,4 +128,12 @@ class room {
         else System.out.println("you reach for your " + used.getItemIs() + " but realise you don't have one : (");
     }
 
+    public void removeItemFromDescription(item toRemove) {
+        this.description = this.description.replaceFirst(toRemove.getItemIs(), "an empty space");
+    }
+
+    public void addItemToDescription(item toAdd) {
+        this.description = this.description.replaceFirst("an empty space", toAdd.getItemIs());
+    }
+
 }

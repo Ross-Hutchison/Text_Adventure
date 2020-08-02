@@ -585,3 +585,29 @@ processing events:
 
      might be an idea to improve the item&obstacle System
 
+     so some things aren't obstacles like paths however they can't be picked up
+     also having a method that creates a generic object in a very specific way
+     could maybe categorise items a bit better
+
+     each of those could be a class and could have a factory for specific types of items
+
+     types of items:
+        obstacles   - doors, stream, vines
+        tools   - key, chocolate, axe,
+        interaction  - paths, buttons etc. essentially things you can interact with but not take - not obstacles though don't need to be resolved
+
+        now another issue with the system is how every key is made the same way and every chocolate bar and wooden door etc.
+        this isn't too big a deal but it might be better to have more general types that take in parameters
+        like all keys follow the same vague description and usage etc but take in itemIs and other less unanimous details as parameters
+
+        these would allow more variety in items and more organisation of items
+
+        however rooms are still very set in stone
+        no real way of making the rooms special just different items, though I can fix that later I suppose
+
+        an idea could be to have classes of room - like threeSwitchesRoom which
+        is just a room that also happens to have three boolean variables
+        I'd have to give rooms some identifier since some events would only work with certain rooms
+
+        so
+
