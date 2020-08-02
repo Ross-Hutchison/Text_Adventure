@@ -563,6 +563,25 @@ processing events:
     and set a handler for used up that informs the user
 
     I think that this was the last of the basic operations - I'll try setting up a new room
-    
 
+    The door in room one can open up into a clearing
+
+    clearing contains:
+        a stream
+        a tree
+        a bunch of vines
+        two blocked paths
+        an axe
+
+     The stream blocks one path and the vines block the other
+     the vines can be hacked away with the axe
+     the tree can be cut down with the axe - this produces material to create a bridge over the river, either the tree or some wood
+     the axe is laying by the tree
+
+     what should a path be? an obstacle that's already resolved? can an obstacle be blocked by an obstacle?
+     should I use a separate object for the blocked path? or use a standard path?
+     standard path I think, and since obstacle extends item should be able to block
+     obstacles with obstacles
+
+     might be an idea to improve the item&obstacle System
 
