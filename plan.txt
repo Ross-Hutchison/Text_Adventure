@@ -611,3 +611,18 @@ processing events:
 
         so
 
+        First step is to add the new item classes
+
+        this will require changes to useWith and take where instead of item it takes tool
+        as well as the interactionFactory - which should be split into tool, obstacle and interaction
+
+        should also set up a new package for factories
+
+        also made item abstract since generic items shouldn't exist any methods that take item can just accept any type
+
+        right now tool and interaction are identical and the ony difference will be when they're used
+
+        what values does an item that can't be picked up not need - seems to need them all
+
+        but does tool need anything that would make it different - not really no
+        could instead of two separate classes have a boolean variable called isTool and change name from item to interactive or something
