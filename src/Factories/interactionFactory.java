@@ -1,4 +1,4 @@
-package Game;
+package Factories;
 
 import Interaction.item;
 import Interaction.obstacle;

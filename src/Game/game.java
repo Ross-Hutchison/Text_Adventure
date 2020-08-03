@@ -1,5 +1,6 @@
 package Game;
 
+import Factories.roomFactory;
 import Rooms.*;
 import Interaction.item;
 import Interaction.obstacle;
