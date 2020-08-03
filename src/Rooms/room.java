@@ -3,24 +3,25 @@ package Rooms;
 import Interaction.interactive;
 import Interaction.obstacle;
 import Game.player;
+
 import java.util.HashMap;
 
 public
 class room {
-     String description; // a brief description o the current room
-     interactive[] interactives;   // an array of the items in the current room - if later allow dropping may need to make a list but for now number of items per room is fixed
-     obstacle[] obstacles;   // an array of all obstacles in the current room
-     HashMap<interactive, obstacle> blockedBy;    // a map that shows what Interaction.obstacle blocks each Interaction.item (if any) - so the program knows if the user can approach them
-     HashMap<String, interactive> itemIsToItem;
-     HashMap<String, obstacle> itemIsToObstacle;
-    final String TAKE_OBST_ERR_MSG = "Taking that might be a bit ambitious \n - you cannot pick up obstacles";
+    String description; // a brief description o the current room
+    interactive[] interactives;   // an array of the items in the current room - if later allow dropping may need to make a list but for now number of items per room is fixed
+    obstacle[] obstacles;   // an array of all obstacles in the current room
+    HashMap<interactive, obstacle> blockedBy;    // a map that shows what Interaction.obstacle blocks each Interaction.item (if any) - so the program knows if the user can approach them
+    HashMap<String, interactive> itemIsToItem;
+    HashMap<String, obstacle> itemIsToObstacle;
+    final String ITEM_IS_STATIONARY_ERR_MSG = "Taking that might be a bit ambitious \n - you cannot pick up this object";
     final String TAKE_NULL_OBJ_ERR_MSG = "That object doesn't seem to exist \n - you may have done something VERY wrong, or it's a glitch";
     final String USED_OBST_WITH_OBST_ERR_MSG = "Maybe combining two obstacles isn't the way to clear the path \n - use items with obstacles not other obstacles";
     final String USED_ITEM_WITH_ITEM_ERR_MSG = "nothing happens \n - use items on obstacles not on other items";
     int originalItemCount;
 
     public room(String description, interactive[] interactives, obstacle[] obstacles, HashMap<interactive, obstacle> blockedBy, HashMap<String, interactive> itemIsToItem,
-                HashMap<String, obstacle> itemIsToObstacle, int originalItemCount){
+                HashMap<String, obstacle> itemIsToObstacle, int originalItemCount) {
         this.description = description;
         this.interactives = interactives;
         this.obstacles = obstacles;
@@ -34,39 +35,52 @@ class room {
         return interactives;
     }
 
-    public String getDescription() {return description;}
+    public String getDescription() {
+        return description;
+    }
 
     public HashMap<interactive, obstacle> getBlockedBy() {
         return blockedBy;
     }
 
-    public HashMap<String, interactive> getItemIsToItem() { return itemIsToItem;}
+    public HashMap<String, interactive> getItemIsToItem() {
+        return itemIsToItem;
+    }
 
-    public HashMap<String, obstacle> getItemIsToObstacle() { return itemIsToObstacle; }
+    public HashMap<String, obstacle> getItemIsToObstacle() {
+        return itemIsToObstacle;
+    }
 
-    public int getOriginalItemCount() { return originalItemCount; }
+    public int getOriginalItemCount() {
+        return originalItemCount;
+    }
 
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public boolean playerTakesItem(player p, interactive toTake) {
-        if(toTake == null) {
+        if (toTake == null) {
             System.out.println(TAKE_NULL_OBJ_ERR_MSG);
             return false;
-        }
-        else if(toTake instanceof obstacle) {
-            System.out.println(TAKE_OBST_ERR_MSG);
+        } else if (!toTake.getCanTake()) { // if item is not able to be taken
+            System.out.println(ITEM_IS_STATIONARY_ERR_MSG);
             return false;
         }
-        else {
+        obstacle blockage = this.getBlockedBy().get(toTake);
+        if (blockage == null || blockage.getSolved()) {  // if item is unblocked
             boolean wasTaken = p.addToInventory(toTake);
-            if(wasTaken) {
+            if (wasTaken) {
                 for (int i = 0; i < this.interactives.length; i++) {
-                    if(this.interactives[i] == toTake) this.interactives[i] = null;
+                    if (this.interactives[i] == toTake)
+                        this.interactives[i] = null;
                 }
                 this.itemIsToItem.remove(toTake.getItemIs());   // removes the item from the room's map of
             }
             return wasTaken;
-        }
+        } else
+            System.out.println("you try to take the " + toTake.getItemIs() + " but the " + blockage.getDescription() + "blocks it");
+        return false;
     }
 
     /*
@@ -75,18 +89,26 @@ class room {
 
         do later in separate branch
      */
-    public boolean playerSwitchesItems(player p, interactive toLeave, interactive toTake){
-        if(toTake == null){
+    public boolean playerSwitchesItems(player p, interactive toLeave, interactive toTake) {
+        if (toTake == null) {
             System.out.println(TAKE_NULL_OBJ_ERR_MSG);
             return false;
-        }
-        else if(toTake instanceof obstacle) {
-            System.out.println(TAKE_OBST_ERR_MSG);
+        } else if (!toTake.getCanTake()) {
+            System.out.println(ITEM_IS_STATIONARY_ERR_MSG);
             return false;
         }
-        else {
-            return p.switchX_With_Y(toLeave, toTake, this); //the player method needs data on the room so it takes it as a parameter
+        obstacle blockage = this.getBlockedBy().get(toTake);
+        boolean isNotBlocked = (blockage == null || blockage.getSolved());
+        boolean hasInInventory = (p.hasItemInInventory(toLeave.getItemIs()) != null);
 
+        if (isNotBlocked && hasInInventory) {
+            return p.switchX_With_Y(toLeave, toTake, this); //the player method needs data on the room so it takes it as a parameter
+        } else if (!isNotBlocked) {
+            System.out.println("you go to take the " + toTake + "but the " + blockage.getItemIs() + "stops you");
+            return false;
+        } else{
+            System.out.println("you go to leave the " + toLeave + " but you realise you don't actually have it");
+            return false;
         }
     }
 
@@ -96,7 +118,7 @@ class room {
 
     public String playerTouchedItem(player p, interactive touched) {
         obstacle blockage = blockedBy.get(touched);
-        if(blockage == null || blockage.getSolved()) return touched.touch();
+        if (blockage == null || blockage.getSolved()) return touched.touch();
         else {
             System.out.println("you go to touch the " + touched.getItemIs() + "but find yourself stopped by a " + blockage.getItemIs());
             return null;
@@ -104,8 +126,9 @@ class room {
     }
 
     public String playerTastedItem(player p, interactive licked) {
-        if(licked instanceof  obstacle)  return licked.taste();
-        else if(p.hasItemInInventory(licked.getItemIs()) != null) return licked.taste();
+        if (licked instanceof obstacle) return licked.taste();
+        else if (p.hasItemInInventory(licked.getItemIs()) != null)
+            return licked.taste();
         else {
             System.out.println("If you're going to taste something at least be dignified and pick it up first");
             return null;
@@ -113,8 +136,9 @@ class room {
     }
 
     public String playerUsedItem(player p, interactive used) {
-        if(used instanceof obstacle) return used.use();
-        else if(p.hasItemInInventory(used.getItemIs()) != null) return used.use();
+        if (used instanceof obstacle) return used.use();
+        else if (p.hasItemInInventory(used.getItemIs()) != null)
+            return used.use();
         else {
             System.out.println("you suddenly remember that in order to use something you normally have to have it with you");
             return null;
@@ -123,10 +147,14 @@ class room {
 
     public void playerUsedItemOnObstacle(player p, interactive used, obstacle usedOn) { //obstacles currently can't be blocked
         System.out.println(usedOn);
-        if(used instanceof obstacle) System.out.println(USED_OBST_WITH_OBST_ERR_MSG);
-        else if(itemIsToItem.get(usedOn.getItemIs()) != null) System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);
-        else if(p.hasItemInInventory(used.getItemIs()) != null) used.useOn(usedOn);
-        else System.out.println("you reach for your " + used.getItemIs() + " but realise you don't have one : (");
+        if (used instanceof obstacle)
+            System.out.println(USED_OBST_WITH_OBST_ERR_MSG);
+        else if (itemIsToItem.get(usedOn.getItemIs()) != null)
+            System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);
+        else if (p.hasItemInInventory(used.getItemIs()) != null)
+            used.useOn(usedOn);
+        else
+            System.out.println("you reach for your " + used.getItemIs() + " but realise you don't have one : (");
     }
 
     public void removeItemFromDescription(interactive toRemove) {

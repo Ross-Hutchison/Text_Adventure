@@ -626,3 +626,18 @@ processing events:
 
         but does tool need anything that would make it different - not really no
         could instead of two separate classes have a boolean variable called isTool and change name from item to interactive or something
+
+        now that this is implemented need to alter the take check to have it look for that boolean and not the class obstacle
+
+        also speaking of Room I'll want to give room a method for each event that specifically alters a room
+
+        and player a method for any event that specifically alters the player - not implemented atm
+
+        had forgotten to prevent players taking blocked items
+
+        think there might be too many checks in game.java when deciding what methods to do - may need to remove some
+        if they're now in room wrapper methods where they should be
+
+        added the checks in take and switch room wrappers
+
+        now need to remove them from game.java to simplify it

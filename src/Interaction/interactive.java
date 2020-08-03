@@ -1,14 +1,14 @@
 package Interaction;
 
 public class interactive {
-     String itemIs;
-     String description;
-     String feelsLike;
-     String tastesLike;
-     String usedAlone;
-     String touchResult;
-     String tasteResult;
-     String useResult;
+    String itemIs;
+    String description;
+    String feelsLike;
+    String tastesLike;
+    String usedAlone;
+    String touchResult;
+    String tasteResult;
+    String useResult;
     boolean canTake;
 
     public interactive(String itemIs, String description, String feelsLike, String tastesLike, String usedAlone, String touchResult,
@@ -28,11 +28,49 @@ public class interactive {
         return this.itemIs;
     }
 
-    public void setUseResult(String useResult) { this.useResult = useResult; }
+    public String getDescription() {
+        return description;
+    }
 
-    public void setTouchResult(String touchResult) { this.touchResult = touchResult; }
+    public String getFeelsLike() {
+        return feelsLike;
+    }
 
-    public void setTasteResult(String tasteResult) { this.tasteResult = tasteResult; }
+    public String getTasteResult() {
+        return tasteResult;
+    }
+
+    public String getTastesLike() {
+        return tastesLike;
+    }
+
+    public String getTouchResult() {
+        return touchResult;
+    }
+
+    public String getUsedAlone() {
+        return usedAlone;
+    }
+
+    public String getUseResult() {
+        return useResult;
+    }
+
+    public boolean getCanTake() {
+        return canTake;
+    }
+
+    public void setUseResult(String useResult) {
+        this.useResult = useResult;
+    }
+
+    public void setTouchResult(String touchResult) {
+        this.touchResult = touchResult;
+    }
+
+    public void setTasteResult(String tasteResult) {
+        this.tasteResult = tasteResult;
+    }
 
     public void lookAt() {
         System.out.println(this.description);
@@ -48,12 +86,12 @@ public class interactive {
         return this.tasteResult;
     }
 
-    public String use(){
+    public String use() {
         System.out.println(this.usedAlone);
         return this.useResult;
     }
 
-    public void useOn(obstacle useOn){
+    public void useOn(obstacle useOn) {
         useOn.resolve(this);
     }
 }
