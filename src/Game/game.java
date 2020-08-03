@@ -2,7 +2,7 @@ package Game;
 
 import Factories.roomFactory;
 import Rooms.*;
-import Interaction.item;
+import Interaction.interactive;
 import Interaction.obstacle;
 
 import java.util.HashMap;
@@ -131,8 +131,8 @@ public class game {
                         break;
                 }
 
-                item toAlter;
-                HashMap<String, item> items = currentRoom.getItemIsToItem();
+                interactive toAlter;
+                HashMap<String, interactive> items = currentRoom.getItemIsToItem();
                 toAlter = items.get(cause);
                 if (toAlter == null) toAlter = Jo.hasItemInInventory(cause);
 
@@ -221,31 +221,31 @@ public class game {
             }
         }
 
-        HashMap<String, item> itemChecker = currentRoom.getItemIsToItem();
+        HashMap<String, interactive> itemChecker = currentRoom.getItemIsToItem();
         HashMap<String, obstacle> obstacleChecker = currentRoom.getItemIsToObstacle();
 
-        item itemObj1;
+        interactive interactiveObj1;
 
         if (itemChecker.containsKey(items[0]))
-            itemObj1 = itemChecker.get(items[0]);
-        else itemObj1 = Jo.hasItemInInventory(items[0]);
+            interactiveObj1 = itemChecker.get(items[0]);
+        else interactiveObj1 = Jo.hasItemInInventory(items[0]);
 
-        if (itemObj1 != null) {
+        if (interactiveObj1 != null) {
             splitterVerb = splitterVerb.strip();
 
             if (splitterVerb.equals("switchWith")) {
-                item itemObj2;
+                interactive interactiveObj2;
                 boolean actionSucceeded;
 
                 if (itemChecker.containsKey(items[1]))
-                    itemObj2 = itemChecker.get(items[1]);
-                else itemObj2 = Jo.hasItemInInventory(items[1]);
-                if (itemObj2 != null) {
-                    actionSucceeded = currentRoom.playerSwitchesItems(Jo, itemObj1, itemObj2);    // no event attached - ret null
+                    interactiveObj2 = itemChecker.get(items[1]);
+                else interactiveObj2 = Jo.hasItemInInventory(items[1]);
+                if (interactiveObj2 != null) {
+                    actionSucceeded = currentRoom.playerSwitchesItems(Jo, interactiveObj1, interactiveObj2);    // no event attached - ret null
 
                     if (actionSucceeded) {   //alters the description if two items were switched
-                        currentRoom.addItemToDescription(itemObj1);
-                        currentRoom.removeItemFromDescription(itemObj2);
+                        currentRoom.addItemToDescription(interactiveObj1);
+                        currentRoom.removeItemFromDescription(interactiveObj2);
                     }
                     return null;
                 } else if (obstacleChecker.get(items[1]) != null)
@@ -259,7 +259,7 @@ public class game {
                 else obstacleObj = null;
 
                 if (obstacleObj != null) {
-                    currentRoom.playerUsedItemOnObstacle(Jo, itemObj1, obstacleObj); // no event attached - ret null
+                    currentRoom.playerUsedItemOnObstacle(Jo, interactiveObj1, obstacleObj); // no event attached - ret null
                     return null;
                 } else {
                     if (itemChecker.get(items[1]) != null || Jo.hasItemInInventory(items[1]) != null)
@@ -292,33 +292,33 @@ public class game {
             return null;
         }
 
-        item itemObj;
+        interactive interactiveObj;
 
-        HashMap<String, item> itemChecker = currentRoom.getItemIsToItem();
+        HashMap<String, interactive> itemChecker = currentRoom.getItemIsToItem();
         HashMap<String, obstacle> obstacleChecker = currentRoom.getItemIsToObstacle();
 
-        if (itemChecker.containsKey(item)) itemObj = itemChecker.get(item);
+        if (itemChecker.containsKey(item)) interactiveObj = itemChecker.get(item);
         else if (obstacleChecker.containsKey(item))
-            itemObj = obstacleChecker.get(item);
-        else itemObj = Jo.hasItemInInventory(item);
+            interactiveObj = obstacleChecker.get(item);
+        else interactiveObj = Jo.hasItemInInventory(item);
 
-        if (itemObj != null) {   // if the item was found in the room or player's inventory
+        if (interactiveObj != null) {   // if the item was found in the room or player's inventory
             switch (verb) {
                 case "take":
                     boolean actionSucceeded;
-                    actionSucceeded = currentRoom.playerTakesItem(Jo, itemObj);   // no game event currently attached - ret null
+                    actionSucceeded = currentRoom.playerTakesItem(Jo, interactiveObj);   // no game event currently attached - ret null
                     if (actionSucceeded)
-                        currentRoom.removeItemFromDescription(itemObj); // alters description only if the take is successful
+                        currentRoom.removeItemFromDescription(interactiveObj); // alters description only if the take is successful
                     return null;
                 case "touch":
-                    return currentRoom.playerTouchedItem(Jo, itemObj);
+                    return currentRoom.playerTouchedItem(Jo, interactiveObj);
                 case "lookAt":
-                    currentRoom.playerLooksAtItem(Jo, itemObj); // no game event currently attached - ret null
+                    currentRoom.playerLooksAtItem(Jo, interactiveObj); // no game event currently attached - ret null
                     return null;
                 case "use":
-                    return currentRoom.playerUsedItem(Jo, itemObj);
+                    return currentRoom.playerUsedItem(Jo, interactiveObj);
                 case "taste":
-                    return currentRoom.playerTastedItem(Jo, itemObj);
+                    return currentRoom.playerTastedItem(Jo, interactiveObj);
             }
         } else
             System.out.println("you turn your attention to the " + item + "\n" +

@@ -1,12 +1,12 @@
 package Factories;
 
-import Interaction.item;
+import Interaction.interactive;
 import Interaction.obstacle;
 import Rooms.room;
 
 public class interactionFactory {
 
-    public item createKey() {
+    public interactive createKey() {
 
         String itemIs = "\"large key\"";
         String description = "a heavy brass key of unusual size, the bow of which is a large ring about the size of your hand";
@@ -17,11 +17,11 @@ public class interactionFactory {
         String touchResult = null;
         String tasteResult = null;
 
-        item key = new item(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
+        interactive key = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
         return key;
     }
 
-    public item createChocolate() {
+    public interactive createChocolate() {
         String itemIs = "\"chocolate bar\"";
         String description = "a bar of Schokolade brand chocolate, a cartoon chocolate bar smiles on the wrapper, " +
                 "\"eat me\" its eyes seem to say, something is strangely disturbing about it";
@@ -33,11 +33,11 @@ public class interactionFactory {
         String touchResult = null;
         String tasteResult = "outputMessage-" + itemIs + "-The sweetness is overwhelming, the bar must be 90% sugar-tasteResult-1";
 
-        item chocolate = new item(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
+        interactive chocolate = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
         return chocolate;
     }
 
-    public item createBox(item inside) {
+    public interactive createBox(interactive inside) {
         String itemIs = "\"wooden box\"";
         String description = "a small wooden box, it's lid seems to slot in place\n" +
                 "The lid is not aligned properly and so rests on top of the box half open.";
@@ -49,14 +49,14 @@ public class interactionFactory {
         String touchResult = null;
         String tasteResult = null;
 
-        item box = new item(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
+        interactive box = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
         return box;
     }
 
-    public obstacle createWoodenDoor(room to, item solution) {
+    public obstacle createWoodenDoor(room to, interactive solution) {
 
         room leadsTo = to;
-        item solvedBy = solution;
+        interactive solvedBy = solution;
         boolean solved = false;
         String itemIs = "\"wooden door\"";
         String description = "A large brown wooden door with a rectangular base and rounded top \n" +

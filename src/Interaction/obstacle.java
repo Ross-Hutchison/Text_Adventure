@@ -1,8 +1,8 @@
 package Interaction;
 
-public class obstacle extends item {
+public class obstacle extends interactive {
     private boolean solved;
-    private item solvedBy;
+    private interactive solvedBy;
     private String resolvedMsg;
     private String resolveFailMsg;
     private String alreadyResolvedMsg;
@@ -10,10 +10,11 @@ public class obstacle extends item {
     private String useNonResolvedResult;
 
 
-    public obstacle(item solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg, String useNonResolvedResult,
-                    String itemIs, String description, String feelsLike, String tastesLike, String usedAlone, String touchResult, String tasteResult, String useResult) {
+    public obstacle(interactive solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg, String useNonResolvedResult,
+                    String itemIs, String description, String feelsLike, String tastesLike, String usedAlone,
+                    String touchResult, String tasteResult, String useResult, boolean canTake) {
 
-        super(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
+        super(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult, canTake);
         this.solved = false;
         this.solvedBy = solvedBy;
         this.resolvedMsg = resolvedMsg;
@@ -21,9 +22,10 @@ public class obstacle extends item {
         this.alreadyResolvedMsg = alreadyResolvedMsg;
         this.usedWithoutSolveMsg = usedWithoutSolveMsg;
         this.useNonResolvedResult = useNonResolvedResult;
+        this.canTake = canTake;
     }
 
-    public void resolve(item usedWith) {
+    public void resolve(interactive usedWith) {
         if (!solved && usedWith == solvedBy) {
             this.solved = true;
             System.out.println(this.resolvedMsg);

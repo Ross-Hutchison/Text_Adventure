@@ -2,7 +2,7 @@ package Factories;
 
 import java.util.HashMap;
 
-import Interaction.item;
+import Interaction.interactive;
 import Interaction.obstacle;
 import Rooms.room;
 
@@ -12,21 +12,21 @@ public class roomFactory {
 
     public room createTutorialRoom() {
         // generating the item array for the room
-        item key = itemGenerator.createKey();
-        item choco = itemGenerator.createChocolate();
-        item box = itemGenerator.createBox(key);
-        item[] items = new item[]{choco, key, box};
-        int originalItemCount = items.length;
+        interactive key = itemGenerator.createKey();
+        interactive choco = itemGenerator.createChocolate();
+        interactive box = itemGenerator.createBox(key);
+        interactive[] interactives = new interactive[]{choco, key, box};
+        int originalItemCount = interactives.length;
         // generating the obstacle array
         obstacle door = itemGenerator.createWoodenDoor(null, key);
         obstacle[] obstacles = new obstacle[]{door};
         // generating the HashMap for blocked items
-        HashMap<item, obstacle>blockedBy = new HashMap<>();
+        HashMap<interactive, obstacle>blockedBy = new HashMap<>();
         blockedBy.put(choco, null);
         blockedBy.put(key, null);
         blockedBy.put(box, null);
         // generates the map of Strings to items
-        HashMap<String, item>itemIsToItem = new HashMap<>();
+        HashMap<String, interactive>itemIsToItem = new HashMap<>();
         itemIsToItem.put(key.getItemIs(), key);
         itemIsToItem.put(choco.getItemIs(), choco);
         itemIsToItem.put(box.getItemIs(), box);
@@ -40,7 +40,7 @@ public class roomFactory {
                 "laying on the floor by where your head was is a " + choco.getItemIs() + "\n" +
                 "sitting on the floor by the door is a " + box.getItemIs();
 
-        room tutorialRoom = new room(description, items, obstacles, blockedBy, itemIsToItem, itemIsToObstacle, originalItemCount);
+        room tutorialRoom = new room(description, interactives, obstacles, blockedBy, itemIsToItem, itemIsToObstacle, originalItemCount);
         return tutorialRoom;
     }
 

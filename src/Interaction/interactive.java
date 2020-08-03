@@ -1,6 +1,6 @@
 package Interaction;
 
-public class item {
+public class interactive {
      String itemIs;
      String description;
      String feelsLike;
@@ -9,8 +9,10 @@ public class item {
      String touchResult;
      String tasteResult;
      String useResult;
+    boolean canTake;
 
-    public item(String itemIs, String description, String feelsLike, String tastesLike, String usedAlone, String touchResult, String tasteResult, String useResult) {
+    public interactive(String itemIs, String description, String feelsLike, String tastesLike, String usedAlone, String touchResult,
+                       String tasteResult, String useResult, boolean canTake) {
         this.itemIs = itemIs;
         this.description = description;
         this.feelsLike = feelsLike;
@@ -19,6 +21,7 @@ public class item {
         this.touchResult = touchResult;
         this.tasteResult = tasteResult;
         this.useResult = useResult;
+        this.canTake = canTake;
     }
 
     public String getItemIs() {
