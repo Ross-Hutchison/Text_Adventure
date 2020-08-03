@@ -611,33 +611,41 @@ processing events:
 
         so
 
-        First step is to add the new item classes
+            First step is to add the new item classes
 
-        this will require changes to useWith and take where instead of item it takes tool
-        as well as the interactionFactory - which should be split into tool, obstacle and interaction
+            this will require changes to useWith and take where instead of item it takes tool
+            as well as the interactionFactory - which should be split into tool, obstacle and interaction
 
-        should also set up a new package for factories
+            should also set up a new package for factories
 
-        also made item abstract since generic items shouldn't exist any methods that take item can just accept any type
+            also made item abstract since generic items shouldn't exist any methods that take item can just accept any type
 
-        right now tool and interaction are identical and the ony difference will be when they're used
+            right now tool and interaction are identical and the ony difference will be when they're used
 
-        what values does an item that can't be picked up not need - seems to need them all
+            what values does an item that can't be picked up not need - seems to need them all
 
-        but does tool need anything that would make it different - not really no
-        could instead of two separate classes have a boolean variable called isTool and change name from item to interactive or something
+                but does tool need anything that would make it different - not really no
+                could instead of two separate classes have a boolean variable called isTool and change name from item to interactive or something
 
-        now that this is implemented need to alter the take check to have it look for that boolean and not the class obstacle
+                now that this is implemented need to alter the take check to have it look for that boolean and not the class obstacle
 
-        also speaking of Room I'll want to give room a method for each event that specifically alters a room
+                also speaking of Room I'll want to give room a method for each event that specifically alters a room
 
-        and player a method for any event that specifically alters the player - not implemented atm
+                and player a method for any event that specifically alters the player - not implemented atm
 
-        had forgotten to prevent players taking blocked items
+                had forgotten to prevent players taking blocked items
+        
+                think there might be too many checks in game.java when deciding what methods to do - may need to remove some
+                if they're now in room wrapper methods where they should be
 
-        think there might be too many checks in game.java when deciding what methods to do - may need to remove some
-        if they're now in room wrapper methods where they should be
+                added the checks in take and switch room wrappers
 
-        added the checks in take and switch room wrappers
+                now need to remove them from game.java to simplify it
 
-        now need to remove them from game.java to simplify it
+                game should just check that the items exist in the room
+
+                then if they do pass them on - may need to inspect how all methods are handled first
+
+                like does useOn need specifically to take an obstacle second? yes so that check should stay
+
+                this is what I need to look into - cleaning up the current code before working on the new stuff
