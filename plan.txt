@@ -633,8 +633,7 @@ processing events:
 
                 and player a method for any event that specifically alters the player - not implemented atm
 
-                had forgotten to prevent players taking blocked items
-        
+             had forgotten to prevent players taking blocked items - fixed
                 think there might be too many checks in game.java when deciding what methods to do - may need to remove some
                 if they're now in room wrapper methods where they should be
 
@@ -649,3 +648,17 @@ processing events:
                 like does useOn need specifically to take an obstacle second? yes so that check should stay
 
                 this is what I need to look into - cleaning up the current code before working on the new stuff
+
+                looking at game it doesn't have any checks in switchWith and useOn that aren't needed
+
+                look into the room wrapper methods for useOn and switchWith - they might have unnecessary checks
+
+                switch and useOn are fine
+
+                look at verb-item switch in game for unnecessary checks
+
+                has no checks other than that the item is present
+
+                code seems cleaned up as much as can be done rn
+
+        should add the visibility thing for items actually

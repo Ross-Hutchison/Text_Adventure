@@ -93,7 +93,7 @@ class room {
         if (toTake == null) {
             System.out.println(TAKE_NULL_OBJ_ERR_MSG);
             return false;
-        } else if (!toTake.getCanTake()) {
+        } else if (!toTake.getCanTake()) {  // if second item cannot be taken
             System.out.println(ITEM_IS_STATIONARY_ERR_MSG);
             return false;
         }

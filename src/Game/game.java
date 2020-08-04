@@ -183,94 +183,97 @@ public class game {
         returns null when the action does not lead to a game event such as winning
      */
     private String processItemVerbItem(String input) {
+        // checking the contents of the input
         String[] verbs_2Arr = verbs_2.split("\\|"); // array of verbs for: "item verb item" format
         String splitterVerb = null;
 
         for (String verb : verbs_2Arr) {
             verb = " " + verb + " ";    // looking for the verb outside of a word and not at the start or end of the input
             int verbFirstIndex = input.indexOf(verb);
-            if (verbFirstIndex == -1)
-                continue;  // move to the next verb since current is not present
+            if (verbFirstIndex == -1) {
+                continue;
+            } // move to the next verb since current is not present
+
             int verbLastIndex = input.lastIndexOf(verb);
             if (verbFirstIndex != verbLastIndex) {   // there are more than one instances of the verb making it an invalid command
                 System.out.println(REPEATED_VERBS_ERR_MSG);
-                return null;
-            } else {
-                splitterVerb = verb;
                 break;
+            } else {    // there is only one of the verb and it is in-between two sets of words this can be used to split
+                splitterVerb = verb;
+                break;  // only one splitter verb in a valid input, no need to look further
             }
         }
 
-        if (splitterVerb == null) {  // if no verb rom verbs_2 are present - shouldn't be possible but important to be safe
-            System.out.println("somehow no valid verb is present - glitch in code has occurred");
+        if (splitterVerb == null) {
+            System.out.println("this command is invalid");
             return null;
         }
 
-        String[] items = input.split(splitterVerb);
-
-        if (items.length != itemVerbItem_requiredItems) { // also should never happen but just in case
-            System.out.println(TOO_MANY_ITEMS_ERR_MSG);
-            return null;
-        }
+        String[] interactives = input.split(splitterVerb); //
 
         for (int i = 0; i < itemVerbItem_requiredItems; i++) {    // surround both items with the "" needed for processing
-            items[i] = "\"" + items[i] + "\"";
-            if (checkItemForVerb(items[i])) {    // check each item is free of any other verbs
+            interactives[i] = "\"" + interactives[i] + "\"";
+            if (checkItemForVerb(interactives[i])) {    // check each item is free of any other verbs
                 System.out.println(REPEATED_VERBS_ERR_MSG);
                 return null;
             }
         }
 
-        HashMap<String, interactive> itemChecker = currentRoom.getItemIsToItem();
-        HashMap<String, obstacle> obstacleChecker = currentRoom.getItemIsToObstacle();
+
+        // there is a splitter verb and two itemIs that contain no verbs now to find what method is carried out
+        HashMap<String, interactive> itemChecker = currentRoom.getItemIsToItem();   //lets game check for items
+        HashMap<String, obstacle> obstacleChecker = currentRoom.getItemIsToObstacle();  // lets game check for obstacles
 
         interactive interactiveObj1;
 
-        if (itemChecker.containsKey(items[0]))
-            interactiveObj1 = itemChecker.get(items[0]);
-        else interactiveObj1 = Jo.hasItemInInventory(items[0]);
+        if (itemChecker.containsKey(interactives[0])) { // if the first item is in the room
+            interactiveObj1 = itemChecker.get(interactives[0]);
+        } else
+            interactiveObj1 = Jo.hasItemInInventory(interactives[0]);  // or in the player's inventory
 
-        if (interactiveObj1 != null) {
-            splitterVerb = splitterVerb.strip();
+        if (interactiveObj1 != null) {  // then move on to next step
+            splitterVerb = splitterVerb.strip();    // take the spaces off the end of the splitter verb
 
-            if (splitterVerb.equals("switchWith")) {
+            if (splitterVerb.equals("switchWith")) {    // if the command was to switch two items
                 interactive interactiveObj2;
                 boolean actionSucceeded;
 
-                if (itemChecker.containsKey(items[1]))
-                    interactiveObj2 = itemChecker.get(items[1]);
-                else interactiveObj2 = Jo.hasItemInInventory(items[1]);
-                if (interactiveObj2 != null) {
+
+                interactiveObj2 = itemChecker.get(interactives[1]); // if second Interaction is an item in the room
+                if(interactiveObj2 == null) interactiveObj2 = Jo.hasItemInInventory(interactives[1]);   // or in the player's inventory
+
+                if (interactiveObj2 != null) {  // item is present
                     actionSucceeded = currentRoom.playerSwitchesItems(Jo, interactiveObj1, interactiveObj2);    // no event attached - ret null
 
                     if (actionSucceeded) {   //alters the description if two items were switched
                         currentRoom.addItemToDescription(interactiveObj1);
                         currentRoom.removeItemFromDescription(interactiveObj2);
                     }
+
                     return null;
-                } else if (obstacleChecker.get(items[1]) != null)
+                } else if (obstacleChecker.get(interactives[1]) != null)
                     System.out.println("you can't take that with you \n - you cannot pick up objects");
-                System.out.println("the " + items[1] + " is not present");
+                System.out.println("the " + interactives[1] + " is not present");
 
-            } else if (splitterVerb.equals("useOn")) {
-                obstacle obstacleObj;
-                if (obstacleChecker.containsKey(items[1]))
-                    obstacleObj = obstacleChecker.get(items[1]);
-                else obstacleObj = null;
+            } else if (splitterVerb.equals("useOn")) {  // if the command was to use one item on an obstacle
 
-                if (obstacleObj != null) {
+                obstacle obstacleObj = obstacleChecker.get(interactives[1]);  // look for the second desired Interaction in the rooms obstacle map
+
+                if (obstacleObj != null) {  // if the second Interaction is an obstacle in the room
                     currentRoom.playerUsedItemOnObstacle(Jo, interactiveObj1, obstacleObj); // no event attached - ret null
                     return null;
                 } else {
-                    if (itemChecker.get(items[1]) != null || Jo.hasItemInInventory(items[1]) != null)
+                    // if the second interaction is an item in the room or the player's inventory
+                    if (itemChecker.get(interactives[1]) != null || Jo.hasItemInInventory(interactives[1]) != null) {
                         System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);
-                    else
-                        System.out.println("the " + items[1] + " is not present");
+                    }
+                    else    // otherwise item just isn't there
+                        System.out.println("the " + interactives[1] + " is not present");
                     return null;
                 }
             }
         }
-        return null;
+        return null; // if first item is not present then no operation occurs
     }
 
 
@@ -287,20 +290,22 @@ public class game {
         String verb = parts[0]; // takes the verb
         String item = "\"" + input.substring(verb.length() + 1) + "\"";  // uses the verb's length to take the set of words
 
-        if (checkItemForVerb(item)) {
+        if (checkItemForVerb(item)) {   // check the item does not contain more verbs since this is invalid
             System.out.println(REPEATED_VERBS_ERR_MSG);
             return null;
         }
 
         interactive interactiveObj;
+        HashMap<String, interactive> itemChecker = currentRoom.getItemIsToItem();   // lets you check for item's being present
+        HashMap<String, obstacle> obstacleChecker = currentRoom.getItemIsToObstacle();  // lets you check for obstacles being present
 
-        HashMap<String, interactive> itemChecker = currentRoom.getItemIsToItem();
-        HashMap<String, obstacle> obstacleChecker = currentRoom.getItemIsToObstacle();
-
-        if (itemChecker.containsKey(item)) interactiveObj = itemChecker.get(item);
-        else if (obstacleChecker.containsKey(item))
+        if (itemChecker.containsKey(item)) {    // desired interactive is an item present in the room
+            interactiveObj = itemChecker.get(item);
+        }
+        else if (obstacleChecker.containsKey(item)) {   // desired interactive is an obstacle present in the room
             interactiveObj = obstacleChecker.get(item);
-        else interactiveObj = Jo.hasItemInInventory(item);
+        }
+        else interactiveObj = Jo.hasItemInInventory(item);  // desired interactive is a takable interactive in the player's inventory
 
         if (interactiveObj != null) {   // if the item was found in the room or player's inventory
             switch (verb) {
