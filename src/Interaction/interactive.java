@@ -10,6 +10,7 @@ public class interactive {
     String tasteResult;
     String useResult;
     boolean canTake;
+    boolean visible;
 
     public interactive(String itemIs, String description, String feelsLike, String tastesLike, String usedAlone, String touchResult,
                        String tasteResult, String useResult, boolean canTake) {
@@ -22,6 +23,7 @@ public class interactive {
         this.tasteResult = tasteResult;
         this.useResult = useResult;
         this.canTake = canTake;
+        this.visible = true;    // default state for interactives is to be visible
     }
 
     public String getItemIs() {
@@ -60,6 +62,10 @@ public class interactive {
         return canTake;
     }
 
+    public boolean getVisible() {
+        return visible;
+    }
+
     public void setUseResult(String useResult) {
         this.useResult = useResult;
     }
@@ -71,6 +77,8 @@ public class interactive {
     public void setTasteResult(String tasteResult) {
         this.tasteResult = tasteResult;
     }
+
+    public void setVisible(boolean visible) { this.visible = visible; }
 
     public void lookAt() {
         System.out.println(this.description);

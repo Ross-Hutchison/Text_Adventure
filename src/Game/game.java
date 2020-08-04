@@ -103,6 +103,8 @@ public class game {
                         endMsg = additionalInfo;
                         break;
                     case "revealItem":
+                        interactive toReveal = currentRoom.getItemIsToItem().get(additionalInfo);
+                        toReveal.setVisible(true);
                         String desc = currentRoom.getDescription();
                         desc = desc.concat("\nThe " + cause + " revealed " + additionalInfo);
                         currentRoom.setDescription(desc);

@@ -17,7 +17,7 @@ public class interactionFactory {
         String touchResult = null;
         String tasteResult = null;
 
-        interactive key = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
+        interactive key = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult, true);
         return key;
     }
 
@@ -33,7 +33,7 @@ public class interactionFactory {
         String touchResult = null;
         String tasteResult = "outputMessage-" + itemIs + "-The sweetness is overwhelming, the bar must be 90% sugar-tasteResult-1";
 
-        interactive chocolate = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
+        interactive chocolate = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult, true);
         return chocolate;
     }
 
@@ -49,7 +49,8 @@ public class interactionFactory {
         String touchResult = null;
         String tasteResult = null;
 
-        interactive box = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
+        interactive box = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult, true);
+        inside.setVisible(false);
         return box;
     }
 
@@ -77,7 +78,7 @@ public class interactionFactory {
         String useNonResolvedResult = null;
 
         obstacle woodenDoor = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
-                itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult);
+                itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult, false);
         return woodenDoor;
     }
 

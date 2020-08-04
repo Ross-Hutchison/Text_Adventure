@@ -662,3 +662,7 @@ processing events:
                 code seems cleaned up as much as can be done rn
 
         should add the visibility thing for items actually
+
+        adding visibility I realised that some methods require items be picked up unless they're obstacles
+        instead of checking for obstacle class I should check for canTake since this will let them work for
+        Interactions like roads and buttons that can't be picked up
