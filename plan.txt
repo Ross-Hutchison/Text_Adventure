@@ -611,21 +611,8 @@ processing events:
 
         so
 
-            First step is to add the new item classes
-
-            this will require changes to useWith and take where instead of item it takes tool
-            as well as the interactionFactory - which should be split into tool, obstacle and interaction
-
-            should also set up a new package for factories
-
-            also made item abstract since generic items shouldn't exist any methods that take item can just accept any type
-
-            right now tool and interaction are identical and the ony difference will be when they're used
-
-            what values does an item that can't be picked up not need - seems to need them all
-
-                but does tool need anything that would make it different - not really no
-                could instead of two separate classes have a boolean variable called isTool and change name from item to interactive or something
+           could instead of two separate classes have a boolean variable called isTool or something  that determines whether an item can be taken
+           and change name from item to interactive or something
 
                 now that this is implemented need to alter the take check to have it look for that boolean and not the class obstacle
 
@@ -666,3 +653,7 @@ processing events:
         adding visibility I realised that some methods require items be picked up unless they're obstacles
         instead of checking for obstacle class I should check for canTake since this will let them work for
         Interactions like roads and buttons that can't be picked up
+
+        looking at obstacle there doesn't seem to be any parts they have that aren't needed
+
+        however could probably remove taste and have it be the use for items that can be tasted - it's kind of pointless otherwise
