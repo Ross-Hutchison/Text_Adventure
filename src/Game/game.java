@@ -23,14 +23,14 @@ public class game {
     private final String REPEATED_VERBS_ERR_MSG = "this is not a valid command - please do not include multiple verbs in one command";
     private final String TOO_MANY_ITEMS_ERR_MSG = "this is not a valid command - there are more than two items included";
     final String USED_ITEM_WITH_ITEM_ERR_MSG = "nothing happens \n - use items on obstacles not on other items";
-    private final String verbs = "lookAt|touch|take|use|taste";
+    private final String verbs = "lookAt|touch|take|use";
     private final String verbs_2 = "switchWith|useOn";
     private Pattern verbObjectPattern = Pattern.compile("^(" + verbs + ")( [a-zA-Z]+)+$");
     private Pattern itemVerbItemPattern = Pattern.compile("^[a-zA-Z]+( [a-zA-Z]+)+ (" + verbs_2 + ")( [a-zA-Z]+)+$");
 
     public void outputCommandFormats() {
         System.out.println("--------------------");
-        System.out.println("Verbs: lookAt, touch, take, use, taste, useOn, switchWith");
+        System.out.println("Verbs: lookAt, touch, take, use, useOn, switchWith");
         System.out.println("Items and Obstacles will be highlighted in text using \"\" use the exact encased text when referring to them");
         System.out.println("e.g. \"big key\" \"door\" - lookAt big key  ");
         System.out.println("Verb formats: \"lookAt [item name]\" \n" +
@@ -117,11 +117,8 @@ public class game {
                             case "touchResult":
                                 System.out.println("poking the " + cause + "no longer does anything");
                                 break;
-                            case "tasteResult":
-                                System.out.println("you've finished the " + cause + " there is nothing left to eat");
-                                break;
                             case "useResult":
-                                System.out.println("the " + cause + " has ceased to function");
+                                System.out.println("the " + cause + " can no longer be used");
                                 break;
                             default:
                                 System.out.println("event- " + event + "\n Has an invalid interactionType");
@@ -155,9 +152,6 @@ public class game {
                         case "touchResult":
                             toAlter.setTouchResult(usedUpFlag);
                             break;
-                        case "tasteResult":
-                            toAlter.setTasteResult(usedUpFlag);
-                            break;
                         case "useResult":
                             toAlter.setUseResult(usedUpFlag);
                             break;
@@ -166,9 +160,6 @@ public class game {
                     switch (interactionType) {
                         case "touchResult":
                             toAlter.setTouchResult(eventFlag);
-                            break;
-                        case "tasteResult":
-                            toAlter.setTasteResult(eventFlag);
                             break;
                         case "useResult":
                             toAlter.setUseResult(eventFlag);
@@ -324,8 +315,6 @@ public class game {
                     return null;
                 case "use":
                     return currentRoom.playerUsedItem(Jo, interactiveObj);
-                case "taste":
-                    return currentRoom.playerTastedItem(Jo, interactiveObj);
             }
         } else
             System.out.println("you turn your attention to the " + item + "\n" +

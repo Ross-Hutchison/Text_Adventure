@@ -4,23 +4,19 @@ public class interactive {
     String itemIs;
     String description;
     String feelsLike;
-    String tastesLike;
     String usedAlone;
     String touchResult;
-    String tasteResult;
     String useResult;
     boolean canTake;
     boolean visible;
 
-    public interactive(String itemIs, String description, String feelsLike, String tastesLike, String usedAlone, String touchResult,
-                       String tasteResult, String useResult, boolean canTake) {
+    public interactive(String itemIs, String description, String feelsLike, String usedAlone, String touchResult,
+                       String useResult, boolean canTake) {
         this.itemIs = itemIs;
         this.description = description;
         this.feelsLike = feelsLike;
-        this.tastesLike = tastesLike;
         this.usedAlone = usedAlone;
         this.touchResult = touchResult;
-        this.tasteResult = tasteResult;
         this.useResult = useResult;
         this.canTake = canTake;
         this.visible = true;    // default state for any interactive is to be visible
@@ -36,14 +32,6 @@ public class interactive {
 
     public String getFeelsLike() {
         return feelsLike;
-    }
-
-    public String getTasteResult() {
-        return tasteResult;
-    }
-
-    public String getTastesLike() {
-        return tastesLike;
     }
 
     public String getTouchResult() {
@@ -74,10 +62,6 @@ public class interactive {
         this.touchResult = touchResult;
     }
 
-    public void setTasteResult(String tasteResult) {
-        this.tasteResult = tasteResult;
-    }
-
     public void setVisible(boolean visible) { this.visible = visible; }
 
     public void lookAt() {
@@ -87,11 +71,6 @@ public class interactive {
     public String touch() {
         System.out.println(this.feelsLike);
         return this.touchResult;
-    }
-
-    public String taste() {
-        System.out.println(this.tastesLike);
-        return this.tasteResult;
     }
 
     public String use() {

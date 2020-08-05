@@ -11,13 +11,11 @@ public class interactionFactory {
         String itemIs = "\"large key\"";
         String description = "a heavy brass key of unusual size, the bow of which is a large ring about the size of your hand";
         String feelsLike = "the metal is cool to the touch, and smooth, the bit is made up of several rectangular teeth";
-        String tastesLike = "biting the key is probably unwise, licking it leaves a metallic tang in your mouth";
         String usedAlone = "you idly toss the key up by the bit and catch it by the bow. Very stylish";
         String useResult = null;
         String touchResult = null;
-        String tasteResult = null;
 
-        interactive key = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult, true);
+        interactive key = new interactive(itemIs, description, feelsLike, usedAlone, touchResult, useResult, true);
         return key;
     }
 
@@ -27,13 +25,11 @@ public class interactionFactory {
                 "\"eat me\" its eyes seem to say, something is strangely disturbing about it";
 
         String feelsLike = "the wrapper crinkles under you hand, you can feel 6 rows of 3 squares, 18 delicious bites";   // maybe give a count for pieces left at some point - can be eaten one by one
-        String tastesLike = "despite the unease from how much the mascot wanted to be eaten, you go to bite the chocolate";
-        String usedAlone = "you contemplate the marketing choice behind the mascot. You don't come up with any answers";
-        String useResult = null;
+        String usedAlone = "despite the unease from how much the mascot wanted to be eaten, you go to bite the chocolate";
+        String useResult = "outputMessage-" + itemIs + "-The sweetness is overwhelming, the bar must be 90% sugar-useResult-1";
         String touchResult = null;
-        String tasteResult = "outputMessage-" + itemIs + "-The sweetness is overwhelming, the bar must be 90% sugar-tasteResult-1";
 
-        interactive chocolate = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult, true);
+        interactive chocolate = new interactive(itemIs, description, feelsLike, usedAlone, touchResult, useResult, true);
         return chocolate;
     }
 
@@ -43,13 +39,11 @@ public class interactionFactory {
                 "The lid is not aligned properly and so rests on top of the box half open.";
 
         String feelsLike = "the wood is smooth, it's a very nicely crafted box";
-        String tastesLike = "the box does not taste as good as it looks";
         String usedAlone = "you lift the lid of the box and look inside";
         String useResult = "revealItem-" + itemIs + "-" + inside.getItemIs() + "-" + "useResult-1"; // can happen once
         String touchResult = null;
-        String tasteResult = null;
 
-        interactive box = new interactive(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult, true);
+        interactive box = new interactive(itemIs, description, feelsLike, usedAlone, touchResult, useResult, true);
         inside.setVisible(false);
         return box;
     }
@@ -58,13 +52,10 @@ public class interactionFactory {
 
         room leadsTo = to;
         interactive solvedBy = solution;
-        boolean solved = false;
         String itemIs = "\"wooden door\"";
         String description = "A large brown wooden door with a rectangular base and rounded top \n" +
                 " there is a large metal ring for a handle and below it a large keyhole";
         String feelsLike = "the rough wood of the door seems likely to leave splinters, the door rung is cold and heavy";
-        String tastesLike = "after picking the splinter out of your tongue you note a distinct oak taste, " +
-                "it pairs poorly with the metallic taste of the handle";
         String usedAlone = "the door swings open slowly, the hinges creaking slightly";
 
         String resolvedMsg = "the key turns, the lock clicks satisfyingly";
@@ -74,11 +65,10 @@ public class interactionFactory {
 
         String useResult = "winGame-" + itemIs + "-Congratulations you left the room!!!: you have won the game-" + "useResult-1"; //can only win once
         String touchResult = null;
-        String tasteResult = null;
         String useNonResolvedResult = null;
 
         obstacle woodenDoor = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
-                itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult, false);
+                itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
         return woodenDoor;
     }
 

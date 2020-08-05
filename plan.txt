@@ -657,3 +657,19 @@ processing events:
         looking at obstacle there doesn't seem to be any parts they have that aren't needed
 
         however could probably remove taste and have it be the use for items that can be tasted - it's kind of pointless otherwise
+
+     Process of removing taste:
+
+            go to interactive and remove the tastesLike and tasteResult Strings
+            along with the taste method and remove all references to them from the constructor
+
+            next move to interactionFactory and remove all references to taste
+                - for edible item chocolate switch use and taste
+
+            move to obstacle and remove all references to taste
+
+            now need to move to game and remove references to taste
+                - the regex, the verb lists, the format guide, the switch statements
+                - also since use is not eat for edible items - need to remove the usedUp for useResult to say something different
+
+            now finally to remove references to taste from the room class

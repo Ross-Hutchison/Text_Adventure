@@ -145,24 +145,6 @@ class room {
         }
     }
 
-    public String playerTastedItem(player p, interactive licked) {
-        if(licked == null) {
-            System.out.println(USE_NULL_OBJ_ERR_MSG);
-            return null;
-        }
-        else if(!licked.getVisible()){
-            System.out.println(ITEM_IS_INVIS_ERR_MSG);
-            return null;
-        }
-        else if (!licked.getCanTake()) return licked.taste();
-        else if (p.hasItemInInventory(licked.getItemIs()) != null)
-            return licked.taste();
-        else {
-            System.out.println("If you're going to taste something at least be dignified and pick it up first");
-            return null;
-        }
-    }
-
     public String playerUsedItem(player p, interactive used) {
         if(used == null) {
             System.out.println(USE_NULL_OBJ_ERR_MSG);

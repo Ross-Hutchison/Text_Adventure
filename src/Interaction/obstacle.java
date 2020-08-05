@@ -10,11 +10,11 @@ public class obstacle extends interactive {
     private String useNonResolvedResult;
 
 
-    public obstacle(interactive solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg, String useNonResolvedResult,
-                    String itemIs, String description, String feelsLike, String tastesLike, String usedAlone,
-                    String touchResult, String tasteResult, String useResult, boolean canTake) {
+    public obstacle(interactive solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg,
+                    String useNonResolvedResult, String itemIs, String description, String feelsLike, String usedAlone, String touchResult,
+                    String useResult, boolean canTake) {
 
-        super(itemIs, description, feelsLike, tastesLike, usedAlone, touchResult, tasteResult, useResult, canTake);
+        super(itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake);
         this.solved = false;
         this.solvedBy = solvedBy;
         this.resolvedMsg = resolvedMsg;
