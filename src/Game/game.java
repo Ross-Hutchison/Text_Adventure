@@ -12,8 +12,8 @@ public class game {
 
     private roomFactory roomGenerator = new roomFactory();
 
-    private boolean gameEnd;
-    private String endMsg;
+    private static boolean gameEnd;
+    private static String endMsg;
     private room currentRoom;
     private player Jo;
 
@@ -27,6 +27,7 @@ public class game {
     private final String verbs_2 = "switchWith|useOn";
     private Pattern verbObjectPattern = Pattern.compile("^(" + verbs + ")( [a-zA-Z]+)+$");
     private Pattern itemVerbItemPattern = Pattern.compile("^[a-zA-Z]+( [a-zA-Z]+)+ (" + verbs_2 + ")( [a-zA-Z]+)+$");
+    private eventProcessor processor = new eventProcessor();
 
     public void outputCommandFormats() {
         System.out.println("--------------------");
@@ -84,92 +85,7 @@ public class game {
                 System.out.println(INVALID_COMMAND_ERR_MSG);
             }
         }
-        processEvent(event);
-    }
-
-    private void processEvent(String event) {
-        if (event != null) {
-            String[] parts = event.split("-");
-            if (parts.length == 5) { //valid format is eventType-itemCausingIt-additionalInformation-interactionType-usesLeft
-                String type = parts[0];
-                String cause = parts[1];
-                String additionalInfo = parts[2];
-                String interactionType = parts[3];
-                String usesLeft = parts[4];
-
-                switch (type) {
-                    case "winGame":
-                        gameEnd = true;
-                        endMsg = additionalInfo;
-                        break;
-                    case "revealItem":
-                        interactive toReveal = currentRoom.getItemIsToItem().get(additionalInfo);
-                        toReveal.setVisible(true);
-                        String desc = currentRoom.getDescription();
-                        desc = desc.concat("\nThe " + cause + " revealed " + additionalInfo);
-                        currentRoom.setDescription(desc);
-                        break;
-                    case "outputMessage":
-                        System.out.println(additionalInfo);
-                        break;
-                    case "usedUp":
-                        switch (interactionType) {  // there are different ways an item can be used up
-                            case "touchResult":
-                                System.out.println("poking the " + cause + "no longer does anything");
-                                break;
-                            case "useResult":
-                                System.out.println("the " + cause + " can no longer be used");
-                                break;
-                            default:
-                                System.out.println("event- " + event + "\n Has an invalid interactionType");
-
-                        }
-                        return; // if the event is used up no need to process further
-                    default:
-                        System.out.println("invalid event flag type:\n" + event);
-                        break;
-                }
-
-                interactive toAlter;
-                HashMap<String, interactive> items = currentRoom.getItemIsToItem();
-                toAlter = items.get(cause);
-                if (toAlter == null) toAlter = Jo.hasItemInInventory(cause);
-
-                if (toAlter == null) {
-                    System.out.println("something went horribly wrong with reducing the uses for event:\n" + event);
-                    return;
-                }
-
-                int remainingUses = Integer.parseInt(usesLeft); // decreases uses left and reconverts it to a String
-                remainingUses--;
-                usesLeft = Integer.toString(remainingUses);
-
-                String usedUpFlag = "usedUp-" + cause + "-" + additionalInfo + "-" + interactionType + "-" + usesLeft;   // the event is out of uses
-                String eventFlag = type + "-" + cause + "-" + additionalInfo + "-" + interactionType + "-" + usesLeft;  // there are still uses
-
-                if (usesLeft.equals("0")) {
-                    switch (interactionType) {
-                        case "touchResult":
-                            toAlter.setTouchResult(usedUpFlag);
-                            break;
-                        case "useResult":
-                            toAlter.setUseResult(usedUpFlag);
-                            break;
-                    }
-                } else {  // adds the decreased count by resetting the message
-                    switch (interactionType) {
-                        case "touchResult":
-                            toAlter.setTouchResult(eventFlag);
-                            break;
-                        case "useResult":
-                            toAlter.setUseResult(eventFlag);
-                            break;
-                    }
-                }
-            } else {
-                System.out.println("invalid event flag format");
-            }
-        }
+        processor.processEvent(event, Jo, currentRoom);
     }
 
     /*
@@ -343,5 +259,13 @@ public class game {
 
     public String getEndMsg() {
         return endMsg;
+    }
+
+    public static void setGameEnd(boolean setTo) {
+        game.gameEnd = setTo;
+    }
+
+    public static void setEndMsg(String setTo) {
+        game.endMsg = setTo;
     }
 }

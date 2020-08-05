@@ -680,3 +680,18 @@ processing events:
     need to look at the switch method in room
 
         issue was that the check for the item's visibility was too low in the method - the switch could happen before the check for visibility
+
+   I'm putting too much in the game class - it's supposed to control the game but it does a lot of data processing
+   this makes reading the class much harder - first fix is to create an event processing class
+
+   this will contain the switch for deciding how to process the events - and methods that are carried out when the events occur
+
+    game will need setter methods for it's return values the gameEnd boolean and the endMessage string
+
+    the process event will need to take in the player and the current room
+
+    as well as this I realised that there should only be 1 game and so it's variables should all be static
+    for now only gameEnd and endMsg since these are used in set methods in eventProcessor
+    and since game is not instantiated in the eventProcessor these need to be static methods
+
+    now need to set up the processing methods in eventProcessor so that the switch statement isn't as messy
