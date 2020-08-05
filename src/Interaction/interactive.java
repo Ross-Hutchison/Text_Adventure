@@ -23,7 +23,7 @@ public class interactive {
         this.tasteResult = tasteResult;
         this.useResult = useResult;
         this.canTake = canTake;
-        this.visible = true;    // default state for interactives is to be visible
+        this.visible = true;    // default state for any interactive is to be visible
     }
 
     public String getItemIs() {
