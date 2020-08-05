@@ -673,3 +673,10 @@ processing events:
                 - also since use is not eat for edible items - need to remove the usedUp for useResult to say something different
 
             now finally to remove references to taste from the room class
+
+
+    while testing found that you can switch with an item that is hidden
+
+    need to look at the switch method in room
+
+        issue was that the check for the item's visibility was too low in the method - the switch could happen before the check for visibility

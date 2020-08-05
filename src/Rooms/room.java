@@ -103,6 +103,10 @@ class room {
             System.out.println(ITEM_IS_STATIONARY_ERR_MSG);
             return false;
         }
+        else if (!toTake.getVisible()) {
+            System.out.println(ITEM_IS_INVIS_ERR_MSG);
+            return false;
+        }
         obstacle blockage = this.getBlockedBy().get(toTake);
         boolean isNotBlocked = (blockage == null || blockage.getSolved());
         boolean hasInInventory = (p.hasItemInInventory(toLeave.getItemIs()) != null);
@@ -111,9 +115,6 @@ class room {
             return p.switchX_With_Y(toLeave, toTake, this); //the player method needs data on the room so it takes it as a parameter
         } else if (!isNotBlocked) {
             System.out.println("you go to take the " + toTake + "but the " + blockage.getItemIs() + "stops you");
-            return false;
-        } else if (!toTake.getVisible()) {
-            System.out.println(ITEM_IS_INVIS_ERR_MSG);
             return false;
         } else {
             System.out.println("you go to leave the " + toLeave + " but you realise you don't actually have it");
