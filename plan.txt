@@ -695,3 +695,5 @@ processing events:
     and since game is not instantiated in the eventProcessor these need to be static methods
 
     now need to set up the processing methods in eventProcessor so that the switch statement isn't as messy
+
+    ater setting up standard methods now need to set up the processing of the event's limits

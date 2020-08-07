@@ -1,6 +1,7 @@
 package Game;
 
 import Interaction.interactive;
+import Interaction.obstacle;
 import Rooms.room;
 
 import java.util.HashMap;
@@ -35,46 +36,46 @@ class eventProcessor {
                         System.out.println("invalid event flag type:\n" + event);
                         break;
                 }
+                if (!usesLeft.equals("noLimit")) {  // if the event has limited use then the limit needs to be decreased
+                    interactive toAlter;
+                    toAlter = findInteractiveToAlter(cause, currentRoom, player);
 
-                HashMap<String, interactive> items = currentRoom.getItemIsToItem();
-                interactive toAlter = items.get(cause);
-                if (toAlter == null) toAlter = player.hasItemInInventory(cause);
-
-                if (toAlter == null) {
-                    System.out.println("something went horribly wrong with reducing the uses for event:\n" + event);
-                    return;
-                }
-
-                int remainingUses = Integer.parseInt(usesLeft); // decreases uses left and reconverts it to a String
-                remainingUses--;
-                usesLeft = Integer.toString(remainingUses);
-
-                String usedUpFlag = "usedUp-" + cause + "-" + additionalInfo + "-" + interactionType + "-" + usesLeft;   // the event is out of uses
-                String eventFlag = type + "-" + cause + "-" + additionalInfo + "-" + interactionType + "-" + usesLeft;  // there are still uses
-
-                if (usesLeft.equals("0")) {
-                    switch (interactionType) {
-                        case "touchResult":
-                            toAlter.setTouchResult(usedUpFlag);
-                            break;
-                        case "useResult":
-                            toAlter.setUseResult(usedUpFlag);
-                            break;
+                    if (toAlter == null) {  // if the cause is somehow not present send error
+                        System.out.println("something went horribly wrong with reducing the uses for event:\n" + event);
+                        return;
                     }
-                } else {  // adds the decreased count by resetting the message
-                    switch (interactionType) {
-                        case "touchResult":
-                            toAlter.setTouchResult(eventFlag);
-                            break;
-                        case "useResult":
-                            toAlter.setUseResult(eventFlag);
-                            break;
-                    }
+
+                    usesLeft = decreaseUsesLeft(usesLeft);
+
+                    String usedUpFlag = "usedUp-" + cause + "-" + additionalInfo + "-" + interactionType + "-" + usesLeft;   // the event is out of uses
+                    String eventFlag = type + "-" + cause + "-" + additionalInfo + "-" + interactionType + "-" + usesLeft;  // there are still uses
+
+                    updateEvent(toAlter, usesLeft, interactionType, usedUpFlag, eventFlag);
                 }
-            } else {
-                System.out.println("invalid event flag format");
-            }
+            } else System.out.println("invalid event flag - " + event);
         }
+    }
+
+    private String decreaseUsesLeft(String usesLeft) {
+        int remainingUses = Integer.parseInt(usesLeft); // decreases uses left and reconverts it to a String
+        remainingUses--;
+        usesLeft = Integer.toString(remainingUses);
+
+        return usesLeft;
+    }
+
+    private interactive findInteractiveToAlter(String cause, room
+            currentRoom, player p) {
+        HashMap<String, interactive> items = currentRoom.getItemIsToItem();
+        HashMap<String, obstacle> obstacles = currentRoom.getItemIsToObstacle();
+
+        interactive toAlter = items.get(cause); // check if the cause is an item in the room
+        if (toAlter == null)
+            toAlter = p.hasItemInInventory(cause); // if it isn't check if it's in the player's inventory
+        if (toAlter == null)
+            toAlter = obstacles.get(cause); // if it's neither check if it's an obstacle in the room
+
+        return toAlter; // return either the interactive to alter or null if it isn't present
     }
 
     private void gameWon(String msg) {
@@ -82,7 +83,8 @@ class eventProcessor {
         game.setEndMsg(msg);
     }
 
-    private void revealAnItemInTheRoom(room currentRoom, String itemIs, String causeOfEvent) {
+    private void revealAnItemInTheRoom(room currentRoom, String
+            itemIs, String causeOfEvent) {
         interactive toReveal = currentRoom.getItemIsToItem().get(itemIs);
         toReveal.setVisible(true);
         String desc = currentRoom.getDescription();
@@ -94,7 +96,8 @@ class eventProcessor {
         System.out.println(msg);
     }
 
-    private void informPlayerEventUsedUp(String interactionType, String cause) {
+    private void informPlayerEventUsedUp(String interactionType, String
+            cause) {
         switch (interactionType) {  // there are different ways an item can be used up
             case "touchResult":
                 System.out.println("poking the " + cause + "no longer does anything");
@@ -107,4 +110,26 @@ class eventProcessor {
         }
     }
 
+
+    private void updateEvent(interactive toAlter, String usesLeft, String interactionType, String usedUpFlag, String eventFlag) {
+        if (usesLeft.equals("0")) {
+            switch (interactionType) {
+                case "touchResult":
+                    toAlter.setTouchResult(usedUpFlag);
+                    break;
+                case "useResult":
+                    toAlter.setUseResult(usedUpFlag);
+                    break;
+            }
+        } else {  // adds the decreased count by resetting the message
+            switch (interactionType) {
+                case "touchResult":
+                    toAlter.setTouchResult(eventFlag);
+                    break;
+                case "useResult":
+                    toAlter.setUseResult(eventFlag);
+                    break;
+            }
+        }
+    }
 }
