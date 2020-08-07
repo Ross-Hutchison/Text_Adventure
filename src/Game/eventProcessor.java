@@ -2,6 +2,7 @@ package Game;
 
 import Interaction.interactive;
 import Rooms.room;
+
 import java.util.HashMap;
 
 class eventProcessor {
@@ -10,48 +11,33 @@ class eventProcessor {
         if (event != null) {
             String[] parts = event.split("-");
             if (parts.length == 5) { //valid format is eventType-itemCausingIt-additionalInformation-interactionType-usesLeft
-                String type = parts[0];
-                String cause = parts[1];
-                String additionalInfo = parts[2];
-                String interactionType = parts[3];
-                String usesLeft = parts[4];
+                String type = parts[0]; // the type of event that occurred
+                String cause = parts[1];    // the interactive that triggered the event
+                String additionalInfo = parts[2];   // the additional information that is specific to the event
+                String interactionType = parts[3];  // the type of interaction that triggered the event
+                String usesLeft = parts[4]; // the number of times the event can occur
 
                 switch (type) {
-                    case "winGame":
-//                        gameEnd = true;
-//                        endMsg = additionalInfo;
+                    case "winGame": // the game has been won
+                        gameWon(additionalInfo);    // the additional info will be a message that details the game's end
                         break;
-                    case "revealItem":
-//                        interactive toReveal = currentRoom.getItemIsToItem().get(additionalInfo);
-//                        toReveal.setVisible(true);
-//                        String desc = currentRoom.getDescription();
-//                        desc = desc.concat("\nThe " + cause + " revealed " + additionalInfo);
-//                        currentRoom.setDescription(desc);
+                    case "revealItem": // an item has been revealed in the room
+                        // adds the itemIs of the revealed item to the current room's description, the cause is the interaction that revealed the item
+                        revealAnItemInTheRoom(currentRoom, additionalInfo, cause);
                         break;
                     case "outputMessage":
-//                        System.out.println(additionalInfo);
+                        sendMessage(additionalInfo); // the additional info of this event is a message to output
                         break;
                     case "usedUp":
-//                        switch (interactionType) {  // there are different ways an item can be used up
-//                            case "touchResult":
-//                                System.out.println("poking the " + cause + "no longer does anything");
-//                                break;
-//                            case "useResult":
-//                                System.out.println("the " + cause + " can no longer be used");
-//                                break;
-//                            default:
-//                                System.out.println("event- " + event + "\n Has an invalid interactionType");
-//
-//                        }
+                        informPlayerEventUsedUp(interactionType, cause);// informs the user that that event for that interaction is no longer usable
                         return; // if the event is used up no need to process further
                     default:
                         System.out.println("invalid event flag type:\n" + event);
                         break;
                 }
 
-                interactive toAlter;
                 HashMap<String, interactive> items = currentRoom.getItemIsToItem();
-                toAlter = items.get(cause);
+                interactive toAlter = items.get(cause);
                 if (toAlter == null) toAlter = player.hasItemInInventory(cause);
 
                 if (toAlter == null) {
@@ -88,6 +74,36 @@ class eventProcessor {
             } else {
                 System.out.println("invalid event flag format");
             }
+        }
+    }
+
+    private void gameWon(String msg) {
+        game.setGameEnd(true);
+        game.setEndMsg(msg);
+    }
+
+    private void revealAnItemInTheRoom(room currentRoom, String itemIs, String causeOfEvent) {
+        interactive toReveal = currentRoom.getItemIsToItem().get(itemIs);
+        toReveal.setVisible(true);
+        String desc = currentRoom.getDescription();
+        desc = desc.concat("\nThe " + causeOfEvent + " revealed " + itemIs);
+        currentRoom.setDescription(desc);
+    }
+
+    private void sendMessage(String msg) {
+        System.out.println(msg);
+    }
+
+    private void informPlayerEventUsedUp(String interactionType, String cause) {
+        switch (interactionType) {  // there are different ways an item can be used up
+            case "touchResult":
+                System.out.println("poking the " + cause + "no longer does anything");
+                break;
+            case "useResult":
+                System.out.println("the " + cause + " can no longer be used");
+                break;
+            default:
+                System.out.println("event has an invalid interactionType");
         }
     }
 
