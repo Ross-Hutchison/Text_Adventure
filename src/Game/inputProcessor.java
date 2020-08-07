@@ -13,7 +13,6 @@ public class inputProcessor {
     private final int itemVerbItem_requiredItems = 2;
     private final int verbItem_requiredItems = 1;
     private final String REPEATED_VERBS_ERR_MSG = "this is not a valid command - please do not include multiple verbs in one command";
-   
     final String USED_ITEM_WITH_ITEM_ERR_MSG = "nothing happens \n - use items on obstacles not on other items";
 
     public void setUpInputProcessor(game game) {
