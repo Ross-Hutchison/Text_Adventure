@@ -696,4 +696,7 @@ processing events:
 
     now need to set up the processing methods in eventProcessor so that the switch statement isn't as messy
 
-    ater setting up standard methods now need to set up the processing of the event's limits
+    after setting up standard methods now need to set up the processing of the event's limits
+
+    one thing to note - it might be better to give each item a message for when it's been used up
+    since there are different reasons that each item is limited
