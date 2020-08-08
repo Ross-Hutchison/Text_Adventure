@@ -702,3 +702,50 @@ processing events:
     since there are different reasons that each item is limited
 
     should now add a class that will process input so that it isn't part of game since game is doing too much
+
+    now want to move on to creating a second room - issues are
+    the room needs a door to another room where it continues to
+    however it should also have a door leading back to the tutorial room
+        - not A tutorial room - THE tutorial room
+            this would mean I'd need to store the rooms - this is bad use of storage
+
+    also since the room takes in where it needs to lead to in it's constructor this would mean all rooms would need to
+    be generated at the start of the game - terrible idea
+
+    instead:
+        could replace the leadsTo interactive with a String which specifies the room to move to when
+        the door is used - this would then be used to check if that rooms exists* and if not create the default version
+
+        * instead of storing the rooms could have a save and load method for items and rooms
+            save takes in the interactive or room and converts all it's values into a single formatted String
+            load takes in the formatted String and converts it to an interactive or room then returns it
+
+            this would allow me to store an array of Strings that represent the visited rooms
+            rather than the larger array of items - a map may be better could give rooms a unique identifier
+            this would mean more efficient fetching of room data
+
+    Another issue with this is the way the factory works
+    it generates rooms with specific names but instead should maybe have classes of rooms
+
+    could work perhaps
+    say a type called a 2 door room - would take in all the room details and also an additional two Strings
+        - comes from, leads to and creates doors for each of these
+
+        wait issue - how would it know whether it was a door or a path etc. they're different since one is locked
+
+    may still need a constructor for each room - though using door templates is useful for adding on to the main factory
+
+    can say have a room with three buttons and this could be used to create a basic room in the roomFactory which has the additional feature
+    of three buttons that need solved - also potential idea: for puzzles like the three buttons could give the room a non takable
+    item called the puzzleSolver that is not included in the description but can be used if a solvePuzzle event (or something like that)
+    occurs to represent that pushing the three buttons opens the door not using an item on it
+
+    The room subtypes are not needed at the moment - work on altering how rooms are saved and moved between
+
+    will need rooms to have an identifier to identify it in the map
+    will need the save and load methods load method can take in the identifier String to use the map to find the saveString
+    will need an event for moving rooms - when this occurs it should:
+        - save the current room need to double check that put will overwrite the last value with that id
+        - load the next room IF that room exists otherwise will generate it for the first time
+        - set the loaded room to the currentRoom may need to give game a setter
+        - output the description of the current room? maybe idk if just moving into it will do that already
