@@ -749,3 +749,24 @@ processing events:
         - load the next room IF that room exists otherwise will generate it for the first time
         - set the loaded room to the currentRoom may need to give game a setter
         - output the description of the current room? maybe idk if just moving into it will do that already
+
+    Should have a class to handle loading and saving and moving rooms - can be called in eventProcessor when a move event occurs
+    so the room's roomId can be added directly in the room creation method, not passed in as a parameter - NB: not an issue rn
+    these ID must be unique but since I control that it's fine
+    the fact that I control the roomIds means I can put the id for the desired room directly into the other room's constructor
+
+    still wary of a constructor per room but I can change that later if need be since the rooms are fixed
+        a generic method can't really help with it
+
+
+    first step:
+        add an id String and a getid method to the room class
+        then add an id to the tutorial room part of room factory
+
+        next need to think about the format for the new event
+            - SIDE NOTE: might be a good idea to make the beacons their own object or
+            have constructor methods for different beacon Strings
+
+    YEH that's smart
+        can have a class of object called event
+            - contains all the sections of the current event flags but has constructors and getter methods
