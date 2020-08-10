@@ -770,3 +770,23 @@ processing events:
     YEH that's smart
         can have a class of object called event
             - contains all the sections of the current event flags but has constructors and getter methods
+            - when a flag is needed can pass the Strings into the constructor, also instead of
+                splitting a String can have getter methods
+            - processing that happens a lot can be made a method in the class
+
+
+        So event process is
+            event starts null, an input is given
+            if input valid process input - this will return either null if no event
+                or the result of the desired interaction method if there is an event
+            the result of the interaction method is currently the interactive's resultStr for that interaction type
+
+
+        I need to:
+            create a class for events
+            give this class a constructor and getter and setter methods
+            then alter the resultStr in item and obstacle to be event types
+            then alter the factory classes to use these new constructors
+            then alter game to have event be of type event
+            then alter the event processor to use the event class
+                instead of the current Strings
