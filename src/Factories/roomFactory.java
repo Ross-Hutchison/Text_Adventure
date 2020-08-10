@@ -11,6 +11,8 @@ public class roomFactory {
     private static interactionFactory itemGenerator = new interactionFactory();
 
     public room createTutorialRoom() {
+        // the tutorial room's unique id
+        String id = "tutorialRoom";
         // generating the item array for the room
         interactive key = itemGenerator.createKey();
         interactive choco = itemGenerator.createChocolate();
@@ -40,7 +42,7 @@ public class roomFactory {
                 "laying on the floor by where your head was is a " + choco.getItemIs() + "\n" +
                 "sitting on the floor by the door is a " + box.getItemIs();
 
-        room tutorialRoom = new room(description, interactives, obstacles, blockedBy, itemIsToItem, itemIsToObstacle, originalItemCount);
+        room tutorialRoom = new room(id, description, interactives, obstacles, blockedBy, itemIsToItem, itemIsToObstacle, originalItemCount);
         return tutorialRoom;
     }
 

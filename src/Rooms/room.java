@@ -20,9 +20,11 @@ class room {
     final String USED_ITEM_WITH_ITEM_ERR_MSG = "nothing happens \n - use items on obstacles not on other items";
     final String ITEM_IS_INVIS_ERR_MSG = "you cannot see an item of that description in the room so interacting with one would be a bit hard";
     int originalItemCount;
+    String id;
 
-    public room(String description, interactive[] interactives, obstacle[] obstacles, HashMap<interactive, obstacle> blockedBy, HashMap<String, interactive> itemIsToItem,
+    public room(String id, String description, interactive[] interactives, obstacle[] obstacles, HashMap<interactive, obstacle> blockedBy, HashMap<String, interactive> itemIsToItem,
                 HashMap<String, obstacle> itemIsToObstacle, int originalItemCount) {
+        this.id = id;
         this.description = description;
         this.interactives = interactives;
         this.obstacles = obstacles;
@@ -59,6 +61,8 @@ class room {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getId() { return id; }
 
     public boolean playerTakesItem(player p, interactive toTake) {
         if (toTake == null) {

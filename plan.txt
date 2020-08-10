@@ -784,9 +784,41 @@ processing events:
 
         I need to:
             create a class for events
-            give this class a constructor and getter and setter methods
+            give this class a constructor and getter and setter methods - could have a setter for the event's belongs to which
+             is called in the Interactive's constructor to set the event to belong to that interactive
             then alter the resultStr in item and obstacle to be event types
             then alter the factory classes to use these new constructors
             then alter game to have event be of type event
             then alter the event processor to use the event class
                 instead of the current Strings
+
+
+            event class should go in the game package since it's to do with controlling the game
+                OR could have a base event class - but some events need different things
+                could have classes of event - not one class per event but broad groups like:
+                    - alterRoom - reveal an item, unlock a door etc.
+                    - alterGameData, - affect player, etc. - not in use atm
+                    - outputMessage - these events only need a msg variable: output message, win game, is used up etc.
+
+            the abstract event class contains:
+                the type of event   - Str
+                the interaction it belongs to   - interactive
+                the interaction type it represents  - Str
+                the limit   - int
+                the usedUp msg  - Str
+
+                could have two constructors, one has a limit and a message
+                the other doesn't, the one without auto assigns them to -1 and "can't be used up"
+                since this prevents unnecessary typing
+
+                also doesn't take in belongsTo since this will always be null
+                    as the value is assigned in the interactive's constructor
+
+                will need setter methods for:
+                    belongsTo
+
+                will need a decreaseLimit method
+                    checks limit != -1 or 0
+                    and then decreases it by 1
+
+                 can add other methods as I find I need them
