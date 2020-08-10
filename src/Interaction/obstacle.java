@@ -1,5 +1,7 @@
 package Interaction;
 
+import Events.event;
+
 public class obstacle extends interactive {
     private boolean solved;
     private interactive solvedBy;
@@ -7,12 +9,12 @@ public class obstacle extends interactive {
     private String resolveFailMsg;
     private String alreadyResolvedMsg;
     private String usedWithoutSolveMsg;
-    private String useNonResolvedResult;
+    private event useNonResolvedResult;
 
 
     public obstacle(interactive solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg,
-                    String useNonResolvedResult, String itemIs, String description, String feelsLike, String usedAlone, String touchResult,
-                    String useResult, boolean canTake) {
+                    event useNonResolvedResult, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
+                    event useResult, boolean canTake) {
 
         super(itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake);
         this.solved = false;
@@ -22,7 +24,7 @@ public class obstacle extends interactive {
         this.alreadyResolvedMsg = alreadyResolvedMsg;
         this.usedWithoutSolveMsg = usedWithoutSolveMsg;
         this.useNonResolvedResult = useNonResolvedResult;
-        this.canTake = canTake;
+        this.canTake = false;   // no matter the input canTake - find a way to remove it, maybe give interactive a constructor without canTake
     }
 
     public void resolve(interactive usedWith) {
@@ -39,7 +41,7 @@ public class obstacle extends interactive {
     }
 
     @Override
-    public String use() {
+    public event use() {
         if (this.solved) {
             System.out.println(this.usedAlone);
             return this.useResult;

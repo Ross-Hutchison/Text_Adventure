@@ -1,23 +1,27 @@
 package Interaction;
 
+import Events.event;
+
 public class interactive {
     String itemIs;
     String description;
     String feelsLike;
     String usedAlone;
-    String touchResult;
-    String useResult;
+    event touchResult;
+    event useResult;
     boolean canTake;
     boolean visible;
 
-    public interactive(String itemIs, String description, String feelsLike, String usedAlone, String touchResult,
-                       String useResult, boolean canTake) {
+    public interactive(String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
+                       event useResult, boolean canTake) {
         this.itemIs = itemIs;
         this.description = description;
         this.feelsLike = feelsLike;
         this.usedAlone = usedAlone;
         this.touchResult = touchResult;
+        this.touchResult.setBelongsTo(this);    // lets the event object know which interactive it applies to
         this.useResult = useResult;
+        this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
         this.canTake = canTake;
         this.visible = true;    // default state for any interactive is to be visible
     }
@@ -34,7 +38,7 @@ public class interactive {
         return feelsLike;
     }
 
-    public String getTouchResult() {
+    public event getTouchResult() {
         return touchResult;
     }
 
@@ -42,7 +46,7 @@ public class interactive {
         return usedAlone;
     }
 
-    public String getUseResult() {
+    public event getUseResult() {
         return useResult;
     }
 
@@ -54,13 +58,11 @@ public class interactive {
         return visible;
     }
 
-    public void setUseResult(String useResult) {
+    public void setUseResult(event useResult) {
         this.useResult = useResult;
     }
 
-    public void setTouchResult(String touchResult) {
-        this.touchResult = touchResult;
-    }
+    public void setTouchResult(event touchResult) { this.touchResult = touchResult; }
 
     public void setVisible(boolean visible) { this.visible = visible; }
 
@@ -68,12 +70,12 @@ public class interactive {
         System.out.println(this.description);
     }
 
-    public String touch() {
+    public event touch() {
         System.out.println(this.feelsLike);
         return this.touchResult;
     }
 
-    public String use() {
+    public event use() {
         System.out.println(this.usedAlone);
         return this.useResult;
     }

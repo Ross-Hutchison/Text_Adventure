@@ -834,3 +834,18 @@ processing events:
                  the contents of this String will vary between event types
 
                  will need a getter method for it
+
+        Now that event items are set up need to alter interactive and obstacle to use them instead of String based events
+
+            first step is to replace the String "...Result"s with events - important to use generic event
+            since otherwise only specific subtypes would be allowed.
+
+            also will need to alter the return types of the getter methods and the interaction methods that return events
+
+            after that is done need to alter factory classes
+
+            interactionFactory updated to use event objects over Strings
+
+        now need to alter the game class
+
+

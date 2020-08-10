@@ -2,7 +2,7 @@ package Events;
 
 import Interaction.*;
 
-abstract class event {
+public abstract class event {
     /*
         the variables all event flags have:
         type - the type of event - winGame etc. specifies how exactly it's processed, two outputMessageEvents can be treated differently
@@ -12,11 +12,11 @@ abstract class event {
         limit - the number of times the event can occur, -1 == no limit
         usedUpMsg - the message displayed when an event can no longer occur - limit == 0
     */
-    String type;
-    interactive belongsTo;
-    String interactionType;
-    int limit;
-    String usedUpMsg;
+    private String type;
+    private interactive belongsTo;
+    private String interactionType;
+    private int limit;
+    private String usedUpMsg;
 
     // constructor for limited events
     public event(String type, String interactionType, int limit, String usedUpMsg) {

@@ -3,6 +3,7 @@ package Factories;
 import Interaction.interactive;
 import Interaction.obstacle;
 import Rooms.room;
+import Events.*;
 
 public class interactionFactory {
 
@@ -12,8 +13,8 @@ public class interactionFactory {
         String description = "a heavy brass key of unusual size, the bow of which is a large ring about the size of your hand";
         String feelsLike = "the metal is cool to the touch, and smooth, the bit is made up of several rectangular teeth";
         String usedAlone = "you idly toss the key up by the bit and catch it by the bow. Very stylish";
-        String useResult = null;
-        String touchResult = null;
+        event useResult = null;
+        event touchResult = null;
 
         interactive key = new interactive(itemIs, description, feelsLike, usedAlone, touchResult, useResult, true);
         return key;
@@ -26,8 +27,11 @@ public class interactionFactory {
 
         String feelsLike = "the wrapper crinkles under you hand, you can feel 6 rows of 3 squares, 18 delicious bites";   // maybe give a count for pieces left at some point - can be eaten one by one
         String usedAlone = "despite the unease from how much the mascot wanted to be eaten, you go to bite the chocolate";
-        String useResult = "outputMessage-" + itemIs + "-The sweetness is overwhelming, the bar must be 90% sugar-useResult-1";
-        String touchResult = null;
+
+        event useResult = new outputMessageEvent("outputMessage", "use",
+                "The sweetness is overwhelming, the bar must be 90% sugar", 6, "there is no more chocolate to eat");
+
+        event touchResult = null;
 
         interactive chocolate = new interactive(itemIs, description, feelsLike, usedAlone, touchResult, useResult, true);
         return chocolate;
@@ -40,8 +44,10 @@ public class interactionFactory {
 
         String feelsLike = "the wood is smooth, it's a very nicely crafted box";
         String usedAlone = "you lift the lid of the box and look inside";
-        String useResult = "revealItem-" + itemIs + "-" + inside.getItemIs() + "-" + "useResult-1"; // can happen once
-        String touchResult = null;
+        event useResult = new alterRoomEvent("revealItem", inside.getItemIs(), "use", 1,
+                "you close the box and open it again... nothing has changed");
+
+        event touchResult = null;
 
         interactive box = new interactive(itemIs, description, feelsLike, usedAlone, touchResult, useResult, true);
         inside.setVisible(false);
@@ -63,9 +69,11 @@ public class interactionFactory {
         String alreadyResolvedMsg = "the door is already unlocked prodding it more probably won't achieve much";
         String usedWithoutSolveMsg = "you push at the door, it doesn't budge. It must be locked";
 
-        String useResult = "winGame-" + itemIs + "-Congratulations you left the room!!!: you have won the game-" + "useResult-1"; //can only win once
-        String touchResult = null;
-        String useNonResolvedResult = null;
+        event useResult = new outputMessageEvent("winGame", "use",
+                "Congratulations you left the room!!!: you have won the game");
+
+        event touchResult = null;
+        event useNonResolvedResult = null;
 
         obstacle woodenDoor = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
                 itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
