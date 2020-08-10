@@ -51,4 +51,10 @@ abstract class event {
             this.limit--;
         }
     }
+
+    public String getType() { return this.type; }
+    public interactive belongsTo() { return this.belongsTo; }
+    public String getInteractionType() { return this.interactionType; }
+    public int getlimit() { return this.limit; }
+    public String getUsedUpMsg() { return this.usedUpMsg; }
 }

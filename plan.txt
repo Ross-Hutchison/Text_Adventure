@@ -822,3 +822,15 @@ processing events:
                     and then decreases it by 1
 
                  can add other methods as I find I need them
+
+                 will need getters for all variables
+
+                 the outputMessageEvent class will need a message that they need to output
+                 will need to add this to the class and the constructor
+
+                 as well as this i'll need a getter for it
+
+                 the alterRoomEvent class will need a way to store a String of additional data
+                 the contents of this String will vary between event types
+
+                 will need a getter method for it

@@ -1,11 +1,10 @@
 package Game;
 
 import Factories.roomFactory;
+import Processors.eventProcessor;
+import Processors.inputProcessor;
 import Rooms.*;
-import Interaction.interactive;
-import Interaction.obstacle;
 
-import java.util.HashMap;
 import java.util.regex.*;
 
 public class game {

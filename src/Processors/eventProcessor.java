@@ -1,14 +1,16 @@
-package Game;
+package Processors;
 
+import Game.game;
+import Game.player;
 import Interaction.interactive;
 import Interaction.obstacle;
 import Rooms.room;
 
 import java.util.HashMap;
 
-class eventProcessor {
+public class eventProcessor {
 
-    void processEvent(String event, player player, room currentRoom) {
+    public void processEvent(String event, player player, room currentRoom) {
         if (event != null) {
             String[] parts = event.split("-");
             if (parts.length == 5) { //valid format is eventType-itemCausingIt-additionalInformation-interactionType-usesLeft

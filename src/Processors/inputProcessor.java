@@ -1,7 +1,9 @@
-package Game;
+package Processors;
 
 import Interaction.interactive;
 import Interaction.obstacle;
+import Game.game;
+import Game.player;
 import Rooms.room;
 
 import java.util.HashMap;
