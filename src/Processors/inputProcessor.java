@@ -1,5 +1,6 @@
 package Processors;
 
+import Events.event;
 import Interaction.interactive;
 import Interaction.obstacle;
 import Game.game;
@@ -30,7 +31,7 @@ public class inputProcessor {
 
         the verb is then checked to determine which function is carried out
      */
-    public String processVerbObject(String input, room currentRoom, player p) {
+    public event processVerbObject(String input, room currentRoom, player p) {
         String[] parts = input.split(" "); //separate the input by ' '
         String verb = parts[0]; // takes the verb
         String item = "\"" + input.substring(verb.length() + 1) + "\"";  // uses the verb's length to take the set of words
@@ -78,7 +79,7 @@ public class inputProcessor {
     /*
        returns null when the action does not lead to a game event such as winning
     */
-    public String processItemVerbItem(String input, room currentRoom, player p) {
+    public event processItemVerbItem(String input, room currentRoom, player p) {
         // checking the contents of the input
         String[] verbs_2Arr = verbs_2.split("\\|"); // array of verbs for: "item verb item" format
         String splitterVerb = null;

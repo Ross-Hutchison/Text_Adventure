@@ -7,16 +7,16 @@ public class alterRoomEvent extends event{
     /*
     constructor for limited alter room events (like 95% of them)
      */
-    public alterRoomEvent(String type, String eventSpecifics, String interactionType, int limit, String usedUpMsg) {
-        super(type, interactionType, limit, usedUpMsg);
+    public alterRoomEvent(String type, String eventSpecifics, int limit, String usedUpMsg) {
+        super(type, limit, usedUpMsg);
         this.eventSpecifics = eventSpecifics;
     }
 
     /*
     constructor for unlimited alter room events (just in case)
      */
-    public alterRoomEvent(String type, String eventSpecifics, String interactionType) {
-        super(type, interactionType);
+    public alterRoomEvent(String type, String eventSpecifics) {
+        super(type);
         this.eventSpecifics = eventSpecifics;
     }
 

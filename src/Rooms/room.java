@@ -1,5 +1,6 @@
 package Rooms;
 
+import Events.event;
 import Interaction.interactive;
 import Interaction.obstacle;
 import Game.player;
@@ -132,7 +133,7 @@ class room {
         } else lookedAt.lookAt();
     }
 
-    public String playerTouchedItem(player p, interactive touched) {
+    public event playerTouchedItem(player p, interactive touched) {
         if (touched == null) {
             System.out.println(USE_NULL_OBJ_ERR_MSG);
             return null;
@@ -150,7 +151,7 @@ class room {
         }
     }
 
-    public String playerUsedItem(player p, interactive used) {
+    public event playerUsedItem(player p, interactive used) {
         if(used == null) {
             System.out.println(USE_NULL_OBJ_ERR_MSG);
             return null;

@@ -1,6 +1,7 @@
 package Game;
 
 import Factories.roomFactory;
+import Events.event;
 import Processors.eventProcessor;
 import Processors.inputProcessor;
 import Rooms.*;
@@ -71,17 +72,17 @@ public class game {
 
     private void processInput(String input) {
         Matcher verbObjMatcher = verbObjectPattern.matcher(input);
-        String event = null;
-        if (verbObjMatcher.matches()) event = I_processor.processVerbObject(input, currentRoom, Jo);
+        event currentEvent = null;
+        if (verbObjMatcher.matches()) currentEvent = I_processor.processVerbObject(input, currentRoom, Jo);
         else {
             Matcher itemVerbItemMatcher = itemVerbItemPattern.matcher(input);
             if (itemVerbItemMatcher.matches())
-                event = I_processor.processItemVerbItem(input, currentRoom, Jo);
+                currentEvent = I_processor.processItemVerbItem(input, currentRoom, Jo);
             else {
                 System.out.println(INVALID_COMMAND_ERR_MSG);
             }
         }
-        E_processor.processEvent(event, Jo, currentRoom);
+        E_processor.processEvent(currentEvent, Jo, currentRoom);
     }
 
     public boolean getGameEnd() {

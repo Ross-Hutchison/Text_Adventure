@@ -14,47 +14,46 @@ public abstract class event {
     */
     private String type;
     private interactive belongsTo;
-    private String interactionType;
     private int limit;
     private String usedUpMsg;
 
     // constructor for limited events
-    public event(String type, String interactionType, int limit, String usedUpMsg) {
+    public event(String type, int limit, String usedUpMsg) {
         this.type = type;
         this.belongsTo = null; // assigned when it is passed into an interactive's constructor
-        this.interactionType = interactionType;
         this.limit = limit;
         this.usedUpMsg = usedUpMsg;
     }
 
     // constructor for unlimited events - saves typing in -1 and "cannot be used up..." repeatedly
-    public event(String type, String interactionType) {
+    public event(String type) {
         this.type = type;
         this.belongsTo = null; // assigned when it is passed into an interactive's constructor
-        this.interactionType = interactionType;
         this.limit = -1;
         this.usedUpMsg = "cannot be used up - no limit";
     }
 
     /*
-        used to tell the event which interactive it belongs to
-     */
-    public void setBelongsTo(interactive belongsTo) { this.belongsTo = belongsTo; }
-
-    /*
-    checks there is a limit (limit != -1)
-    and then that the limit has not been reached (limit != 0)
-    if this is the case decreases the limit by 1
+    a limit of -1 represents an unlimited event
+    while a limit of 0 represents a depleted event
+    checking the limit is > 0 means that unlimited and
+    depleted events are ignored while limited but non depleted events
+    have their remaining uses decreased
      */
     public void decreaseLimit() {
-        if(this.limit != -1 && this.limit != 0) {
+        if(this.limit > 0) {
             this.limit--;
         }
     }
 
+
+    /*
+    used to tell the event which interactive it belongs to
+ */
+    public void setBelongsTo(interactive belongsTo) { this.belongsTo = belongsTo; }
+
     public String getType() { return this.type; }
-    public interactive belongsTo() { return this.belongsTo; }
-    public String getInteractionType() { return this.interactionType; }
-    public int getlimit() { return this.limit; }
+    public interactive getBelongsTo() { return this.belongsTo; }
+    public int getLimit() { return this.limit; }
     public String getUsedUpMsg() { return this.usedUpMsg; }
 }

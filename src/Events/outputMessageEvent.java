@@ -7,16 +7,16 @@ public class outputMessageEvent extends event {
     /*
     Constructor for limited message output events
      */
-    public outputMessageEvent(String type, String interactionType, String msg, int limit, String usedUpMsg) {
-        super(type, interactionType, limit, usedUpMsg);
+    public outputMessageEvent(String type, String msg, int limit, String usedUpMsg) {
+        super(type, limit, usedUpMsg);
         this.msg = msg;
     }
 
     /*
     Constructor for unlimited message output events
      */
-    public outputMessageEvent(String type, String interactionType, String msg) {
-        super(type, interactionType);
+    public outputMessageEvent(String type, String msg) {
+        super(type);
         this.msg = msg;
     }
 

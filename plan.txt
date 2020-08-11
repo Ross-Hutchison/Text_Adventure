@@ -848,4 +848,40 @@ processing events:
 
         now need to alter the game class
 
+            processInput method has an event which is returned from the sub processing method for the specific input format
+            will need to make it event - will also need to alter the return values of the two processing methods
+
+            will need to alter the input and event processors,
+
+            for input just need to change variable types
+
+            however for event need to remove the split statement and assign values using the getter's
+
+            the revealItem message takes in a String and uses it to find the item - can replace this with the belongsTo
+
+            can remove the informPlayerItemIsUsedUp method since each event has it's own usedUp msg
+
+            so after processing a String event the method would:
+                check the remaining uses was not no limit
+                if the uses were limited - do next otherwise stop processing
+                uses the cause String to find the item to alter
+                decreases the uses left
+                generates the flag for usedUp and decreased event
+                sets the appropriate flag to be tbe interactive's event flag
+
+
+            with event based this is pointless -
+            can call the decrease method since it accounts for 0 and -1
+            no need to do anything else at this stage
+            however will need to add a check for limit 0 before any processing occurs
+
+            realised that the interactionType was only needed for the String based system
+            since it was used to determine which event variable in the item was to be changed
+            and which usedUp message was to be output
+
+            since events are their own items now this is irrelevant
+
+            
+
+
 
