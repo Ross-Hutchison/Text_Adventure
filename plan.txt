@@ -881,7 +881,9 @@ processing events:
 
             since events are their own items now this is irrelevant
 
-            
+            Now go through the methods for event handling and see what can be replaced in the new system
+
+                can make the methods take in the event instead of tonnes of parameters
 
 
 
