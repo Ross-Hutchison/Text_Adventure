@@ -24,6 +24,7 @@ public class obstacle extends interactive {
         this.alreadyResolvedMsg = alreadyResolvedMsg;
         this.usedWithoutSolveMsg = usedWithoutSolveMsg;
         this.useNonResolvedResult = useNonResolvedResult;
+        if(this.useNonResolvedResult != null) this.useNonResolvedResult.setBelongsTo(this);
         this.canTake = false;   // no matter the input canTake - find a way to remove it, maybe give interactive a constructor without canTake
     }
 

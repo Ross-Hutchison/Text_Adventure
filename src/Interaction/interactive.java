@@ -19,9 +19,9 @@ public class interactive {
         this.feelsLike = feelsLike;
         this.usedAlone = usedAlone;
         this.touchResult = touchResult;
-        this.touchResult.setBelongsTo(this);    // lets the event object know which interactive it applies to
+        if(this.touchResult != null) this.touchResult.setBelongsTo(this);    // lets the event object know which interactive it applies to
         this.useResult = useResult;
-        this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
+        if(this.useResult != null) this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
         this.canTake = canTake;
         this.visible = true;    // default state for any interactive is to be visible
     }

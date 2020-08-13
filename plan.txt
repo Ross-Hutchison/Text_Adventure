@@ -759,13 +759,13 @@ processing events:
         a generic method can't really help with it
 
 
-    first step:
-        add an id String and a getid method to the room class
-        then add an id to the tutorial room part of room factory
+  first step:
+    add an id String and a getid method to the room class
+    then add an id to the tutorial room part of room factory
 
-        next need to think about the format for the new event
-            - SIDE NOTE: might be a good idea to make the beacons their own object or
-            have constructor methods for different beacon Strings
+    next need to think about the format for the new event
+       - SIDE NOTE: might be a good idea to make the beacons their own object or
+             have constructor methods for different beacon Strings
 
     YEH that's smart
         can have a class of object called event
@@ -887,3 +887,51 @@ processing events:
 
 
 
+
+
+    Okay now back to implementing moving rooms
+        First step was to give rooms an id which I did
+
+        After that next steps were:
+            " will need the save and load methods load method can take in the identifier String to use the map to find the saveString
+                will need an event for moving rooms - when this occurs it should:
+                    - save the current room need to double check that put will overwrite the last value with that id
+                    - load the next room IF that room exists otherwise will generate it for the first time
+                    - set the loaded room to the currentRoom may need to give game a setter
+                    - output the description of the current room? maybe idk if just moving into it will do that already
+
+                Should have a class to handle loading and saving and moving rooms - can be called in eventProcessor when a move event occurs
+                so the room's roomId can be added directly in the room creation method, not passed in as a parameter - NB: not an issue rn
+                these ID must be unique but since I control that it's fine
+                the fact that I control the roomIds means I can put the id for the desired room directly into the other room's constructor"
+
+        So, first step is to set up the traversalProcessor class - stick it in Processors package
+
+            this will handle the events of moving room - including storing the data on the existing rooms,
+
+            is my idea for Stringifying the the objects a good one?
+            - would likely save space complexity at the expense of time complexity
+            - bigger hit to time complexity in the long run but also bigger reduction in space complexity
+            - moving rooms a lot would mean a LOT of processing
+            - each move would need to Stringify the room and every object in it
+            - then replace the value in the Map of ID to roomStr
+            - then it would need to parse the saveStr for the new room
+            - The complexity for the Stringification of an interactive would be O(1) since they're all the same mostly
+            - This means that the complexity for the room would be O(N) where N is based on the number of interactives present
+
+            - Process would be:
+                - for the room - add description to the String
+                - then add the string version of the interactives array
+                    - for each interactive need to stringify which involves:
+                        - going through and adding each of the values to the String separated by a different separator than the room uses
+                        (will need special separators for each segment - one for the room, one for the interactive segment, one for the interactive values etc.)
+
+                    - do the same for obstacles array
+                    - then save the relationship between interactives and what obstacles block them
+                    - no need to save the other HashMaps since I cna create those easily from the items
+
+
+
+    While doing this found that if an interactive had a null event it would cause a NullPointerException when
+    trying to assign a belongsTo for a null value - added a check to prevent this in interactive
+    and obstacle constructors

@@ -8,12 +8,14 @@ import Rooms.room;
 
 public class eventProcessor {
 
+    private traversalProcessor T_processor = new traversalProcessor();
+
     public void processEvent(event event, player player, room currentRoom) {
         if (event != null && event.getLimit() != 0) {   // the event exists and has not been depleted
                 String type = event.getType(); // the type of event that occurred
                 switch (type) {
                     case "winGame": // the game has been won
-                        gameWon( (event));    // the additional info will be a message that details the game's end
+                        gameWon(event, currentRoom);    // the additional info will be a message that details the game's end
                         break;
                     case "revealItem": // an item has been revealed in the room
                         // adds the itemIs of the revealed item to the current room's description, the cause is the interaction that revealed the item
@@ -33,10 +35,11 @@ public class eventProcessor {
         }
     }
 
-    private void gameWon(event eventData) {
+    private void gameWon(event eventData, room c) {
         outputMessageEvent event = (outputMessageEvent) eventData;
         game.setGameEnd(true);
         game.setEndMsg(event.getMsg());
+        T_processor.saveRoom(c);
     }
 
     private void revealAnItemInTheRoom(room currentRoom, event eventData) {

@@ -28,7 +28,7 @@ public class interactionFactory {
         String feelsLike = "the wrapper crinkles under you hand, you can feel 6 rows of 3 squares, 18 delicious bites";   // maybe give a count for pieces left at some point - can be eaten one by one
         String usedAlone = "despite the unease from how much the mascot wanted to be eaten, you go to bite the chocolate";
 
-        event useResult = new outputMessageEvent("outputMessage", "use",
+        event useResult = new outputMessageEvent("outputMessage",
                 "The sweetness is overwhelming, the bar must be 90% sugar", 6, "there is no more chocolate to eat");
 
         event touchResult = null;
@@ -44,7 +44,7 @@ public class interactionFactory {
 
         String feelsLike = "the wood is smooth, it's a very nicely crafted box";
         String usedAlone = "you lift the lid of the box and look inside";
-        event useResult = new alterRoomEvent("revealItem", inside.getItemIs(), "use", 1,
+        event useResult = new alterRoomEvent("revealItem", inside.getItemIs(), 1,
                 "you close the box and open it again... nothing has changed");
 
         event touchResult = null;
@@ -69,7 +69,7 @@ public class interactionFactory {
         String alreadyResolvedMsg = "the door is already unlocked prodding it more probably won't achieve much";
         String usedWithoutSolveMsg = "you push at the door, it doesn't budge. It must be locked";
 
-        event useResult = new outputMessageEvent("winGame", "use",
+        event useResult = new outputMessageEvent("winGame",
                 "Congratulations you left the room!!!: you have won the game");
 
         event touchResult = null;
