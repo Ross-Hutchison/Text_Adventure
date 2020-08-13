@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 public class main {
     public static void main(String[] args) {
         game control = new game();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         control.outputIntroPara();
         control.outputCommandFormats(); // outputs the information on how to control the game
@@ -16,15 +15,8 @@ public class main {
 
         control.setUpGame();
 
-        while(!control.getGameEnd()) {
-            try {
-                String input = reader.readLine();
-                control.turn(input);
-            }
-            catch (IOException e) {
-                System.out.println("ERROR: "  + e.getMessage());
-
-            }
+        while (!control.getGameEnd()) {
+            control.turn();
         }
         System.out.println("\n--------------------\n" + control.getEndMsg() + "\n--------------------");
     }

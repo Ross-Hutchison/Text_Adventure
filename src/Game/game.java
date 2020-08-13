@@ -6,6 +6,9 @@ import Processors.eventProcessor;
 import Processors.inputProcessor;
 import Rooms.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.regex.*;
 
 public class game {
@@ -24,6 +27,7 @@ public class game {
     private Pattern itemVerbItemPattern = Pattern.compile("^[a-zA-Z]+( [a-zA-Z]+)+ (" + verbs_2 + ")( [a-zA-Z]+)+$");
     private eventProcessor E_processor = new eventProcessor();
     private inputProcessor I_processor = new inputProcessor();
+    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public void outputCommandFormats() {
         System.out.println("--------------------");
@@ -61,13 +65,18 @@ public class game {
         Jo = new player(); // the canonical name of the PC is Jo
         I_processor.setUpInputProcessor(this);
 
-        System.out.println(currentRoom.getDescription());
         System.out.println("--------------------\n");
     }
 
-    public void turn(String input) {
-        processInput(input);
-        System.out.println("\n" + currentRoom.getDescription());
+    public void turn() {
+        try {
+            System.out.println("\n" + currentRoom.getDescription() + "\n");
+            String input = reader.readLine();
+            processInput(input);
+        }
+        catch (IOException e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
     }
 
     private void processInput(String input) {
