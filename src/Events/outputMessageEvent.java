@@ -9,6 +9,7 @@ public class outputMessageEvent extends event {
      */
     public outputMessageEvent(String type, String msg, int limit, String usedUpMsg) {
         super(type, limit, usedUpMsg);
+        this.eventSubType = "outputMessage";
         this.msg = msg;
     }
 
@@ -17,6 +18,7 @@ public class outputMessageEvent extends event {
      */
     public outputMessageEvent(String type, String msg) {
         super(type);
+        this.eventSubType = "outputMessage";
         this.msg = msg;
     }
 

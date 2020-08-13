@@ -935,3 +935,25 @@ processing events:
     While doing this found that if an interactive had a null event it would cause a NullPointerException when
     trying to assign a belongsTo for a null value - added a check to prevent this in interactive
     and obstacle constructors
+
+    while saving events I'll need a way to check the type of event that is being saved since they have different types
+    this will require me to add a type variable to the class
+
+    it is initialised in the subtype constructors to be a specific value - outputMsg, alterRoom etc.
+
+    this lets me know which subtype I should cast the generic event to
+
+    this will allow me to add a check to the save method and load method so that
+    they work properly
+
+    that works fine - think I've got separators being added at the end
+
+    so there's an extra array entry separator but not an extra room data separator the method's just not done yet
+
+    issue was that I was looking to stop the inserted separator at the end of the array
+    but had used a check for i != length - 2 which lead to it not adding the separator to the penultimate element
+
+    fixed by using a check for i != length - 1
+
+
+    now need to do the same for obstacles

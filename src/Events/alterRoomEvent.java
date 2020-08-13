@@ -9,6 +9,7 @@ public class alterRoomEvent extends event{
      */
     public alterRoomEvent(String type, String eventSpecifics, int limit, String usedUpMsg) {
         super(type, limit, usedUpMsg);
+        this.eventSubType = "alterRoom";
         this.eventSpecifics = eventSpecifics;
     }
 
@@ -17,6 +18,7 @@ public class alterRoomEvent extends event{
      */
     public alterRoomEvent(String type, String eventSpecifics) {
         super(type);
+        this.eventSubType = "alterRoom";
         this.eventSpecifics = eventSpecifics;
     }
 

@@ -12,6 +12,7 @@ public abstract class event {
         limit - the number of times the event can occur, -1 == no limit
         usedUpMsg - the message displayed when an event can no longer occur - limit == 0
     */
+    String eventSubType;
     private String type;
     private interactive belongsTo;
     private int limit;
@@ -56,4 +57,6 @@ public abstract class event {
     public interactive getBelongsTo() { return this.belongsTo; }
     public int getLimit() { return this.limit; }
     public String getUsedUpMsg() { return this.usedUpMsg; }
+
+    public String getEventSubType() { return this.eventSubType; }
 }

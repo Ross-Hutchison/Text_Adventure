@@ -72,7 +72,8 @@ public class interactionFactory {
         event useResult = new outputMessageEvent("winGame",
                 "Congratulations you left the room!!!: you have won the game");
 
-        event touchResult = null;
+        event touchResult = new outputMessageEvent("winGame",
+                "Congratulations you left the room!!!: you have won the game");
         event useNonResolvedResult = null;
 
         obstacle woodenDoor = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
