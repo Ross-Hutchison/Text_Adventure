@@ -26,6 +26,24 @@ public class interactive {
         this.visible = true;    // default state for any interactive is to be visible
     }
 
+    public void lookAt() {
+        System.out.println(this.description);
+    }
+
+    public event touch() {
+        System.out.println(this.feelsLike);
+        return this.touchResult;
+    }
+
+    public event use() {
+        System.out.println(this.usedAlone);
+        return this.useResult;
+    }
+
+    public void useOn(obstacle useOn) {
+        useOn.resolve(this);
+    }
+
     public String getItemIs() {
         return this.itemIs;
     }
@@ -58,29 +76,6 @@ public class interactive {
         return visible;
     }
 
-    public void setUseResult(event useResult) {
-        this.useResult = useResult;
-    }
-
-    public void setTouchResult(event touchResult) { this.touchResult = touchResult; }
-
     public void setVisible(boolean visible) { this.visible = visible; }
 
-    public void lookAt() {
-        System.out.println(this.description);
-    }
-
-    public event touch() {
-        System.out.println(this.feelsLike);
-        return this.touchResult;
-    }
-
-    public event use() {
-        System.out.println(this.usedAlone);
-        return this.useResult;
-    }
-
-    public void useOn(obstacle useOn) {
-        useOn.resolve(this);
-    }
 }

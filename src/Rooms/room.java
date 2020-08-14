@@ -20,11 +20,10 @@ class room {
     final String USED_OBST_WITH_OBST_ERR_MSG = "Maybe combining two obstacles isn't the way to clear the path \n - use items with obstacles not other obstacles";
     final String USED_ITEM_WITH_ITEM_ERR_MSG = "nothing happens \n - use items on obstacles not on other items";
     final String ITEM_IS_INVIS_ERR_MSG = "you cannot see an item of that description in the room so interacting with one would be a bit hard";
-    int originalItemCount;
     String id;
 
     public room(String id, String description, interactive[] interactives, obstacle[] obstacles, HashMap<interactive, obstacle> blockedBy, HashMap<String, interactive> itemIsToItem,
-                HashMap<String, obstacle> itemIsToObstacle, int originalItemCount) {
+                HashMap<String, obstacle> itemIsToObstacle) {
         this.id = id;
         this.description = description;
         this.interactives = interactives;
@@ -32,7 +31,6 @@ class room {
         this.blockedBy = blockedBy;
         this.itemIsToItem = itemIsToItem;
         this.itemIsToObstacle = itemIsToObstacle;
-        this.originalItemCount = originalItemCount;
     }
 
     public interactive[] getInteractives() {
@@ -42,6 +40,8 @@ class room {
     public String getDescription() {
         return description;
     }
+
+    public obstacle[] getObstacles() { return obstacles; }
 
     public HashMap<interactive, obstacle> getBlockedBy() {
         return blockedBy;
@@ -53,10 +53,6 @@ class room {
 
     public HashMap<String, obstacle> getItemIsToObstacle() {
         return itemIsToObstacle;
-    }
-
-    public int getOriginalItemCount() {
-        return originalItemCount;
     }
 
     public void setDescription(String description) {

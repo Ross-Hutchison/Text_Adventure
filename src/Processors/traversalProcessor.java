@@ -1,6 +1,7 @@
 package Processors;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import Rooms.room;
 import Interaction.*;
@@ -13,6 +14,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
     private final String ARRAY_ENTRY_SEPARATOR = " , ";   // separates the different interactives in the room
     private final String INTERACTIVE_DATA_SEPARATOR = " | ";    // separates the different variables of each interactive
     private final String EVENT_DATA_SEPARATOR = " ; ";
+    private final String MAP_DATA_SEPARATOR = " ! ";
 
     void saveRoom(room toSave) {    // converts the room to a String
         String saveData = ""; // used to store all the data
@@ -22,34 +24,79 @@ class traversalProcessor {  // can be package-protected since it'll be called in
 
         interactive[] interactives = toSave.getInteractives();
 
-        for (int i = 0; i < interactives.length; i++) {
-            interactive current = toSave.getInteractives()[i];
+        for (int i = 0; i < interactives.length; i++) { // add all the items to the saveData
+            interactive current = interactives[i];
+            if (i != 0) { saveData = saveData.concat(ARRAY_ENTRY_SEPARATOR); }// if not first element add separator before element
             saveData = saveData.concat(saveInteractive(current));
-            if (i != interactives.length - 1)
-                saveData += ARRAY_ENTRY_SEPARATOR; // if not last element add separator
         }
         saveData += ROOM_DATA_SEPARATOR;
 
-        System.out.println(saveData);
+        obstacle[] obstacles = toSave.getObstacles();
+
+        for(int i = 0; i < obstacles.length; i++ ) {    // add all the obstacles to the saveData
+            obstacle current = obstacles[i];
+            if (i != 0) { saveData = saveData.concat(ARRAY_ENTRY_SEPARATOR); }// if not first element add separator before element
+            saveData = saveData.concat(saveObstacle(current));
+        }
+
+        saveData += ROOM_DATA_SEPARATOR;
+
+        // now saves the hashMap that maps interactives to the obstacles that block them
+        Map<interactive, obstacle> map = toSave.getBlockedBy();
+        Object[] keys = map.keySet().toArray(); // the set of all items that are blocked
+
+        for(int i = 0; i < keys.length; i++) {
+            interactive current = (interactive)keys[i];
+            String toAdd = current.getItemIs() + ":" + map.get(current);
+            if(i != 0) saveData += MAP_DATA_SEPARATOR;
+            saveData += toAdd;
+        }
+
+        roomIdToSaveData.put(toSave.getId(), saveData);
     }
 
-    private String saveInteractive(interactive toSave) { // converts the interactive to a String
+    /*
+        converts an obstacle to a String for saving
+     */
+    private String saveObstacle(obstacle toSave) {
         String saveData = "";
-        saveData += toSave.getItemIs();
+        saveData += toSave.getSolvedBy().getItemIs(); // only need itemIs since by this point in loading the item will have been made
         saveData += INTERACTIVE_DATA_SEPARATOR;
-        saveData += toSave.getDescription();
+        saveData += toSave.getResolvedMsg();
         saveData += INTERACTIVE_DATA_SEPARATOR;
-        saveData += toSave.getFeelsLike();
+        saveData += toSave.getResolveFailMsg();
         saveData += INTERACTIVE_DATA_SEPARATOR;
-        saveData += toSave.getUsedAlone();
+        saveData += toSave.getAlreadyResolvedMsg();
         saveData += INTERACTIVE_DATA_SEPARATOR;
-        saveData += saveEvent(toSave.getTouchResult());
+        saveData += toSave.getUsedWithoutSolveMsg();
         saveData += INTERACTIVE_DATA_SEPARATOR;
-        saveData += saveEvent(toSave.getUseResult());
+        saveData += saveEvent(toSave.getUseNonResolvedResult());
         saveData += INTERACTIVE_DATA_SEPARATOR;
-        saveData += toSave.getCanTake();    // might need to be more - cause is boolean
+        saveData += saveInteractive(toSave);    // adds the standard interactive data
 
-        System.out.println(saveData);
+        return saveData;
+    }
+
+    private String saveInteractive(interactive toSave) {// converts the interactive to a String
+        String saveData = "";
+
+        if(toSave != null) {
+            saveData += toSave.getItemIs();
+            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += toSave.getDescription();
+            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += toSave.getFeelsLike();
+            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += toSave.getUsedAlone();
+            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += saveEvent(toSave.getTouchResult());
+            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += saveEvent(toSave.getUseResult());
+            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += toSave.getCanTake();    // might need to be more - cause is boolean
+        }
+        else saveData += "an empty space";
+
         return saveData;
     }
 

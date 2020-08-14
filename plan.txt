@@ -957,3 +957,27 @@ processing events:
 
 
     now need to do the same for obstacles
+
+        for each obstacle:
+            need to add the basic interactive data - can use saveInteractive, but do this last since that's how the constructor takes in parameters
+            then need to save the rest of the data -
+            for the resolvedBy can just use the itemIs of it instead of the whole item since I don't need to generate it
+
+            when split into segments the room data can be isolated, each of these can be split further
+            can use the same splitting method used in the interactive section
+
+            obstacles separated by , (need to alter how they're added, insert at the start of item unless it's the first)
+
+    Now to save the blockedBy map
+        - why does the map take obstacles that aren't even blocked???
+        - if they're not blocked it returns null - but this is the same value as a get to a key that isn't there
+        - can probably remove them from the map entirely
+        - this was just generally a good idea
+
+        okay so take all the keys and for each one want to put down
+
+        separator [key]:[value]  unless it's the first key then no separator
+
+        forgot to account for null interactives - i.e an empty space
+
+        also removed the originalItemCount variable from room since it was no longer being used

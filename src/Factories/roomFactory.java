@@ -18,7 +18,6 @@ public class roomFactory {
         interactive choco = itemGenerator.createChocolate();
         interactive box = itemGenerator.createBox(key);
         interactive[] interactives = new interactive[]{choco, key, box};
-        int originalItemCount = interactives.length;
         // generating the obstacle array
         obstacle door = itemGenerator.createWoodenDoor(null, key);
         obstacle[] obstacles = new obstacle[]{door};
@@ -26,7 +25,6 @@ public class roomFactory {
         HashMap<interactive, obstacle>blockedBy = new HashMap<>();
         blockedBy.put(choco, null);
         blockedBy.put(key, null);
-        blockedBy.put(box, null);
         // generates the map of Strings to items
         HashMap<String, interactive>itemIsToItem = new HashMap<>();
         itemIsToItem.put(key.getItemIs(), key);
@@ -42,7 +40,7 @@ public class roomFactory {
                 "laying on the floor by where your head was is a " + choco.getItemIs() + "\n" +
                 "sitting on the floor by the door is a " + box.getItemIs();
 
-        room tutorialRoom = new room(id, description, interactives, obstacles, blockedBy, itemIsToItem, itemIsToObstacle, originalItemCount);
+        room tutorialRoom = new room(id, description, interactives, obstacles, blockedBy, itemIsToItem, itemIsToObstacle);
         return tutorialRoom;
     }
 
