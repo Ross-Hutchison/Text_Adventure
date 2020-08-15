@@ -15,7 +15,7 @@ public class eventProcessor {
                 String type = event.getType(); // the type of event that occurred
                 switch (type) {
                     case "winGame": // the game has been won
-                        gameWon(event, currentRoom);    // the additional info will be a message that details the game's end
+                        gameWon(event);    // the additional info will be a message that details the game's end
                         break;
                     case "revealItem": // an item has been revealed in the room
                         // adds the itemIs of the revealed item to the current room's description, the cause is the interaction that revealed the item
@@ -27,6 +27,9 @@ public class eventProcessor {
                     case "usedUp":
                         System.out.println(event.getUsedUpMsg());
                         return; // if the event is used up no need to process further
+                    case "moveRoom":
+                        moveRoom(event, currentRoom);
+                        break;
                     default:
                         System.out.println("invalid event flag type:\n" + event);
                         break;
@@ -35,12 +38,17 @@ public class eventProcessor {
         }
     }
 
-    private void gameWon(event eventData, room c) {
+    private void moveRoom(event event, room currentRoom) {
+        alterRoomEvent AR_event = (alterRoomEvent)event;
+
+        T_processor.saveRoom(currentRoom);
+        T_processor.loadRoom(AR_event.getEventSpecifics());
+    }
+
+    private void gameWon(event eventData) {
         outputMessageEvent event = (outputMessageEvent) eventData;
         game.setGameEnd(true);
         game.setEndMsg(event.getMsg());
-        T_processor.saveRoom(c);
-        T_processor.loadRoom("tutorialRoom");
     }
 
     private void revealAnItemInTheRoom(room currentRoom, event eventData) {

@@ -1079,3 +1079,13 @@ processing events:
            12 - outputMessage ; winGame ; -1 ; cannot be used up - no limit ; Congratulations you left the room!!!: you have won the game |
            13 - false |
            14 - true
+
+    Set up the map of blockages
+
+    now need to set up a movement event to initiate traversal
+
+    suppose it comes under alterRoom - no point in making a second type
+
+    actually not much point in any event types at the moment - could just be a variable
+
+    for now don't make any more consider later removing them - or finding reasons types should exist

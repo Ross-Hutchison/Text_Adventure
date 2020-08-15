@@ -69,11 +69,10 @@ public class interactionFactory {
         String alreadyResolvedMsg = "the door is already unlocked prodding it more probably won't achieve much";
         String usedWithoutSolveMsg = "you push at the door, it doesn't budge. It must be locked";
 
-        event useResult = new outputMessageEvent("winGame",
-                "Congratulations you left the room!!!: you have won the game");
+        event useResult = new alterRoomEvent("moveRoom",
+                "tutorialRoom");
 
-        event touchResult = new outputMessageEvent("winGame",
-                "Congratulations you left the room!!!: you have won the game");
+        event touchResult = null;
         event useNonResolvedResult = null;
 
         obstacle woodenDoor = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
