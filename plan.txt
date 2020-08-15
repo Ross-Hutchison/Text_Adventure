@@ -1089,3 +1089,24 @@ processing events:
     actually not much point in any event types at the moment - could just be a variable
 
     for now don't make any more consider later removing them - or finding reasons types should exist
+
+    now need to test
+
+    first test failed at filling the item map
+
+    got NullPointerException
+
+    cause is that when iterating through the interactives array a taken item will show as null
+
+    when going through I'll need to check for null
+    same for obstacles but that is super unlikely to happen
+
+    need to give the event processor access to the game
+        - need to give game a setCurrentRoom method
+
+    Found an issue:
+        There is an error where if you take the item that solves an obstacle out of the room
+        then when recreating the obstacle you can't find the item so solvedBy becomes null
+        which breaks it
+
+        to fix - IDK EUGHHHHH! life is pain

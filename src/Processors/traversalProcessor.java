@@ -40,9 +40,9 @@ class traversalProcessor {  // can be package-protected since it'll be called in
 
         for (int i = 0; i < obstacles.length; i++) {
             obstacle current = obstacles[i];
-            if (i != 0) {
+            if (i != 0) {   // if not first element add separator before element
                 saveData = saveData.concat(ARRAY_ENTRY_SEPARATOR);
-            }// if not first element add separator before element
+            }
             saveData = saveData.concat(saveObstacle(current));
         }
 
@@ -147,6 +147,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
 
             HashMap<String, interactive> itemMap = new HashMap<>(); // create and fill the item map
             for (interactive current : items) {
+                if(current == null) continue;   // skip removed items
                 itemMap.put(current.getItemIs(), current);
             }
 
@@ -154,6 +155,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
 
             HashMap<String, obstacle> obstacleMap = new HashMap<>();    // create and fill the obstacle map
             for (obstacle current : obstacles) {
+                if(current == null) continue;   // skips any missing obstacle (shouldn't happen but hey)
                 obstacleMap.put(current.getItemIs(), current);
             }
 

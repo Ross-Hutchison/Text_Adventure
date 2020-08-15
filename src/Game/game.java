@@ -17,8 +17,8 @@ public class game {
 
     private static boolean gameEnd;
     private static String endMsg;
-    private room currentRoom;
-    private player Jo;
+    private static room currentRoom;
+    private static player Jo;
 
     private final String INVALID_COMMAND_ERR_MSG = "this is not a valid command - please look at the format paragraph";
     private final String verbs = "lookAt|touch|take|use";
@@ -109,6 +109,8 @@ public class game {
     public static void setEndMsg(String setTo) {
         game.endMsg = setTo;
     }
+
+    public static void setCurrentRoom(room toSet) {currentRoom = toSet; }
 
     public String getVerbs() {
         return verbs;

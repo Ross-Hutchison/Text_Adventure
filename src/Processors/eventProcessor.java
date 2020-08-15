@@ -42,7 +42,9 @@ public class eventProcessor {
         alterRoomEvent AR_event = (alterRoomEvent)event;
 
         T_processor.saveRoom(currentRoom);
-        T_processor.loadRoom(AR_event.getEventSpecifics());
+        room toGo = T_processor.loadRoom(AR_event.getEventSpecifics());
+        game.setCurrentRoom(toGo);
+        System.out.println("moved to a new room \n --------------------");
     }
 
     private void gameWon(event eventData) {
