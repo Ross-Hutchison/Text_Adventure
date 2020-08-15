@@ -40,6 +40,7 @@ public class eventProcessor {
         game.setGameEnd(true);
         game.setEndMsg(event.getMsg());
         T_processor.saveRoom(c);
+        T_processor.loadRoom("tutorialRoom");
     }
 
     private void revealAnItemInTheRoom(room currentRoom, event eventData) {

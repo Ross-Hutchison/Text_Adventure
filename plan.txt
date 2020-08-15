@@ -981,3 +981,41 @@ processing events:
         forgot to account for null interactives - i.e an empty space
 
         also removed the originalItemCount variable from room since it was no longer being used
+
+    Should be done, splitting up room data should give:
+         - the description
+         - the array of items in Str form
+         - the array of obstacles in Str form
+         - the map of interactives to what blocks them
+
+    I have
+         - the description
+         - the array of items in str form
+         - the array of obstacles in str form
+         - two events???
+         - the map of items to what blocks them
+
+         issue is probably that the noLimit message has the current room_data_separator in it (" - ")
+         need to change the separator maybe use " ^ "
+
+         also need to alter the map process
+         - or Do I - issue rn is that need to use itemIs but get null
+         but in the final plan can only get null if it's not present
+         so since I'm iterating over the keyset it will not be null
+         for testing could just block the chocolate bar with the door
+
+         so doing that I found an issue - the blocked error message uses the description not the itemIs
+
+         so ^ is a special char - could try ~
+
+
+        room data is now separated properly
+
+        can now work on processing it into a room
+
+        data[0] is the description - can be assigned directly to a variable
+        data[1] is the list of items - needs to be processed into an array
+        data[2] is the list of obstacles - needs to be processed into an array
+        data[3] is the map of blockages - needs processed into a map
+
+        can then use the created data[1] and data[2] arrays to create the other maps

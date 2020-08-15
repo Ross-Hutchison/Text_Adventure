@@ -23,8 +23,7 @@ public class roomFactory {
         obstacle[] obstacles = new obstacle[]{door};
         // generating the HashMap for blocked items
         HashMap<interactive, obstacle>blockedBy = new HashMap<>();
-        blockedBy.put(choco, null);
-        blockedBy.put(key, null);
+        blockedBy.put(choco, door);
         // generates the map of Strings to items
         HashMap<String, interactive>itemIsToItem = new HashMap<>();
         itemIsToItem.put(key.getItemIs(), key);

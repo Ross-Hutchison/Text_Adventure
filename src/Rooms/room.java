@@ -86,7 +86,7 @@ class room {
             }
             return wasTaken;
         } else
-            System.out.println("you try to take the " + toTake.getItemIs() + " but the " + blockage.getDescription() + "blocks it");
+            System.out.println("you try to take the " + toTake.getItemIs() + " but the " + blockage.getItemIs() + " blocks it");
         return false;
     }
 
@@ -141,7 +141,7 @@ class room {
             if (blockage == null || blockage.getSolved()) {
                 return touched.touch();
             } else {
-                System.out.println("you go to touch the " + touched.getItemIs() + "but find yourself stopped by a " + blockage.getItemIs());
+                System.out.println("you go to touch the " + touched.getItemIs() + " but find yourself stopped by a " + blockage.getItemIs());
                 return null;
             }
         }

@@ -10,11 +10,13 @@ import Events.*;
 class traversalProcessor {  // can be package-protected since it'll be called in the event processor
     HashMap<String, String> roomIdToSaveData = new HashMap<>();// stores the id of all rooms that have been saved i.e. visited
 
-    private final String ROOM_DATA_SEPARATOR = " - ";   // separates the different sections of the room's data
-    private final String ARRAY_ENTRY_SEPARATOR = " , ";   // separates the different interactives in the room
+    private final String ROOM_DATA_SEPARATOR = " ~ ";   // separates the different sections of the room's data
+    private final String ARRAY_ENTRY_SEPARATOR = " , "; // separates the different interactives in the room's array
     private final String INTERACTIVE_DATA_SEPARATOR = " | ";    // separates the different variables of each interactive
-    private final String EVENT_DATA_SEPARATOR = " ; ";
-    private final String MAP_DATA_SEPARATOR = " ! ";
+    private final String EVENT_DATA_SEPARATOR = " ; ";  // separates the different variables of each event object
+    private final String MAP_DATA_SEPARATOR = " ! ";    // separates the different key-value pairings in the map
+
+    private final String ROOM_NOT_FOUND_ERR = "The room could not be loaded - id not present in save data map";
 
     void saveRoom(room toSave) {    // converts the room to a String
         String saveData = ""; // used to store all the data
@@ -22,18 +24,19 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         saveData += toSave.getDescription();   // add the description
         saveData += ROOM_DATA_SEPARATOR;
 
+        // adds all the items to the saveData - interactives that are not obstacles
         interactive[] interactives = toSave.getInteractives();
-
-        for (int i = 0; i < interactives.length; i++) { // add all the items to the saveData
+        for (int i = 0; i < interactives.length; i++) {
             interactive current = interactives[i];
             if (i != 0) { saveData = saveData.concat(ARRAY_ENTRY_SEPARATOR); }// if not first element add separator before element
             saveData = saveData.concat(saveInteractive(current));
         }
         saveData += ROOM_DATA_SEPARATOR;
 
+        // adds all the obstacles to the saveData
         obstacle[] obstacles = toSave.getObstacles();
 
-        for(int i = 0; i < obstacles.length; i++ ) {    // add all the obstacles to the saveData
+        for(int i = 0; i < obstacles.length; i++ ) {
             obstacle current = obstacles[i];
             if (i != 0) { saveData = saveData.concat(ARRAY_ENTRY_SEPARATOR); }// if not first element add separator before element
             saveData = saveData.concat(saveObstacle(current));
@@ -47,7 +50,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
 
         for(int i = 0; i < keys.length; i++) {
             interactive current = (interactive)keys[i];
-            String toAdd = current.getItemIs() + ":" + map.get(current);
+            String toAdd = current.getItemIs() + ":" + map.get(current).getItemIs();
             if(i != 0) saveData += MAP_DATA_SEPARATOR;
             saveData += toAdd;
         }
@@ -121,6 +124,24 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         }
         else saveData += "null";
         return saveData;
+    }
+
+    public room loadRoom(String id) {
+        room toLoad = null;
+
+        String loadData = roomIdToSaveData.get(id);
+        if(loadData == null) {
+            System.out.println(ROOM_NOT_FOUND_ERR);
+        }
+        else {
+            String[] roomData = loadData.split( ROOM_DATA_SEPARATOR);
+
+            for (String part : roomData) {
+                System.out.println("\n ---------------------");
+                System.out.println(part);
+            }
+        }
+        return toLoad;
     }
 
 }
