@@ -5,6 +5,7 @@ import Interaction.*;
 public abstract class event {
     /*
         the variables all event flags have:
+        subtype - used as part of saving and loading events lets those methods know what type the event is
         type - the type of event - winGame etc. specifies how exactly it's processed, two outputMessageEvents can be treated differently
         belongsTo - the interactive that the event belongs to, not included in constructor since the event is created before the interactive
                         assigned in the interactive's constructor
@@ -12,7 +13,7 @@ public abstract class event {
         limit - the number of times the event can occur, -1 == no limit
         usedUpMsg - the message displayed when an event can no longer occur - limit == 0
     */
-    String eventSubType;
+    String eventSubType;   // - package private as assigned in subtype constructors
     private String type;
     private interactive belongsTo;
     private int limit;
@@ -57,6 +58,5 @@ public abstract class event {
     public interactive getBelongsTo() { return this.belongsTo; }
     public int getLimit() { return this.limit; }
     public String getUsedUpMsg() { return this.usedUpMsg; }
-
     public String getEventSubType() { return this.eventSubType; }
 }

@@ -1011,7 +1011,7 @@ processing events:
 
         room data is now separated properly
 
-        can now work on processing it into a room
+    can now work on processing it into a room
 
         data[0] is the description - can be assigned directly to a variable
         data[1] is the list of items - needs to be processed into an array
@@ -1019,3 +1019,63 @@ processing events:
         data[3] is the map of blockages - needs processed into a map
 
         can then use the created data[1] and data[2] arrays to create the other maps
+
+        found an issue - interactive needs to save the viability and will need a constructor that takes it in
+        obstacle needs it too
+
+        added that - now need to get item creation going
+
+        take in the Array String - split into parts - for each part take all the values - process what needs processed
+        then create a new interactive from it and put it in the interactive array
+
+        the first 4 [0] to [3] can be directly passed to a variable or the constructor
+        [4] & [5] need a method to load events
+        [6] & [7] need to be checked and converted to bool ( could use Str.equals(true) since if true this will give true and if false gives false)
+
+    Now need the loadEvent method:
+
+        all values can be passed in directly
+
+        turns out that '|' is a special character, I'll need to replace it too maybe use " $ "
+        also a special char use " # "
+
+    Now for obstacles
+        0 -"large key" |
+        1 - the key turns, the lock clicks satisfyingly |
+        2 - doors have two purposes, to open and to remain closed, this door has chosen the latter |
+        3 - the door is already unlocked prodding it more probably won't achieve much |
+        4 - you push at the door, it doesn't budge. It must be locked |
+        5 - null |
+        6 - "wooden door" |
+        7 - A large brown wooden door with a rectangular base and rounded top there is a large metal ring for a handle and below it a large keyhole |
+        8 - the rough wood of the door seems likely to leave splinters, the door rung is cold and heavy |
+        9 - the door swings open slowly, the hinges creaking slightly |
+       10 - outputMessage ; winGame ; -1 ; cannot be used up - no limit ; Congratulations you left the room!!!: you have won the game |
+       11 - outputMessage ; winGame ; -1 ; cannot be used up - no limit ; Congratulations you left the room!!!: you have won the game |
+       12 - false |
+       13 - true
+
+       0: need to get the large key from the array of items
+       1 - 4: can be added directly
+       5: is an event need to use the loadEvent
+       6 - 9: can be added directly
+       10 - 11: are events need to use loadEvent
+       12 - 13: need to use the .equals(true) conversion
+
+       forgot to add solved to the saveString for obstacle - should be segment 6 so added beyond useNonResolvedResult and itemIs
+
+            0 -"large key" |
+            1 - the key turns, the lock clicks satisfyingly |
+            2 - doors have two purposes, to open and to remain closed, this door has chosen the latter |
+            3 - the door is already unlocked prodding it more probably won't achieve much |
+            4 - you push at the door, it doesn't budge. It must be locked |
+            5 - null |
+            6 - solved
+            7 - "wooden door" |
+            8 - A large brown wooden door with a rectangular base and rounded top there is a large metal ring for a handle and below it a large keyhole |
+            9 - the rough wood of the door seems likely to leave splinters, the door rung is cold and heavy |
+           10 - the door swings open slowly, the hinges creaking slightly |
+           11 - outputMessage ; winGame ; -1 ; cannot be used up - no limit ; Congratulations you left the room!!!: you have won the game |
+           12 - outputMessage ; winGame ; -1 ; cannot be used up - no limit ; Congratulations you left the room!!!: you have won the game |
+           13 - false |
+           14 - true

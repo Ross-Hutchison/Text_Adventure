@@ -34,8 +34,8 @@ public class obstacle extends interactive {
      */
     public obstacle(interactive solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg,
                     event useNonResolvedResult, boolean solved, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
-                    event useResult, boolean canTake) {
-        super(itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake);
+                    event useResult, boolean canTake, boolean visible) {
+        super(itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake, visible);
         this.solved = solved;
         this.solvedBy = solvedBy;
         this.resolvedMsg = resolvedMsg;

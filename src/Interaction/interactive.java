@@ -25,6 +25,20 @@ public class interactive {
         this.canTake = canTake;
         this.visible = true;    // default state for any interactive is to be visible
     }
+    public interactive(String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
+                       event useResult, boolean canTake, boolean visible) {
+
+        this.itemIs = itemIs;
+        this.description = description;
+        this.feelsLike = feelsLike;
+        this.usedAlone = usedAlone;
+        this.touchResult = touchResult;
+        if(this.touchResult != null) this.touchResult.setBelongsTo(this);    // lets the event object know which interactive it applies to
+        this.useResult = useResult;
+        if(this.useResult != null) this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
+        this.canTake = canTake;
+        this.visible = visible;    // default state for any interactive is to be visible
+    }
 
     public void lookAt() {
         System.out.println(this.description);
