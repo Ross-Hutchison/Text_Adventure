@@ -43,8 +43,10 @@ public class eventProcessor {
 
         T_processor.saveRoom(currentRoom);
         room toGo = T_processor.loadRoom(AR_event.getEventSpecifics());
-        game.setCurrentRoom(toGo);
-        System.out.println("moved to a new room \n --------------------");
+        if(toGo != null){   // if the room was not found will have error output from T_proc otherwise alter c room
+            game.setCurrentRoom(toGo);
+            System.out.println("moved to a new room \n --------------------");
+        }
     }
 
     private void gameWon(event eventData) {

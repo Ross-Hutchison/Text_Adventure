@@ -4,7 +4,7 @@ import Events.event;
 
 public class obstacle extends interactive {
     private boolean solved;
-    private interactive solvedBy;
+    private String solvedBy;
     private String resolvedMsg;
     private String resolveFailMsg;
     private String alreadyResolvedMsg;
@@ -12,7 +12,7 @@ public class obstacle extends interactive {
     private event useNonResolvedResult;
 
 
-    public obstacle(interactive solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg,
+    public obstacle(String solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg,
                     event useNonResolvedResult, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
                     event useResult, boolean canTake) {
 
@@ -32,7 +32,7 @@ public class obstacle extends interactive {
         used to generate obstacles that are already solved - prevents needing to add solved to the standard constructor
         - used with loading obstacles in previously visited rooms
      */
-    public obstacle(interactive solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg,
+    public obstacle(String solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg,
                     event useNonResolvedResult, boolean solved, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
                     event useResult, boolean canTake, boolean visible) {
         super(itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake, visible);
@@ -48,7 +48,9 @@ public class obstacle extends interactive {
     }
 
     public void resolve(interactive usedWith) {
-        if (!solved && usedWith == solvedBy) {
+        String usedWithId = usedWith.getItemIs();
+
+        if (!solved && usedWithId.equals(solvedBy)) {
             this.solved = true;
             System.out.println(this.resolvedMsg);
         } else if (!solved) {
@@ -100,7 +102,7 @@ public class obstacle extends interactive {
         return resolveFailMsg;
     }
 
-    public interactive getSolvedBy() {
+    public String getSolvedBy() {
         return solvedBy;
     }
 }

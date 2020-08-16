@@ -1174,3 +1174,50 @@ processing events:
 
 
 
+        So for the first part
+            - modified obstacle to store a String that resolves it instead
+            - modified the constructors to take in Strings
+            - modified the resolve method to take the passed in interactive and take it's itemIs to use it in the check
+            - modified the getter for resolvedBy
+
+            - now need to check all other classes to find which are now broke try run code
+
+            toFix:
+                .traversalProcessor
+                    - was using the getSolvedBy().getItemIs removed getItemIs since it's already that now
+                    - the loadObstacle was trying to parse the itemIs into an interactive and passing it into the constructor
+
+                . interactionFactory
+                    - factory was using the interactive directly for solvedBy - made it use the itemIs
+                    - also forgot to was a thing and had it check it wasn't null before using it to assign the id to the moveRoom event's data
+                            - id it was null used "nowhere" which will not be found in the map so will just output an error
+
+            after this running seemed to work
+                test time:
+                    - take the key and open the door before going through it
+                    then go through it again
+                    then use the key on it again
+
+                    couldn't find the ID for some reason
+
+                    however this does not work as intended since it leads to a null pointe in main
+                    look at the event handler for move room
+
+                    issue is no check for null room
+
+                    if room != null move room and output message otherwise just hte error should appear
+
+                    if err occurs returns null - in handler for event check for null
+
+                    that works now to see why it can't find the room
+
+            The issue I found:
+                Debugging shows that the event's eventSpecific is "nowhere"
+                this means that the room being passed into the tutorial room is null
+                OH - cause a room can't logically lead to itself - need to temporarily change the result of null to tutorialRoom
+
+                Should work now
+
+                THANK FUCK
+
+                

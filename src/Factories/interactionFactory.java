@@ -56,8 +56,11 @@ public class interactionFactory {
 
     public obstacle createWoodenDoor(room to, interactive solution) {
 
-        room leadsTo = to;
-        interactive solvedBy = solution;
+        String leadsTo;
+        if(to != null) leadsTo = to.getId();
+        else leadsTo = "tutorialRoom";
+
+        String solvedBy = solution.getItemIs();
         String itemIs = "\"wooden door\"";
         String description = "A large brown wooden door with a rectangular base and rounded top\n" +
                 "there is a large metal ring for a handle and below it a large keyhole";
@@ -70,7 +73,7 @@ public class interactionFactory {
         String usedWithoutSolveMsg = "you push at the door, it doesn't budge. It must be locked";
 
         event useResult = new alterRoomEvent("moveRoom",
-                "tutorialRoom");
+                leadsTo);
 
         event touchResult = null;
         event useNonResolvedResult = null;

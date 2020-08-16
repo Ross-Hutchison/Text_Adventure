@@ -67,7 +67,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
      */
     private String saveObstacle(obstacle toSave) {
         String saveData = "";
-        saveData += toSave.getSolvedBy().getItemIs(); // only need itemIs since by this point in loading the item will have been made
+        saveData += toSave.getSolvedBy();
         saveData += INTERACTIVE_DATA_SEPARATOR;
         saveData += toSave.getResolvedMsg();
         saveData += INTERACTIVE_DATA_SEPARATOR;
@@ -202,7 +202,6 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         for (String part : parts) {
             String[] segments = part.split(INTERACTIVE_DATA_SEPARATOR);
 
-            interactive resolvedBy = itemMap.get(segments[0]);
             event useNonResolvedEvent = loadEvent(segments[5]);
             event touchEvent = loadEvent(segments[11]);
             event useEvent = loadEvent(segments[12]);
@@ -210,7 +209,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             boolean canTake = (segments[13].equals("true"));
             boolean visible = (segments[14].equals("true"));
 
-            obstacle toAdd = new obstacle(resolvedBy, segments[1], segments[2], segments[3], segments[4], useNonResolvedEvent,
+            obstacle toAdd = new obstacle(segments[0], segments[1], segments[2], segments[3], segments[4], useNonResolvedEvent,
                     solved, segments[7], segments[8], segments[9], segments[10], touchEvent, useEvent, canTake, visible);
 
             retData[insertIndex++] = toAdd;
