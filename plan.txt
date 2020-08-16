@@ -1110,3 +1110,67 @@ processing events:
         which breaks it
 
         to fix - IDK EUGHHHHH! life is pain
+
+        when creating the room I could I suppose take in the player too?
+        no cause then if the item is in the room then it still won't be found
+
+        could take the item's id thing - like when you convert it to a String
+        this would work as the check maybe?
+
+        can that be used to allocate an item???
+
+        so obj.toString returns a textual representation of the item
+            - could using this instead of itemIs work?
+            - can that unique string be used to find the object even if
+
+            - no since the rooms that have ben saved are Strings and their objects will have been taken by the garbage collector
+
+        how am I going to ensure that loading the room means the item that relies on another has access to it:
+
+            Okay so what I could do is have a map in traversal processor of all items that currently exist
+            this would not require but would be helped by removing some items that will only be used once
+            so that the map of itemIs to interactive is less full and some itemIs can be reused
+            i.e. the tutorial room key is no longer used outside of the tut room so can be removed
+            freeing up "large key" for further use elsewhere
+
+            could give them a separate value that is used for the map
+            which contains the room they are present in
+            so large key would become - tutorialRoom:large key
+            can use the room's id variable since items are created as part of rooms
+
+            this is not needed for the methods that check the current room since they would all have the same value anyway
+            - unless you bring in items from outside them - then it's an issue
+            - fuck it itemIs can just be replaced with roomid:itemIs
+
+            SO TODO:
+
+                - 1 I'M AN ACTUAL FUCKING MORON
+                    - so instead of using the actual item I should use the interactive given's itemIs
+                        this would mean that I could avoid needing to store the item in it's entirety
+                        and would mean that if the item couldn't be found the itemIs could still be used
+                        so if it was in a different room it wouldn't matter since it just needs the itemIs
+                        which is just a String that it already stores
+
+                        . need to alter how resolve and obstacles in general work in that way
+
+                - 2 set up the new value of roomid:itemIs for use in identifying items
+                        . this can be created in the room's constructor above the item by using the id in the cons and the itemIs allocated to it
+                        . this would reduce the need for unique itemIs since it would allow two different large keys
+                        . however when adding them there would be an issue since i'd want to use a display vlaue
+                             : could just split by : and use the second part - however
+                               this would allow for two displayed large keys for example
+                               so when adding to description would need to check if one exists already
+                               and if so add a 2 to the end and if there are already two add 3 etc.
+
+
+                - 3 set up items that are removed when used
+                        . will require a boolean for singleUse
+                        . if singleUse == true and used in resolve then remove them
+                        . will want to be absent from obstacle so make private and give an additional constructor that takes it in
+                        . this will need to be added to the save process - however since it's private from obstacle
+                           i'd need some way of only adding it sometimes
+                        . will require a method of removing items from the player's inventory
+                        . will also require a method in room for removing the item from the room's data
+
+
+
