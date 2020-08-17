@@ -2,14 +2,13 @@ package Factories;
 
 import Interaction.interactive;
 import Interaction.obstacle;
-import Rooms.room;
 import Events.*;
 
 public class interactionFactory {
 
-    public interactive createKey() {
+    public interactive createKey(String isIn) {
 
-        String itemIs = "\"large key\"";
+        String itemIs =  isIn + "\"large key\"";
         String description = "a heavy brass key of unusual size, the bow of which is a large ring about the size of your hand";
         String feelsLike = "the metal is cool to the touch, and smooth, the bit is made up of several rectangular teeth";
         String usedAlone = "you idly toss the key up by the bit and catch it by the bow. Very stylish";
@@ -20,8 +19,8 @@ public class interactionFactory {
         return key;
     }
 
-    public interactive createChocolate() {
-        String itemIs = "\"chocolate bar\"";
+    public interactive createChocolate(String isIn) {
+        String itemIs =  isIn + "\"chocolate bar\"";
         String description = "a bar of Schokolade brand chocolate, a cartoon chocolate bar smiles on the wrapper, " +
                 "\"eat me\" its eyes seem to say, something is strangely disturbing about it";
 
@@ -37,14 +36,14 @@ public class interactionFactory {
         return chocolate;
     }
 
-    public interactive createBox(interactive inside) {
-        String itemIs = "\"wooden box\"";
+    public interactive createBox(String isIn, interactive inside) {
+        String itemIs =  isIn + "\"wooden box\"";
         String description = "a small wooden box, it's lid seems to slot in place\n" +
                 "The lid is not aligned properly and so rests on top of the box half open.";
 
         String feelsLike = "the wood is smooth, it's a very nicely crafted box";
         String usedAlone = "you lift the lid of the box and look inside";
-        event useResult = new alterRoomEvent("revealItem", inside.getItemIs(), 1,
+        event useResult = new alterRoomEvent("revealItem", inside.getDisplayItemIs(), 1,    // uses display since is a room search
                 "you close the box and open it again... nothing has changed");
 
         event touchResult = null;
@@ -54,14 +53,14 @@ public class interactionFactory {
         return box;
     }
 
-    public obstacle createWoodenDoor(room to, interactive solution) {
+    public obstacle createWoodenDoor(String isIn, String to, interactive solution) {
 
         String leadsTo;
-        if(to != null) leadsTo = to.getId();
-        else leadsTo = "tutorialRoom";
+        if(to != null) leadsTo = to;
+        else leadsTo = "nowhere";
 
-        String solvedBy = solution.getItemIs();
-        String itemIs = "\"wooden door\"";
+        String solvedBy = solution.getFullItemIs();
+        String itemIs =  isIn + "\"wooden door\"";
         String description = "A large brown wooden door with a rectangular base and rounded top\n" +
                 "there is a large metal ring for a handle and below it a large keyhole";
         String feelsLike = "the rough wood of the door seems likely to leave splinters, the door rung is cold and heavy";

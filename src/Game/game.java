@@ -23,8 +23,8 @@ public class game {
     private final String INVALID_COMMAND_ERR_MSG = "this is not a valid command - please look at the format paragraph";
     private final String verbs = "lookAt|touch|take|use";
     private final String verbs_2 = "switchWith|useOn";
-    private Pattern verbObjectPattern = Pattern.compile("^(" + verbs + ")( [a-zA-Z]+)+$");
-    private Pattern itemVerbItemPattern = Pattern.compile("^[a-zA-Z]+( [a-zA-Z]+)+ (" + verbs_2 + ")( [a-zA-Z]+)+$");
+    private Pattern verbObjectPattern = Pattern.compile("^(" + verbs + ")( [a-zA-Z:]+)+$");
+    private Pattern itemVerbItemPattern = Pattern.compile("^[a-zA-Z:]+( [a-zA-Z]+)+ (" + verbs_2 + ")( [a-zA-Z:]+)+$");
     private eventProcessor E_processor = new eventProcessor();
     private inputProcessor I_processor = new inputProcessor();
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

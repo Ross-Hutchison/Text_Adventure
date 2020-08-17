@@ -82,11 +82,11 @@ class room {
                     if (this.interactives[i] == toTake)
                         this.interactives[i] = null;
                 }
-                this.itemIsToItem.remove(toTake.getItemIs());   // removes the item from the room's map of
+                this.itemIsToItem.remove(toTake.getDisplayItemIs());   // removes the item from the room's map of
             }
             return wasTaken;
         } else
-            System.out.println("you try to take the " + toTake.getItemIs() + " but the " + blockage.getItemIs() + " blocks it");
+            System.out.println("you try to take the " + toTake.getDisplayItemIs() + " but the " + blockage.getDisplayItemIs() + " blocks it");
         return false;
     }
 
@@ -110,12 +110,12 @@ class room {
         }
         obstacle blockage = this.getBlockedBy().get(toTake);
         boolean isNotBlocked = (blockage == null || blockage.getSolved());
-        boolean hasInInventory = (p.hasItemInInventory(toLeave.getItemIs()) != null);
+        boolean hasInInventory = (p.hasItemInInventory(toLeave.getFullItemIs()) != null);
 
         if (isNotBlocked && hasInInventory) {
             return p.switchX_With_Y(toLeave, toTake, this); //the player method needs data on the room so it takes it as a parameter
         } else if (!isNotBlocked) {
-            System.out.println("you go to take the " + toTake + "but the " + blockage.getItemIs() + "stops you");
+            System.out.println("you go to take the " + toTake + "but the " + blockage.getDisplayItemIs() + "stops you");
             return false;
         } else {
             System.out.println("you go to leave the " + toLeave + " but you realise you don't actually have it");
@@ -141,7 +141,9 @@ class room {
             if (blockage == null || blockage.getSolved()) {
                 return touched.touch();
             } else {
-                System.out.println("you go to touch the " + touched.getItemIs() + " but find yourself stopped by a " + blockage.getItemIs());
+                System.out.println("you go to touch the " + touched.getDisplayItemIs() + " but find yourself stopped by a "
+                        + blockage.getDisplayItemIs());
+
                 return null;
             }
         }
@@ -157,7 +159,7 @@ class room {
             return null;
         }
         else if (!used.getCanTake()) return used.use();
-        else if (p.hasItemInInventory(used.getItemIs()) != null)
+        else if (p.hasItemInInventory(used.getFullItemIs()) != null)
             return used.use();
         else {
             System.out.println("you suddenly remember that in order to use something you normally have to have it with you");
@@ -171,20 +173,20 @@ class room {
         }
         else if (used instanceof obstacle)
             System.out.println(USED_OBST_WITH_OBST_ERR_MSG);
-        else if (itemIsToItem.get(usedOn.getItemIs()) != null)
+        else if (itemIsToItem.get(usedOn.getDisplayItemIs()) != null)
             System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);
-        else if (p.hasItemInInventory(used.getItemIs()) != null)
+        else if (p.hasItemInInventory(used.getFullItemIs()) != null)
             used.useOn(usedOn);
         else
-            System.out.println("you reach for your " + used.getItemIs() + " but realise you don't have one : (");
+            System.out.println("you reach for your " + used.getDisplayItemIs() + " but realise you don't have one : (");
     }
 
     public void removeItemFromDescription(interactive toRemove) {
-        this.description = this.description.replaceFirst(toRemove.getItemIs(), "an empty space");
+        this.description = this.description.replaceFirst(toRemove.getDisplayItemIs(), "an empty space");
     }
 
     public void addItemToDescription(interactive toAdd) {
-        this.description = this.description.replaceFirst("an empty space", toAdd.getItemIs());
+        this.description = this.description.replaceFirst("an empty space", toAdd.getDisplayItemIs());
     }
 
 }

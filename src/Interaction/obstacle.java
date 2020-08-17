@@ -48,7 +48,7 @@ public class obstacle extends interactive {
     }
 
     public void resolve(interactive usedWith) {
-        String usedWithId = usedWith.getItemIs();
+        String usedWithId = usedWith.getFullItemIs();
 
         if (!solved && usedWithId.equals(solvedBy)) {
             this.solved = true;

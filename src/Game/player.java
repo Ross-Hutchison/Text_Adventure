@@ -17,7 +17,7 @@ public class player {
      */
     public interactive hasItemInInventory(String checkFor) {
         for (interactive current : inventory) {
-            if(current != null && current.getItemIs().equals(checkFor)) return current;
+            if(current != null && current.getFullItemIs().equals(checkFor)) return current;
         }
         return null;
     }
@@ -25,7 +25,7 @@ public class player {
     public boolean addToInventory(interactive toAdd) {
         if(currentlyHolding != inventorySize) {
             inventory[currentlyHolding++] = toAdd;
-            System.out.println("picked up " + toAdd.getItemIs());
+            System.out.println("picked up " + toAdd.getFullItemIs());
             return true;
         }
         else {
@@ -54,7 +54,7 @@ public class player {
             }
         }
         if(!has_X) {
-            System.out.println("You do not have " + toLeave.getItemIs());
+            System.out.println("You do not have " + toLeave.getFullItemIs());
         }
         else {
             interactive[] roomHas = whereToLeave.getInteractives();
@@ -66,10 +66,10 @@ public class player {
                 }
             }
             if(!Y_present) {
-                if(hasItemInInventory(toTake.getItemIs()) != null ) {
-                    System.out.println("you already have the " + toTake.getItemIs());
+                if(hasItemInInventory(toTake.getFullItemIs()) != null ) {
+                    System.out.println("you already have the " + toTake.getFullItemIs());
                 }
-                else System.out.println(toTake.getItemIs() + " is not present");
+                else System.out.println(toTake.getDisplayItemIs() + " is not present");
             }
             else {
                 HashMap<interactive, obstacle> blockMap = whereToLeave.getBlockedBy();
@@ -81,14 +81,14 @@ public class player {
                     inventory[inventoryIndex] = roomHas[roomIndex];
                     roomHas[roomIndex] = temp;
                     // removes the key in the room's String to item HM for the old item and adds one for the new item
-                    whereToLeave.getItemIsToItem().remove(toTake.getItemIs());
-                    whereToLeave.getItemIsToItem().put(toLeave.getItemIs(), toLeave);
+                    whereToLeave.getItemIsToItem().remove(toTake.getDisplayItemIs());
+                    whereToLeave.getItemIsToItem().put(toLeave.getDisplayItemIs(), toLeave);
 
-                    System.out.println("switched the " + toLeave.getItemIs() + " with  the " + toTake.getItemIs());
+                    System.out.println("switched the " + toLeave.getDisplayItemIs() + " with  the " + toTake.getDisplayItemIs());
                     return true;
                 }
                 else {
-                    System.out.println("Cannot reach the " + toTake.getItemIs() + ", it is blocked by " + blockage.getItemIs());
+                    System.out.println("Cannot reach the " + toTake.getDisplayItemIs() + ", it is blocked by " + blockage.getDisplayItemIs());
                 }
             }
         }

@@ -3,7 +3,8 @@ package Interaction;
 import Events.event;
 
 public class interactive {
-    String itemIs;
+    String fullItemIs;
+    String displayItemIs;
     String description;
     String feelsLike;
     String usedAlone;
@@ -14,7 +15,11 @@ public class interactive {
 
     public interactive(String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
                        event useResult, boolean canTake) {
-        this.itemIs = itemIs;
+        this.fullItemIs = itemIs;
+
+        String[] bits = fullItemIs.split(":");
+        this.displayItemIs = bits[1];   // the item's itemIs without the roomId prefix - used in display and for searching the current room
+
         this.description = description;
         this.feelsLike = feelsLike;
         this.usedAlone = usedAlone;
@@ -28,7 +33,11 @@ public class interactive {
     public interactive(String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
                        event useResult, boolean canTake, boolean visible) {
 
-        this.itemIs = itemIs;
+        this.fullItemIs = itemIs;
+
+        String[] bits = fullItemIs.split(":");
+        this.displayItemIs = bits[1];   // the item's itemIs without the roomId prefix - used in display and for searching the current room
+
         this.description = description;
         this.feelsLike = feelsLike;
         this.usedAlone = usedAlone;
@@ -58,8 +67,12 @@ public class interactive {
         useOn.resolve(this);
     }
 
-    public String getItemIs() {
-        return this.itemIs;
+    public String getFullItemIs() {
+        return this.fullItemIs;
+    }
+
+    public String getDisplayItemIs() {
+        return displayItemIs;
     }
 
     public String getDescription() {

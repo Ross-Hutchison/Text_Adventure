@@ -1220,4 +1220,202 @@ processing events:
 
                 THANK FUCK
 
-                
+
+        Okay having fixed the issue I can move on to the other potential ideas: however something to keep in mind
+            - if I use .equals then say - a tree could only be cut down by 1 specific axe:
+            this is a dumb idea, if there is more than one axe in existence
+                - for now can ignore but some thing to think about could maybe use endsWith to fix that
+                then any item that ends with axe - probably only types of axe or axes from other rooms can be used
+                whereas if you passed the whole id then it would still work fine since "tutorialRoom:large key" still ends with
+                "tutorialRoom:large key" so other checks wouldn't be affected
+
+
+        NEXT:
+            the new itemIs that includes the room and the addTo description part
+
+            steps:
+                 - go to roomFactory and for the tutorial room add a String called itemIs prefix
+                    it should equal "[room id]:" and will be put before each itemIs created in the cons
+                    to do this need to pass it into the interactionFactory create methods as parameter
+
+                 - this should update each of the itemIs to be the processingItemIs so refactor the var to this
+                 - afterwards create the displayItemIs
+                    this is created in the constructor of the item by taking the itemIs splitting by : and taking the [1] index
+                        since it is created in constructor shouldn't need to be added to dave data
+
+                 - will then want to alter the room's desc to use the displayItemIs
+                 - will want to give any place where items are checked using itemIs access to the
+                    interactive prefix since otherwise they won't be found
+
+                note I will want to remove the object to from wooden doors and make them Strings that ave the id
+
+            step 1 and note done, now check
+                had forgotten to actually use the passed in Str
+
+                works fine now
+
+
+                - Future issue - if two large keys are taken they will have the same display itemIs
+                how will the player distinguish between the two?
+
+                could have the take method alter the displayItemIs to have a 2 or 3 etc. on the end if multiple names are found
+                however inventory is an array - could give the player a map?
+
+                Or could display the player's inventory at the start of each turn
+                and display the processingItemIs there, having the room's desc add the additional numbers to displayItemIs if left
+                this would require a change in searching - some searches would use displayItemIs and others would use processingItemIs
+
+                So when interacting with the current room - should use the displayItemIs assuming the additional 2, 3, etc.
+                are added when the player leaves an identical displayItemIs item there
+                    - when items are taken will need to do a check on the displayItemIs for endsWIth(number) and
+                        if it does remove the number to prevent errors in the numbering
+
+                    - numbering method - int i = 1, while the displayItemIs + the number is present in display i++
+                        this means if you leave two keys the first will be "large key" and the second will be "large key 1"
+                            and if you take out the first large key and add it back it becomes "large key 2" so you don't
+                            get confused by what was once "large key 1" now being a different key
+
+                and when interacting with the player's inventory should use the processing itemIs
+                to do this I will need to have the Regex allow : since atm that doesn't work
+
+                so first step in this nightmare:
+                    implement the creation and getting of displayItemIs
+                        - first rename itemIs to fullItemIs  - don't refactor since some uses should be full and some should be display
+                            will be easier to find when all the itemIs uses give an error
+
+                        - then create in the constructor the displayItemIs by splitting by : and taking [1]
+
+                        - alter description to use displayItemIs
+
+                        - alter regex to allow :
+
+                        - find and replace uses of itemIs to their corresponding type
+
+                        - create the addNumbers method and insert it in places where it'll be needed
+                            - when switching items
+                            - when revealing items
+
+                        - create the removeNumbers function and insert it where it's needed
+                            - when taking items
+
+                While doing this actually found an issue with the regex for itemVerbItem it required the first item to have at least two words
+                in its itemIs - replaced a + with a * for the space word section and now it works fine
+
+                so when are the different itemIs types used???
+
+                    when is itemIs used?
+                       interactionFactory
+                       roomFactory
+                       player
+                       obstacle
+                       eventProcessor
+                       traversalProcessor
+                       room
+
+                    From the top:
+
+                        interaction factory:
+                            - woodenBox's reveal item event uses the itemIs to show what to be revealed
+                                this event works by:
+                                    taking in the itemIs to be revealed
+                                    then using it along with the itemIs of the item causing the revealing
+                                    to alter the room's description
+
+                                    searches in the room for the item to reveal so must use displayItemIs
+
+                            - wooden door takes in an itemIs for the resolution
+                            this itemIs shouldn't change so should be the fullItemIs
+                                this isn't a check since it takes the item in as part of the method
+                                the check that finds the item is probably inventory
+
+                        roomFactory
+                            - itemIsToItem needs an itemIs type - used when searching the room should be displayItemIs
+                                - same for obstacle map
+
+                        player
+                            - hasItemInInventory needs an itemIs to search for
+                                - is an inventory search should be fullItemIs
+
+                            - addToInventory needs an itemIs to display when picking up
+                                - for charities sake use fullItemIs
+
+                            - switchXwthY has so many problems
+                                 - fixed
+
+                        obstacle
+                            - resolve uses itemIs to check - need to give it the fullItemIs
+
+                        eventProcessor
+                            - the reveal item event has a cause that is displayed -
+                            could use either - for now use display
+
+                        traversalProcessor
+                            - uses it a lot tbh
+
+                                - saveInteractive takes the interactive's itemIs
+                                    when it is loaded it is passed directly in to the constructor
+                                    when being created in the factory it is the full itemIs that is added
+                                    so save fullItemIs
+
+                                - saving the map requires the itemIs of both types
+                                    since it's used to search in the current room use display
+
+                                - for loadRoom there are a few
+                                    - when filling the item and obstacle arrays it needed an itemIs
+                                        went with display since it's used in searching the room
+
+                    Had doubts about plan so writing it down again
+                    The fullIS is used for looking through the player's inventory so they know what's what
+                    also used since the itemIs of the solution to an obstacle shouldn't change and
+                    just removing the number would mean say any large key could open a door - not what I want
+                    the displayIS is used to make the room descriptions look nicer
+                    also to search the room since a check for say large key 2 can
+                    be used to find the key that corresponds and it can be used with it's fullIS afterwards
+
+
+                        room
+                            - player takes item method removes an itemIs from the items map
+                                it uses display so display is used for this
+                                error msg also refers to items in the room so use display for that too
+
+                            - switches method checks inventory so use full for that
+                                err msg uses the obstacle in a room - use display for it
+
+                            - touched item err msg needs to use display
+
+                            - used item checks inventory need full
+
+                            - use item on obstacle checks the room map and the inventory need display and full respectively
+                                err msg needs display
+
+                            - remove from and add too description both need to use the display since they affect the display
+
+                    Every class seems fixed - we'll see if it works
+
+                    it does not - can't find the wooden box
+
+                    issue is that the \" have been wrapped around the whole of the fullItemIs
+                    I need to shift them so that they only cover the displayItemIs
+
+                    can find the box now but can't use it
+
+                    issue is that the inserted " as part of processing go to the wrong place
+                    when they're added could maybe do a check for ":" and if it's found insert the " afterwards
+                    otherwise at the start?
+
+                    happens at the start - uses .substring and the length of the veb to find it
+                    want to make that a String that can be checked/ further split
+
+                    that works now I can find and use the wooden box
+
+                    now for switching
+
+                    nothing seems to be happening
+
+                    it happened again with this one where I have \"[fullItemIs]\" instead of having the \" around the displayItemIs
+
+                    though why no error msg - that error was missing one
+
+                    so where does itemVerbItem add the "" and then I need to do the check again
+
+                    seems to work fine

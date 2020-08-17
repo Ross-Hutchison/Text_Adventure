@@ -11,34 +11,42 @@ public class roomFactory {
     private static interactionFactory itemGenerator = new interactionFactory();
 
     public room createTutorialRoom() {
-        // the tutorial room's unique id
+        // the tutorial room's unique id and interactive prefix
         String id = "tutorialRoom";
+        String interactivePrefix = id + ":";    // used to show that say one large key belongs to one room while another belongs to another
+
         // generating the item array for the room
-        interactive key = itemGenerator.createKey();
-        interactive choco = itemGenerator.createChocolate();
-        interactive box = itemGenerator.createBox(key);
+        interactive key = itemGenerator.createKey(interactivePrefix);
+        interactive choco = itemGenerator.createChocolate(interactivePrefix);
+        interactive box = itemGenerator.createBox(interactivePrefix, key);
         interactive[] interactives = new interactive[]{choco, key, box};
+
         // generating the obstacle array
-        obstacle door = itemGenerator.createWoodenDoor(null, key);
+        obstacle door = itemGenerator.createWoodenDoor(interactivePrefix, "tutorialRoom", key);
         obstacle[] obstacles = new obstacle[]{door};
+
         // generating the HashMap for blocked items
         HashMap<interactive, obstacle>blockedBy = new HashMap<>();
         blockedBy.put(choco, door);
+
         // generates the map of Strings to items
         HashMap<String, interactive>itemIsToItem = new HashMap<>();
-        itemIsToItem.put(key.getItemIs(), key);
-        itemIsToItem.put(choco.getItemIs(), choco);
-        itemIsToItem.put(box.getItemIs(), box);
+        itemIsToItem.put(key.getDisplayItemIs(), key);
+        itemIsToItem.put(choco.getDisplayItemIs(), choco);
+        itemIsToItem.put(box.getDisplayItemIs(), box);
+
         // generates the map of Strings to Obstacles
         HashMap<String, obstacle> itemIsToObstacle = new HashMap<>();
-        itemIsToObstacle.put(door.getItemIs(), door);
+        itemIsToObstacle.put(door.getDisplayItemIs(), door);
+
         // writing the description
         String description = "the room is small and rather dull, the walls are grey brick, \n" +
                 "and the floor is made of old wooden planks, several are rotting and most squeak when you walk over them\n" +
-                "at the other end of the room there is a sturdy looking " + door.getItemIs() + "\n" +
-                "laying on the floor by where your head was is a " + choco.getItemIs() + "\n" +
-                "sitting on the floor by the door is a " + box.getItemIs();
+                "at the other end of the room there is a sturdy looking " + door.getDisplayItemIs() + "\n" +
+                "laying on the floor by where your head was is a " + choco.getDisplayItemIs() + "\n" +
+                "sitting on the floor by the door is a " + box.getDisplayItemIs();
 
+        // creating and returning the room
         room tutorialRoom = new room(id, description, interactives, obstacles, blockedBy, itemIsToItem, itemIsToObstacle);
         return tutorialRoom;
     }

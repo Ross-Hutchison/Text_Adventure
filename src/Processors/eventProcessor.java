@@ -58,7 +58,7 @@ public class eventProcessor {
     private void revealAnItemInTheRoom(room currentRoom, event eventData) {
         alterRoomEvent event = (alterRoomEvent) eventData;
         String itemIs = event.getEventSpecifics();
-        String cause = event.getBelongsTo().getItemIs();
+        String cause = event.getBelongsTo().getDisplayItemIs();
 
         interactive toReveal = currentRoom.getItemIsToItem().get(itemIs);
         toReveal.setVisible(true);

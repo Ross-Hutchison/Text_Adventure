@@ -34,9 +34,14 @@ public class inputProcessor {
     public event processVerbObject(String input, room currentRoom, player p) {
         String[] parts = input.split(" "); //separate the input by ' '
         String verb = parts[0]; // takes the verb
-        String item = "\"" + input.substring(verb.length() + 1) + "\"";  // uses the verb's length to take the set of words
+        String item = input.substring(verb.length() + 1); // uses the verb's length to take the set of words
+        String encasedItem;
 
-        if (checkItemForVerb(item)) {   // check the item does not contain more verbs since this is invalid
+        if (item.contains(":")) {
+            encasedItem = item.substring(0, item.indexOf(":") + 1) + "\"" + item.substring(item.indexOf(":") + 1) + "\"";
+        } else encasedItem = "\"" + item + "\"";
+
+        if (checkItemForVerb(encasedItem)) {   // check the item does not contain more verbs since this is invalid
             System.out.println(REPEATED_VERBS_ERR_MSG);
             return null;
         }
@@ -45,13 +50,12 @@ public class inputProcessor {
         HashMap<String, interactive> itemChecker = currentRoom.getItemIsToItem();   // lets you check for item's being present
         HashMap<String, obstacle> obstacleChecker = currentRoom.getItemIsToObstacle();  // lets you check for obstacles being present
 
-        if (itemChecker.containsKey(item)) {    // desired interactive is an item present in the room
-            interactiveObj = itemChecker.get(item);
-        }
-        else if (obstacleChecker.containsKey(item)) {   // desired interactive is an obstacle present in the room
-            interactiveObj = obstacleChecker.get(item);
-        }
-        else interactiveObj = p.hasItemInInventory(item);  // desired interactive is a takable interactive in the player's inventory
+        if (itemChecker.containsKey(encasedItem)) {    // desired interactive is an item present in the room
+            interactiveObj = itemChecker.get(encasedItem);
+        } else if (obstacleChecker.containsKey(encasedItem)) {   // desired interactive is an obstacle present in the room
+            interactiveObj = obstacleChecker.get(encasedItem);
+        } else
+            interactiveObj = p.hasItemInInventory(encasedItem);  // desired interactive is a takable interactive in the player's inventory
 
         if (interactiveObj != null) {   // if the item was found in the room or player's inventory
             switch (verb) {
@@ -70,7 +74,7 @@ public class inputProcessor {
                     return currentRoom.playerUsedItem(p, interactiveObj);
             }
         } else
-            System.out.println("you turn your attention to the " + item + "\n" +
+            System.out.println("you turn your attention to the " + encasedItem + "\n" +
                     "but you must have hallucinated it\n" +
                     "- this item is not currently present in your inventory or the current room");
         return null;
@@ -109,8 +113,13 @@ public class inputProcessor {
         String[] interactives = input.split(splitterVerb); //
 
         for (int i = 0; i < itemVerbItem_requiredItems; i++) {    // surround both items with the "" needed for processing
-            interactives[i] = "\"" + interactives[i] + "\"";
-            if (checkItemForVerb(interactives[i])) {    // check each item is free of any other verbs
+            String current = interactives[i];
+            if(current.contains(":")) {
+                interactives[i] = current.substring(0, current.indexOf(":") + 1) + "\"" + current.substring(current.indexOf(":") + 1) + "\"";
+            }
+            else interactives[i] = "\"" + current + "\"";
+
+            if (checkItemForVerb(current)) {    // check each item is free of any other verbs
                 System.out.println(REPEATED_VERBS_ERR_MSG);
                 return null;
             }
@@ -137,7 +146,8 @@ public class inputProcessor {
 
 
                 interactiveObj2 = itemChecker.get(interactives[1]); // if second Interaction is an item in the room
-                if(interactiveObj2 == null) interactiveObj2 = p.hasItemInInventory(interactives[1]);   // or in the player's inventory
+                if (interactiveObj2 == null)
+                    interactiveObj2 = p.hasItemInInventory(interactives[1]);   // or in the player's inventory
 
                 if (interactiveObj2 != null) {  // item is present
                     actionSucceeded = currentRoom.playerSwitchesItems(p, interactiveObj1, interactiveObj2);    // no event attached - ret null
@@ -163,13 +173,13 @@ public class inputProcessor {
                     // if the second interaction is an item in the room or the player's inventory
                     if (itemChecker.get(interactives[1]) != null || p.hasItemInInventory(interactives[1]) != null) {
                         System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);
-                    }
-                    else    // otherwise item just isn't there
+                    } else    // otherwise item just isn't there
                         System.out.println("the " + interactives[1] + " is not present");
                     return null;
                 }
             }
         }
+        System.out.println("the " + interactives[0] + "is not present in the room");
         return null; // if first item is not present then no operation occurs
     }
 

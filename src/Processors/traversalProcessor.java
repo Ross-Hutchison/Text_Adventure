@@ -24,7 +24,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         saveData += toSave.getDescription();   // add the description
         saveData += ROOM_DATA_SEPARATOR;
 
-        // adds all the items to the saveData - interactives that are not obstacles
+    // adds all the items to the saveData - interactives that are not obstacles
         interactive[] interactives = toSave.getInteractives();
         for (int i = 0; i < interactives.length; i++) {
             interactive current = interactives[i];
@@ -35,7 +35,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         }
         saveData += ROOM_DATA_SEPARATOR;
 
-        // adds all the obstacles to the saveData
+    // adds all the obstacles to the saveData
         obstacle[] obstacles = toSave.getObstacles();
 
         for (int i = 0; i < obstacles.length; i++) {
@@ -48,13 +48,13 @@ class traversalProcessor {  // can be package-protected since it'll be called in
 
         saveData += ROOM_DATA_SEPARATOR;
 
-        // now saves the hashMap that maps interactives to the obstacles that block them
+    // now saves the hashMap that maps interactives to the obstacles that block them
         Map<interactive, obstacle> map = toSave.getBlockedBy();
         Object[] keys = map.keySet().toArray(); // the set of all items that are blocked
 
         for (int i = 0; i < keys.length; i++) {
             interactive current = (interactive) keys[i];
-            String toAdd = current.getItemIs() + ":" + map.get(current).getItemIs();
+            String toAdd = current.getDisplayItemIs() + ":" + map.get(current).getDisplayItemIs();
             if (i != 0) saveData += MAP_DATA_SEPARATOR;
             saveData += toAdd;
         }
@@ -90,7 +90,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         String saveData = "";
 
         if (toSave != null) {
-            saveData += toSave.getItemIs();
+            saveData += toSave.getFullItemIs();
             saveData += INTERACTIVE_DATA_SEPARATOR;
             saveData += toSave.getDescription();
             saveData += INTERACTIVE_DATA_SEPARATOR;
@@ -148,7 +148,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             HashMap<String, interactive> itemMap = new HashMap<>(); // create and fill the item map
             for (interactive current : items) {
                 if(current == null) continue;   // skip removed items
-                itemMap.put(current.getItemIs(), current);
+                itemMap.put(current.getDisplayItemIs(), current);
             }
 
             obstacle[] obstacles = loadObstacles(roomData[2], itemMap); // create the obstacle array from the third data section
@@ -156,7 +156,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             HashMap<String, obstacle> obstacleMap = new HashMap<>();    // create and fill the obstacle map
             for (obstacle current : obstacles) {
                 if(current == null) continue;   // skips any missing obstacle (shouldn't happen but hey)
-                obstacleMap.put(current.getItemIs(), current);
+                obstacleMap.put(current.getDisplayItemIs(), current);
             }
 
             // converts the blockedStr to a map showing what obstacles block what items
