@@ -1491,3 +1491,11 @@ processing events:
             finish implementing the adding and removing of numbers
 
             either 1 use items or setting up the second room
+
+            fixing issue:
+                if the item that has the same displayItemIs is visible then just need to ++ the version and move on
+                but if it isn't visible then I'll need to:
+                set the current item's display itemIs to that one,
+                then call add number to the hidden item
+                then maybe put the hidden item back into the map directly in that method to prevent issues since it's displayitemIs now
+                doesn't map to anything

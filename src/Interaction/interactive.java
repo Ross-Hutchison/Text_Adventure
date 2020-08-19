@@ -27,12 +27,15 @@ public class interactive {
         this.feelsLike = feelsLike;
         this.usedAlone = usedAlone;
         this.touchResult = touchResult;
-        if(this.touchResult != null) this.touchResult.setBelongsTo(this);    // lets the event object know which interactive it applies to
+        if (this.touchResult != null)
+            this.touchResult.setBelongsTo(this);    // lets the event object know which interactive it applies to
         this.useResult = useResult;
-        if(this.useResult != null) this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
+        if (this.useResult != null)
+            this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
         this.canTake = canTake;
         this.visible = true;    // default state for any interactive is to be visible
     }
+
     public interactive(String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
                        event useResult, boolean canTake, boolean visible) {
 
@@ -45,9 +48,11 @@ public class interactive {
         this.feelsLike = feelsLike;
         this.usedAlone = usedAlone;
         this.touchResult = touchResult;
-        if(this.touchResult != null) this.touchResult.setBelongsTo(this);    // lets the event object know which interactive it applies to
+        if (this.touchResult != null)
+            this.touchResult.setBelongsTo(this);    // lets the event object know which interactive it applies to
         this.useResult = useResult;
-        if(this.useResult != null) this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
+        if (this.useResult != null)
+            this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
         this.canTake = canTake;
         this.visible = visible;    // default state for any interactive is to be visible
     }
@@ -57,11 +62,18 @@ public class interactive {
     item being left adds a number to the end to distinguish it
      */
     public String addNumber(HashMap<String, interactive> itemsPresent) {
-        if(itemsPresent.containsKey(this.getDisplayItemIs())){
+        if (itemsPresent.containsKey(this.getDisplayItemIs())) {
 
             int version = 2;
-            while(itemsPresent.containsKey( (this.getDisplayItemIs() + " " + version) )){
-                version++;
+            while (itemsPresent.containsKey((this.getDisplayItemIs() + " " + version))) {
+                interactive present = itemsPresent.get(this.displayItemIs + " " + version);
+                if (present.getVisible()) {
+                    version++;
+                } else {
+                    this.displayItemIs = this.getDisplayItemIs() + " " + version;
+                    present.addNumber(itemsPresent);
+                    itemsPresent.put(present.displayItemIs, present);
+                }
             }
 
             itemsPresent.put(this.getDisplayItemIs() + " " + version, this);
@@ -132,6 +144,8 @@ public class interactive {
         return visible;
     }
 
-    public void setVisible(boolean visible) { this.visible = visible; }
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
 }
