@@ -64,7 +64,7 @@ public class eventProcessor {
         toReveal.setVisible(true);
 
         String desc = currentRoom.getDescription();
-        desc = desc.concat("\nThe " + cause + " revealed " + itemIs);
+        desc = desc.concat("\nThe " + cause + " revealed " + toReveal.getDisplayItemIs());
         currentRoom.setDescription(desc);
     }
 

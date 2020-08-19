@@ -62,8 +62,9 @@ public class inputProcessor {
                 case "take":
                     boolean actionSucceeded;
                     actionSucceeded = currentRoom.playerTakesItem(p, interactiveObj);   // no game event currently attached - ret null
-                    if (actionSucceeded)
+                    if (actionSucceeded) {
                         currentRoom.removeItemFromDescription(interactiveObj); // alters description only if the take is successful
+                    }
                     return null;
                 case "touch":
                     return currentRoom.playerTouchedItem(p, interactiveObj);
@@ -150,11 +151,14 @@ public class inputProcessor {
                     interactiveObj2 = p.hasItemInInventory(interactives[1]);   // or in the player's inventory
 
                 if (interactiveObj2 != null) {  // item is present
+                    // switches the two items
+                    interactiveObj1.addNumber(currentRoom.getItemIsToItem());
                     actionSucceeded = currentRoom.playerSwitchesItems(p, interactiveObj1, interactiveObj2);    // no event attached - ret null
 
                     if (actionSucceeded) {   //alters the description if two items were switched
                         currentRoom.addItemToDescription(interactiveObj1);
                         currentRoom.removeItemFromDescription(interactiveObj2);
+                        interactiveObj2.removeNumber();
                     }
 
                     return null;

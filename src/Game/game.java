@@ -71,6 +71,7 @@ public class game {
     public void turn() {
         try {
             System.out.println("\n" + currentRoom.getDescription() + "\n");
+            Jo.outputInventory();
             String input = reader.readLine();
             processInput(input);
         }

@@ -94,4 +94,23 @@ public class player {
         }
         return false;
     }
+
+    public void outputInventory() {
+        String invData = "--------------------\nInventory contains: ";
+        boolean first = true;
+
+        for(int i = 0; i < inventory.length; i++) {
+            if(inventory[i] == null) continue;  // skip any null elements
+
+            if(first){  // don't add the , for the first element
+                first = false;
+            }
+            else invData += ", ";
+
+            invData += inventory[i].getFullItemIs();
+        }
+        invData += "\n--------------------";
+
+        System.out.println(invData);
+    }
 }

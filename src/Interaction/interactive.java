@@ -2,6 +2,9 @@ package Interaction;
 
 import Events.event;
 
+import java.util.HashMap;
+import java.util.regex.Pattern;
+
 public class interactive {
     String fullItemIs;
     String displayItemIs;
@@ -47,6 +50,32 @@ public class interactive {
         if(this.useResult != null) this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
         this.canTake = canTake;
         this.visible = visible;    // default state for any interactive is to be visible
+    }
+
+    /*
+    if the map of itemIs for the room contains the displayItemIs of the
+    item being left adds a number to the end to distinguish it
+     */
+    public String addNumber(HashMap<String, interactive> itemsPresent) {
+        if(itemsPresent.containsKey(this.getDisplayItemIs())){
+
+            int version = 2;
+            while(itemsPresent.containsKey( (this.getDisplayItemIs() + " " + version) )){
+                version++;
+            }
+
+            itemsPresent.put(this.getDisplayItemIs() + " " + version, this);
+            this.displayItemIs = this.getDisplayItemIs() + " " + version;
+        }
+
+        return this.displayItemIs;
+    }
+
+    public String removeNumber() {
+        String[] bits = this.displayItemIs.split(" [\\d]"); // split by " number"
+        this.displayItemIs = bits[0];   // take the first part i.e bit without the " number"
+
+        return this.displayItemIs;
     }
 
     public void lookAt() {

@@ -1419,3 +1419,75 @@ processing events:
                     so where does itemVerbItem add the "" and then I need to do the check again
 
                     seems to work fine
+
+
+            now on to addNumbers and remove numbers
+
+                for addNumbers can take in the array maybe?
+                put the method in interactive - take in the map
+                if the map contains the key add a number
+                if the map still contains the key ++ the number
+                when you reach a number where the key is not present
+                alter the item's display itemIs and add it to the map
+
+            this will be used
+                when switching and when revealing
+
+                they broke it
+
+                took the methods out - need to reconsider where they go
+
+                so numbers are added - or not - when you add an item to the room or the room's description
+
+                numbers are removed - or not - when you remove an item from the room
+
+                the methods don't add or remove if they don't have to
+
+                so for adding
+                    - switching adds an item:
+                        so you take an item and leave an item so it should probably do both
+                            - if the switch takes place the description is altered
+                                want to alter for the take there as well so it isn't altered if it isn't taken
+
+                            - alteration is add to description, remove from description
+                                so what to do is:
+                                    add numbers before add to desc
+                                    remove numbers after remove from desc
+
+                    Didn't work - added a 2 to the wooden box
+
+                    why tho???
+
+                        Issue is that since the switch occurs before this then the key has been removed and the box is present
+                        to fix I might need to make the methods directly part of switch and take and alter etc
+
+                        OR might need to move the add and remove from description parts into the method
+
+                        so my issue rn is that if i remove the number before removing from description
+                        then the item is not found in description so is not removed
+
+                        and if I add the numbers after adding to description it does nothing
+
+                        possible fix add before switch, remove after desc mod
+
+                        that seems to work for switch
+
+
+                next add item to room desc event
+                    - so the issue with the this is that the item is already present
+                        so if I check for it's itemIs being present it'll find itself
+                        Issue is If i put a large key in a room with a hidden large key
+                        then it will put it down as large key 2
+                            also need to format the number addition more replace the last " with the number and a "
+
+                        so I need to check for visible and if it is visible then switch the checked item
+                        and if it's not visible need to alter the hidden key
+
+                        This is more complicated than I thought
+
+
+        TODO:
+            Fix issue with adding an item revealing a hidden item by becoming item 2 etc.
+            finish implementing the adding and removing of numbers
+
+            either 1 use items or setting up the second room
