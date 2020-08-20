@@ -3,6 +3,7 @@ package Interaction;
 import Events.event;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class interactive {
@@ -65,22 +66,43 @@ public class interactive {
         if (itemsPresent.containsKey(this.getDisplayItemIs())) {
 
             int version = 2;
-            while (itemsPresent.containsKey((this.getDisplayItemIs() + " " + version))) {
-                interactive present = itemsPresent.get(this.displayItemIs + " " + version);
+            String newItemIs = formatItemIsToNumbered(this.getDisplayItemIs(), version);;
+
+            while (itemsPresent.containsKey(newItemIs)) {
+
+                interactive present = itemsPresent.get(newItemIs);
+
                 if (present.getVisible()) {
-                    version++;
+                    newItemIs = formatItemIsToNumbered(this.getDisplayItemIs(), version++);
                 } else {
-                    this.displayItemIs = this.getDisplayItemIs() + " " + version;
+                    this.displayItemIs = newItemIs;
                     present.addNumber(itemsPresent);
                     itemsPresent.put(present.displayItemIs, present);
+                    break;  // if the item stopping it was hidden then you can update and break the loop
                 }
             }
 
-            itemsPresent.put(this.getDisplayItemIs() + " " + version, this);
+            itemsPresent.put(newItemIs, this);
             this.displayItemIs = this.getDisplayItemIs() + " " + version;
         }
 
         return this.displayItemIs;
+    }
+
+    private String formatItemIsToNumbered(String itemIs, int number) {
+        String retVal = itemIs;
+        String numEndStr = "[\\d]\"$";
+        Pattern numberEnd = Pattern.compile(numEndStr);
+        Matcher check = numberEnd.matcher(itemIs);
+
+        if(check.matches()) {   // if already numbered
+            retVal = retVal.replaceFirst(numEndStr, (number + "\""));
+        }
+        else {  // if not currently numbered
+            retVal = retVal.replaceAll("\"$", (" " + number + "\"") );
+        }
+
+        return retVal;
     }
 
     public String removeNumber() {

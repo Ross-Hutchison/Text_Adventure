@@ -1499,3 +1499,41 @@ processing events:
                 then call add number to the hidden item
                 then maybe put the hidden item back into the map directly in that method to prevent issues since it's displayitemIs now
                 doesn't map to anything
+
+                Think I've fixed the formatting issues while also making the add number method look a lot nicer
+                    to test i'll need a new room that also has a large key for some reason that I can move back into the tutorial room
+
+                Back to adding and removing numbers where needed:
+                    adding - when an item is revealed ??? - maybe not since the item is affected by being hidden now
+                    When an item with the same itemIs is added and the main item is hidden
+                    the hidden item's itemIs is updated to the added item does not reveal that the hidden item exists by gaining a number
+
+                    however say that other item is then removed and the hidden item is revealed
+                    the hidden item should go back to having no number
+                    - could as part of add number remove any number if the basic itemIs is not present
+                    - wait but if called on a hidden item then it will be present because it is already there
+                        - what if I remove the number then add it back when it's revealed
+                            that way if the hidden item was altered when there were more items an now there are less then it will be fine
+                            and if the same number o items are present it will be fine
+
+                ISSUE:
+                    so the revealItemEvent will need to use the full itemIs since the display can change
+                        OR the event will need to be of a new type that stores an interactive
+                        that might be better - extends alterRoomEvent?
+                        - the event specific could be how the interactive is altered i.e reveal etc.
+
+                        BUT: How would I save that??? IDK This is a bit of a mess
+
+                    IDEA:
+                        So I can have an addItemEvent that extends the alterRoom event
+                        it can use the event specific data to store a reveal msg and also store an iteractive to
+                        reveal - this would change how reveal item works and allow for the removal of
+                        the hidden system and alteration of reveal item
+
+                        would mean that items that are not "visible" yet do not get
+                        in the way of adding items that are since they don't exist in the room yet
+                        and when added they can just be added normally
+
+                        would shift processing in saving and loading so one item less would
+                        be saved in the saveRoom part but one more would be processed as part of
+                        saving the event of an item in the room - no increase in processing
