@@ -43,13 +43,11 @@ public class interactionFactory {
 
         String feelsLike = "the wood is smooth, it's a very nicely crafted box";
         String usedAlone = "you lift the lid of the box and look inside";
-        event useResult = new alterRoomEvent("revealItem", inside.getDisplayItemIs(), 1,    // uses display since is a room search
-                "you close the box and open it again... nothing has changed");
+        event useResult = new addItemEvent("addItem", "sitting at the bottom of the box is a" + inside.getDisplayItemIs(), inside);
 
         event touchResult = null;
 
         interactive box = new interactive(itemIs, description, feelsLike, usedAlone, touchResult, useResult, true);
-        inside.setVisible(false);
         return box;
     }
 

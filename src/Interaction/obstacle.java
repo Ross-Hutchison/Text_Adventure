@@ -17,6 +17,7 @@ public class obstacle extends interactive {
                     event useResult, boolean canTake) {
 
         super(itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake);
+        this.type = "obst";
         this.solved = false;
         this.solvedBy = solvedBy;
         this.resolvedMsg = resolvedMsg;
@@ -33,9 +34,9 @@ public class obstacle extends interactive {
         - used with loading obstacles in previously visited rooms
      */
     public obstacle(String solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg,
-                    event useNonResolvedResult, boolean solved, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
-                    event useResult, boolean canTake, boolean visible) {
-        super(itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake, visible);
+                    event useNonResolvedResult, boolean solved, String type, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
+                    event useResult, boolean canTake) {
+        super(type, itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake);
         this.solved = solved;
         this.solvedBy = solvedBy;
         this.resolvedMsg = resolvedMsg;

@@ -19,7 +19,6 @@ class room {
     final String USE_NULL_OBJ_ERR_MSG = "That object doesn't seem to exist \n - you may have done something VERY wrong, or it's a glitch";
     final String USED_OBST_WITH_OBST_ERR_MSG = "Maybe combining two obstacles isn't the way to clear the path \n - use items with obstacles not other obstacles";
     final String USED_ITEM_WITH_ITEM_ERR_MSG = "nothing happens \n - use items on obstacles not on other items";
-    final String ITEM_IS_INVIS_ERR_MSG = "you cannot see an item of that description in the room so interacting with one would be a bit hard";
     String id;
 
     public room(String id, String description, interactive[] interactives, obstacle[] obstacles, HashMap<interactive, obstacle> blockedBy, HashMap<String, interactive> itemIsToItem,
@@ -41,7 +40,9 @@ class room {
         return description;
     }
 
-    public obstacle[] getObstacles() { return obstacles; }
+    public obstacle[] getObstacles() {
+        return obstacles;
+    }
 
     public HashMap<interactive, obstacle> getBlockedBy() {
         return blockedBy;
@@ -59,7 +60,9 @@ class room {
         this.description = description;
     }
 
-    public String getId() { return id; }
+    public String getId() {
+        return id;
+    }
 
     public boolean playerTakesItem(player p, interactive toTake) {
         if (toTake == null) {
@@ -67,10 +70,7 @@ class room {
             return false;
         }
 
-        if (!toTake.getVisible()) {
-            System.out.println(ITEM_IS_INVIS_ERR_MSG);
-            return false;
-        } else if (!toTake.getCanTake()) { // if item is not able to be taken
+        if (!toTake.getCanTake()) { // if item is not able to be taken
             System.out.println(ITEM_IS_STATIONARY_ERR_MSG);
             return false;
         }
@@ -104,10 +104,6 @@ class room {
             System.out.println(ITEM_IS_STATIONARY_ERR_MSG);
             return false;
         }
-        else if (!toTake.getVisible()) {
-            System.out.println(ITEM_IS_INVIS_ERR_MSG);
-            return false;
-        }
         obstacle blockage = this.getBlockedBy().get(toTake);
         boolean isNotBlocked = (blockage == null || blockage.getSolved());
         boolean hasInInventory = (p.hasItemInInventory(toLeave.getFullItemIs()) != null);
@@ -124,17 +120,12 @@ class room {
     }
 
     public void playerLooksAtItem(player p, interactive lookedAt) {
-        if (!lookedAt.getVisible()) {
-            System.out.println(ITEM_IS_INVIS_ERR_MSG);
-        } else lookedAt.lookAt();
+        lookedAt.lookAt();
     }
 
     public event playerTouchedItem(player p, interactive touched) {
         if (touched == null) {
             System.out.println(USE_NULL_OBJ_ERR_MSG);
-            return null;
-        } else if (!touched.getVisible()) {
-            System.out.println(ITEM_IS_INVIS_ERR_MSG);
             return null;
         } else {
             obstacle blockage = blockedBy.get(touched);
@@ -150,15 +141,10 @@ class room {
     }
 
     public event playerUsedItem(player p, interactive used) {
-        if(used == null) {
+        if (used == null) {
             System.out.println(USE_NULL_OBJ_ERR_MSG);
             return null;
-        }
-        else if(!used.getVisible()) {
-            System.out.println(ITEM_IS_INVIS_ERR_MSG);
-            return null;
-        }
-        else if (!used.getCanTake()) return used.use();
+        } else if (!used.getCanTake()) return used.use();
         else if (p.hasItemInInventory(used.getFullItemIs()) != null)
             return used.use();
         else {
@@ -168,10 +154,7 @@ class room {
     }
 
     public void playerUsedItemOnObstacle(player p, interactive used, obstacle usedOn) { //obstacles currently can't be blocked
-        if(!usedOn.getVisible()) {
-            System.out.println(ITEM_IS_INVIS_ERR_MSG);
-        }
-        else if (used instanceof obstacle)
+        if (used instanceof obstacle)
             System.out.println(USED_OBST_WITH_OBST_ERR_MSG);
         else if (itemIsToItem.get(usedOn.getDisplayItemIs()) != null)
             System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);

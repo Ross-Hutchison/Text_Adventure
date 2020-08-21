@@ -2,7 +2,7 @@ package Events;
 
 public class alterRoomEvent extends event{
 
-    private String eventSpecifics;  // used with the event type tp determine what specific change occurs to the room
+    String eventSpecifics;  // used with the event type tp determine what specific change occurs to the room
 
     /*
     constructor for limited alter room events (like 95% of them)

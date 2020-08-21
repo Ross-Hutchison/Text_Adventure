@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class interactive {
+    String type;
     String fullItemIs;
     String displayItemIs;
     String description;
@@ -15,10 +16,11 @@ public class interactive {
     event touchResult;
     event useResult;
     boolean canTake;
-    boolean visible;
 
     public interactive(String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
                        event useResult, boolean canTake) {
+
+        this.type = "inter";
         this.fullItemIs = itemIs;
 
         String[] bits = fullItemIs.split(":");
@@ -34,12 +36,12 @@ public class interactive {
         if (this.useResult != null)
             this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
         this.canTake = canTake;
-        this.visible = true;    // default state for any interactive is to be visible
     }
 
-    public interactive(String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
-                       event useResult, boolean canTake, boolean visible) {
+    public interactive(String type, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
+                       event useResult, boolean canTake) {
 
+        this.type = type;
         this.fullItemIs = itemIs;
 
         String[] bits = fullItemIs.split(":");
@@ -55,36 +57,27 @@ public class interactive {
         if (this.useResult != null)
             this.useResult.setBelongsTo(this);      // lets the event object know which interactive it applies to
         this.canTake = canTake;
-        this.visible = visible;    // default state for any interactive is to be visible
     }
+
 
     /*
     if the map of itemIs for the room contains the displayItemIs of the
     item being left adds a number to the end to distinguish it
      */
     public String addNumber(HashMap<String, interactive> itemsPresent) {
+        String newItemIs = this.getDisplayItemIs();
+
         if (itemsPresent.containsKey(this.getDisplayItemIs())) {
 
             int version = 2;
-            String newItemIs = formatItemIsToNumbered(this.getDisplayItemIs(), version);;
+            newItemIs = formatItemIsToNumbered(this.getDisplayItemIs(), version);
 
             while (itemsPresent.containsKey(newItemIs)) {
-
-                interactive present = itemsPresent.get(newItemIs);
-
-                if (present.getVisible()) {
-                    newItemIs = formatItemIsToNumbered(this.getDisplayItemIs(), version++);
-                } else {
-                    this.displayItemIs = newItemIs;
-                    present.addNumber(itemsPresent);
-                    itemsPresent.put(present.displayItemIs, present);
-                    break;  // if the item stopping it was hidden then you can update and break the loop
+                newItemIs = formatItemIsToNumbered(this.getDisplayItemIs(), version++);
                 }
             }
 
-            itemsPresent.put(newItemIs, this);
-            this.displayItemIs = this.getDisplayItemIs() + " " + version;
-        }
+            this.displayItemIs = newItemIs;
 
         return this.displayItemIs;
     }
@@ -162,12 +155,5 @@ public class interactive {
         return canTake;
     }
 
-    public boolean getVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-
+    public String getType() { return type; }
 }

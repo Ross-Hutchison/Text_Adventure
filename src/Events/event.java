@@ -16,8 +16,8 @@ public abstract class event {
     String eventSubType;   // - package private as assigned in subtype constructors
     private String type;
     private interactive belongsTo;
-    private int limit;
-    private String usedUpMsg;
+    int limit;          // - package private as sometimes assigned in subtype constructors
+    String usedUpMsg;  // - package private as sometimes assigned in subtype constructors
 
     // constructor for limited events
     public event(String type, int limit, String usedUpMsg) {

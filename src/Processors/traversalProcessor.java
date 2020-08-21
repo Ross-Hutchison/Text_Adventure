@@ -90,6 +90,8 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         String saveData = "";
 
         if (toSave != null) {
+            saveData += toSave.getType();
+            saveData += INTERACTIVE_DATA_SEPARATOR;
             saveData += toSave.getFullItemIs();
             saveData += INTERACTIVE_DATA_SEPARATOR;
             saveData += toSave.getDescription();
@@ -103,8 +105,6 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             saveData += saveEvent(toSave.getUseResult());
             saveData += INTERACTIVE_DATA_SEPARATOR;
             saveData += toSave.getCanTake();
-            saveData += INTERACTIVE_DATA_SEPARATOR;
-            saveData += toSave.getVisible();
         } else saveData += "an empty space";
 
         return saveData;
@@ -180,12 +180,11 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             if (part.equals("an empty space"))
                 continue; // skip processing for items that are not present in the room anymore
             String[] segments = part.split(INTERACTIVE_DATA_SEPARATOR);
-            event touchEvent = loadEvent(segments[4]);
-            event useEvent = loadEvent(segments[5]);
-            boolean canTake = (segments[6].equals("true"));
-            boolean visible = (segments[7].equals("true"));
+            event touchEvent = loadEvent(segments[5]);
+            event useEvent = loadEvent(segments[6]);
+            boolean canTake = (segments[7].equals("true"));
 
-            interactive toAdd = new interactive(segments[0], segments[1], segments[2], segments[3], touchEvent, useEvent, canTake, visible);
+            interactive toAdd = new interactive(segments[0], segments[1], segments[2], segments[3], segments[4], touchEvent, useEvent, canTake);
             retData[insertIndex++] = toAdd;
         }
         return retData;
@@ -203,14 +202,13 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             String[] segments = part.split(INTERACTIVE_DATA_SEPARATOR);
 
             event useNonResolvedEvent = loadEvent(segments[5]);
-            event touchEvent = loadEvent(segments[11]);
-            event useEvent = loadEvent(segments[12]);
+            event touchEvent = loadEvent(segments[12]);
+            event useEvent = loadEvent(segments[13]);
             boolean solved = (segments[6].equals("true"));
-            boolean canTake = (segments[13].equals("true"));
-            boolean visible = (segments[14].equals("true"));
+            boolean canTake = (segments[14].equals("true"));
 
             obstacle toAdd = new obstacle(segments[0], segments[1], segments[2], segments[3], segments[4], useNonResolvedEvent,
-                    solved, segments[7], segments[8], segments[9], segments[10], touchEvent, useEvent, canTake, visible);
+                    solved, segments[7] ,segments[8], segments[9], segments[10], segments[11], touchEvent, useEvent, canTake);
 
             retData[insertIndex++] = toAdd;
         }

@@ -6,6 +6,8 @@ import Game.player;
 import Interaction.interactive;
 import Rooms.room;
 
+import java.util.HashMap;
+
 public class eventProcessor {
 
     private traversalProcessor T_processor = new traversalProcessor();
@@ -19,7 +21,7 @@ public class eventProcessor {
                         break;
                     case "revealItem": // an item has been revealed in the room
                         // adds the itemIs of the revealed item to the current room's description, the cause is the interaction that revealed the item
-                        revealAnItemInTheRoom(currentRoom, event);
+                        addItemToRoom(currentRoom, event);
                         break;
                     case "outputMessage":
                         sendMessage(event); // the additional info of this event is a message to output
@@ -55,17 +57,15 @@ public class eventProcessor {
         game.setEndMsg(event.getMsg());
     }
 
-    private void revealAnItemInTheRoom(room currentRoom, event eventData) {
-        alterRoomEvent event = (alterRoomEvent) eventData;
-        String itemIs = event.getEventSpecifics();
-        String cause = event.getBelongsTo().getDisplayItemIs();
+    private void addItemToRoom(room currentRoom, event eventData) {
+        addItemEvent event = (addItemEvent)eventData;
 
-        interactive toReveal = currentRoom.getItemIsToItem().get(itemIs);
-        toReveal.setVisible(true);
+        System.out.println(event.getEventSpecifics());
+        interactive toAdd = event.getToAdd();
 
-        String desc = currentRoom.getDescription();
-        desc = desc.concat("\nThe " + cause + " revealed " + toReveal.getDisplayItemIs());
-        currentRoom.setDescription(desc);
+        toAdd.addNumber(currentRoom.getItemIsToItem());
+
+
     }
 
     private void sendMessage(event eventData) {

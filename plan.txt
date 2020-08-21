@@ -1537,3 +1537,54 @@ processing events:
                         would shift processing in saving and loading so one item less would
                         be saved in the saveRoom part but one more would be processed as part of
                         saving the event of an item in the room - no increase in processing
+
+                       TODO:
+                        - create the event type
+                        - remove the visibility system
+                        - implement the event attaching it to the box and adding a working handler in event handler
+                        - alter save and load to include this event type
+
+                            removing visibility:
+                                - remove variable
+                                - remove the variable from constructors
+                                - remove getters and setters
+                                - open all files see which ones are broken
+
+                                interactionFactory
+                                    - since the item is added directly to the box it uses setVisible to say it's hidden
+                                    - remove the item directly from the box - the event will be added soon
+
+                                interactive
+                                    - the addNumbers has a check for visibility
+                                       - think I scrapped it properly might need rechecked
+                                    - also had to remove visible from the constructor's arguments and delete te second constructor
+                                    - had to do the same for obstacle
+
+                                eventProcessor
+                                    - removed content of and renamed the revealItemMethod
+
+                                traversal processor
+                                    - saveInteractive stores visible
+                                    - load uses visible too
+                                    - remove that shit
+
+
+                                room
+                                    - uses visibility to prevent access to items that are hidden
+                                        - remove the checks and the error message
+
+                            Pretty sure all references to visibility are now gone
+
+
+                            Add event to the box
+                                could have it used to add an obstacle as long as I give
+                                a type variable to interactive that the base constructor sets to inter
+                                and the obstacle cons sets to obst
+                                    - add the variable to type and make a second interactive constructor
+                                    - create a getter method for type
+                                    - set it to obst in the obstacle constructor
+                                    - add it to the second obstacle constructor - for loading
+                                    - add it to the save and load section of interactive and obstacle
+
+
+
