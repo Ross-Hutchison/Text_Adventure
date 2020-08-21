@@ -43,7 +43,8 @@ public class interactionFactory {
 
         String feelsLike = "the wood is smooth, it's a very nicely crafted box";
         String usedAlone = "you lift the lid of the box and look inside";
-        event useResult = new addItemEvent("addItem", "sitting at the bottom of the box is a" + inside.getDisplayItemIs(), inside);
+        event useResult = new addItemEvent("addItem", "sitting at the bottom of the box is a " + inside.getDisplayItemIs(),
+                inside, "on the floor next to where you found the box");
 
         event touchResult = null;
 

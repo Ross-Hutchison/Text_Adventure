@@ -33,38 +33,6 @@ class room {
         this.itemIsToObstacle = itemIsToObstacle;
     }
 
-    public interactive[] getInteractives() {
-        return interactives;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public obstacle[] getObstacles() {
-        return obstacles;
-    }
-
-    public HashMap<interactive, obstacle> getBlockedBy() {
-        return blockedBy;
-    }
-
-    public HashMap<String, interactive> getItemIsToItem() {
-        return itemIsToItem;
-    }
-
-    public HashMap<String, obstacle> getItemIsToObstacle() {
-        return itemIsToObstacle;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getId() {
-        return id;
-    }
-
     public boolean playerTakesItem(player p, interactive toTake) {
         if (toTake == null) {
             System.out.println(USE_NULL_OBJ_ERR_MSG);
@@ -173,4 +141,44 @@ class room {
         this.description = this.description.replaceFirst("an empty space", toAdd.getDisplayItemIs());
     }
 
+    public interactive[] getInteractives() {
+        return interactives;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public obstacle[] getObstacles() {
+        return obstacles;
+    }
+
+    public HashMap<interactive, obstacle> getBlockedBy() {
+        return blockedBy;
+    }
+
+    public HashMap<String, interactive> getItemIsToItem() {
+        return itemIsToItem;
+    }
+
+    public HashMap<String, obstacle> getItemIsToObstacle() {
+        return itemIsToObstacle;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+
+    public void setInteractives(interactive[] interactives) {
+        this.interactives = interactives;
+    }
+
+    public void setObstacles(obstacle[] obstacles) {
+        this.obstacles = obstacles;
+    }
 }

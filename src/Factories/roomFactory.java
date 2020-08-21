@@ -19,7 +19,7 @@ public class roomFactory {
         interactive key = itemGenerator.createKey(interactivePrefix);
         interactive choco = itemGenerator.createChocolate(interactivePrefix);
         interactive box = itemGenerator.createBox(interactivePrefix, key);
-        interactive[] interactives = new interactive[]{choco, key, box};
+        interactive[] interactives = new interactive[]{choco, box};
 
         // generating the obstacle array
         obstacle door = itemGenerator.createWoodenDoor(interactivePrefix, "tutorialRoom", key);
@@ -31,7 +31,6 @@ public class roomFactory {
 
         // generates the map of Strings to items
         HashMap<String, interactive>itemIsToItem = new HashMap<>();
-        itemIsToItem.put(key.getDisplayItemIs(), key);
         itemIsToItem.put(choco.getDisplayItemIs(), choco);
         itemIsToItem.put(box.getDisplayItemIs(), box);
 

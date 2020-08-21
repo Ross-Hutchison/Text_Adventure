@@ -81,6 +81,11 @@ public class eventProcessor {
                 else if(current != null) items[i] = current;
             }
             if(!added) items[items.length - 1] = toAdd;
+            currentRoom.setInteractives(items);
+
+            String desc = currentRoom.getDescription();
+            desc = desc.concat("\n" + event.getLocation() + " is a " + toAdd.getDisplayItemIs());
+            currentRoom.setDescription(desc);
 
         }
         else if(toAdd.getType().equals("obsta")){   // does same as above but for obstacles
@@ -101,6 +106,12 @@ public class eventProcessor {
                 else if(current != null) obstacles[i] = current;
             }
             if(!added) obstacles[obstacles.length - 1] = toAddObst;
+            currentRoom.setObstacles(obstacles);
+
+            String desc = currentRoom.getDescription();
+            desc = desc.concat("\n" + event.getLocation() + " is a " + toAdd.getDisplayItemIs());
+            currentRoom.setDescription(desc);
+
         }
         else {
             System.out.println("Invalid item type - " + toAdd.getType());

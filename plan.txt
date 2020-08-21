@@ -1615,4 +1615,17 @@ processing events:
                                     a map of <String,obstacle> and does the exact same thing but with obstacles
 
 
+                            Did some stuf and it's broke - won't show location properly (null)
+                            and added a 2 to the key when it shouldn't have
+
+                            So I forgot to remove the key from the room like a fucking Genius
+                            So if I remove it from the room how will the door know what opens it???
+                            OH - it can exist and get put in the box but just not added to the maps n stuff
+
+                            I'm so smart
+
+                            okay so now it should just be the location that glitches - yep
+
+                            hadn't assigned location in the constructor
+
 
