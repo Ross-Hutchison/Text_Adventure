@@ -152,7 +152,7 @@ public class inputProcessor {
 
                 if (interactiveObj2 != null) {  // item is present
                     // switches the two items
-                    interactiveObj1.addNumber(currentRoom.getItemIsToItem());
+                    interactiveObj1.addNumberInteractive(currentRoom.getItemIsToItem());
                     actionSucceeded = currentRoom.playerSwitchesItems(p, interactiveObj1, interactiveObj2);    // no event attached - ret null
 
                     if (actionSucceeded) {   //alters the description if two items were switched

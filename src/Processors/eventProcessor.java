@@ -4,6 +4,7 @@ import Events.*;
 import Game.game;
 import Game.player;
 import Interaction.interactive;
+import Interaction.obstacle;
 import Rooms.room;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class eventProcessor {
                     case "winGame": // the game has been won
                         gameWon(event);    // the additional info will be a message that details the game's end
                         break;
-                    case "revealItem": // an item has been revealed in the room
+                    case "addItem": // an item has been revealed in the room
                         // adds the itemIs of the revealed item to the current room's description, the cause is the interaction that revealed the item
                         addItemToRoom(currentRoom, event);
                         break;
@@ -63,7 +64,47 @@ public class eventProcessor {
         System.out.println(event.getEventSpecifics());
         interactive toAdd = event.getToAdd();
 
-        toAdd.addNumber(currentRoom.getItemIsToItem());
+        if(toAdd.getType().equals("inter")){
+            HashMap<String, interactive> map = currentRoom.getItemIsToItem();
+            interactive[] items = new interactive[currentRoom.getInteractives().length + 1];    // enough space for a new item
+            toAdd.addNumberInteractive(currentRoom.getItemIsToItem());
+
+            map.put(toAdd.getDisplayItemIs(), toAdd);   // add to interactives map
+
+            boolean added = false;  // add to items[]
+            for(int i = 0; i < currentRoom.getInteractives().length; i++) {
+                interactive current = currentRoom.getInteractives()[i];
+                if(current == null && !added) {
+                    added = true;
+                    items[i] = toAdd;
+                }
+                else if(current != null) items[i] = current;
+            }
+            if(!added) items[items.length - 1] = toAdd;
+
+        }
+        else if(toAdd.getType().equals("obsta")){   // does same as above but for obstacles
+            obstacle toAddObst = (obstacle)toAdd;
+            HashMap<String, obstacle> map = currentRoom.getItemIsToObstacle();
+            obstacle[] obstacles = new obstacle[currentRoom.getObstacles().length + 1];    // enough space for a new item
+            toAddObst.addNumberObstacle(currentRoom.getItemIsToObstacle());
+
+            map.put(toAdd.getDisplayItemIs(), toAddObst);   // add to interactives map
+
+            boolean added = false;  // add to items[]
+            for(int i = 0; i < currentRoom.getObstacles().length; i++) {
+                obstacle current = currentRoom.getObstacles()[i];
+                if(current == null && !added) {
+                    added = true;
+                    obstacles[i] = toAddObst;
+                }
+                else if(current != null) obstacles[i] = current;
+            }
+            if(!added) obstacles[obstacles.length - 1] = toAddObst;
+        }
+        else {
+            System.out.println("Invalid item type - " + toAdd.getType());
+        }
 
 
     }

@@ -2,6 +2,8 @@ package Interaction;
 
 import Events.event;
 
+import java.util.HashMap;
+
 public class obstacle extends interactive {
     private boolean solved;
     private String solvedBy;
@@ -17,7 +19,7 @@ public class obstacle extends interactive {
                     event useResult, boolean canTake) {
 
         super(itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake);
-        this.type = "obst";
+        this.type = "obsta";
         this.solved = false;
         this.solvedBy = solvedBy;
         this.resolvedMsg = resolvedMsg;
@@ -74,6 +76,27 @@ public class obstacle extends interactive {
     public void useOn(obstacle useOn) {   // should never happen
         System.out.println("why have you tried this - stop");
     }
+
+
+     public String addNumberObstacle(HashMap<String, obstacle> obstaclesPresent) {
+        String newItemIs = this.getDisplayItemIs();
+
+        if (obstaclesPresent.containsKey(this.getDisplayItemIs())) {
+
+            int version = 2;
+            newItemIs = formatItemIsToNumbered(this.getDisplayItemIs(), version);
+
+            while (obstaclesPresent.containsKey(newItemIs)) {
+                newItemIs = formatItemIsToNumbered(this.getDisplayItemIs(), version++);
+            }
+        }
+
+        this.displayItemIs = newItemIs;
+
+        return this.displayItemIs;
+    }
+
+
 
     public boolean getSolved() {
         return solved;

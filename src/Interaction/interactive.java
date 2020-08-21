@@ -64,7 +64,7 @@ public class interactive {
     if the map of itemIs for the room contains the displayItemIs of the
     item being left adds a number to the end to distinguish it
      */
-    public String addNumber(HashMap<String, interactive> itemsPresent) {
+    public String addNumberInteractive(HashMap<String, interactive> itemsPresent) {
         String newItemIs = this.getDisplayItemIs();
 
         if (itemsPresent.containsKey(this.getDisplayItemIs())) {
@@ -82,7 +82,7 @@ public class interactive {
         return this.displayItemIs;
     }
 
-    private String formatItemIsToNumbered(String itemIs, int number) {
+    String formatItemIsToNumbered(String itemIs, int number) {
         String retVal = itemIs;
         String numEndStr = "[\\d]\"$";
         Pattern numberEnd = Pattern.compile(numEndStr);

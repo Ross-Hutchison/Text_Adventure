@@ -1587,4 +1587,32 @@ processing events:
                                     - add it to the save and load section of interactive and obstacle
 
 
+                                when the event occurs
+                                    - cast eventData to addItem
+                                    - output the event specific message
+                                    - get the item from the event
+                                    - check the item's type
+
+                                Could remove blockedBy map by just making obstacles first and passing the obstacle
+                                directly to the interactive's constructor;
+                                saving could still just use the itemIs
+                                for each item check the value of blockedBy
+                                if it's not null then add the two itemIs
+
+                                when loading use the obstacle map already generated to grab the
+                                obstacle that blocks the item when loading it
+
+                                would simplify checks but how would it work with saving and loading
+                                when an addItemEvent interactive is blocked
+                                - how can it be loaded ?
+                                Possible but for now not necessary - maybe something to look back on later
+
+                                    - if the item is an inter then add it to items array and the itemIsToItem map
+                                    - if the item is an obsta then add it to obstacles array and the itemIsToObstacle map
+                                    for now can't be blocked
+
+                                    if I want it to add obstacles too I'll need a second addNumbers method that takes in
+                                    a map of <String,obstacle> and does the exact same thing but with obstacles
+
+
 
