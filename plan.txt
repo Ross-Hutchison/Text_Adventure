@@ -1628,5 +1628,26 @@ processing events:
 
                             hadn't assigned location in the constructor
 
-                        
+            Having implemented the new Event Type I'll need to alter save and load methods to account for it
+
+            go through save method - room saves interactives and obstacles
+            interactives and obstacles both save events
+            need to alter saveEvent to check for the addItem type
+
+            took in the wrong String for loadItems call in loadEvent - addItem
+
+            issue is that the saving produces the wrong String
+
+            So the cause is that the item being inserted into the event means that
+            when the split to load items occurs it breaks the event String
+            - to fix I'll need to add another separator and maybe give saveInteractive a parameter to
+            hold the separator to use - since it will use one when saving an external item and another when saving
+            an item as part of an event
+
+            gave that a shot should check it works properly
+
+            seems fine - gets toAdd allocated properly however location is for some reason the whole item's String
+            had forgotten to make it [6] not [5]
+
+            Now seems to work as intended
 

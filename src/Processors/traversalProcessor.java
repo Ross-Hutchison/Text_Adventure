@@ -12,7 +12,8 @@ class traversalProcessor {  // can be package-protected since it'll be called in
 
     private final String ROOM_DATA_SEPARATOR = " ~ ";   // separates the different sections of the room's data
     private final String ARRAY_ENTRY_SEPARATOR = " , "; // separates the different interactives in the room's array
-    private final String INTERACTIVE_DATA_SEPARATOR = " # ";    // separates the different variables of each interactive
+    private final String EXTERNAL_INTERACTIVE_DATA_SEPARATOR = " # ";    // separates the different variables of each interactive when it is outside an interactive
+    private final String INTERNAL_INTERACTIVE_DATA_SEPARATOR = " ## ";    // separates the different variables of each interactive when it is inside an interactive
     private final String EVENT_DATA_SEPARATOR = " ; ";  // separates the different variables of each event object
     private final String MAP_DATA_SEPARATOR = " ! ";    // separates the different key-value pairings in the map
 
@@ -31,7 +32,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             if (i != 0) {
                 saveData = saveData.concat(ARRAY_ENTRY_SEPARATOR);
             }// if not first element add separator before element
-            saveData = saveData.concat(saveInteractive(current));
+            saveData = saveData.concat(saveInteractive(current, EXTERNAL_INTERACTIVE_DATA_SEPARATOR));
         }
         saveData += ROOM_DATA_SEPARATOR;
 
@@ -43,7 +44,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             if (i != 0) {   // if not first element add separator before element
                 saveData = saveData.concat(ARRAY_ENTRY_SEPARATOR);
             }
-            saveData = saveData.concat(saveObstacle(current));
+            saveData = saveData.concat(saveObstacle(current, EXTERNAL_INTERACTIVE_DATA_SEPARATOR));
         }
 
         saveData += ROOM_DATA_SEPARATOR;
@@ -65,45 +66,45 @@ class traversalProcessor {  // can be package-protected since it'll be called in
     /*
         converts an obstacle to a String for saving
      */
-    private String saveObstacle(obstacle toSave) {
+    private String saveObstacle(obstacle toSave, String separator) {
         String saveData = "";
         saveData += toSave.getSolvedBy();
-        saveData += INTERACTIVE_DATA_SEPARATOR;
+        saveData += separator;
         saveData += toSave.getResolvedMsg();
-        saveData += INTERACTIVE_DATA_SEPARATOR;
+        saveData += separator;
         saveData += toSave.getResolveFailMsg();
-        saveData += INTERACTIVE_DATA_SEPARATOR;
+        saveData += separator;
         saveData += toSave.getAlreadyResolvedMsg();
-        saveData += INTERACTIVE_DATA_SEPARATOR;
+        saveData += separator;
         saveData += toSave.getUsedWithoutSolveMsg();
-        saveData += INTERACTIVE_DATA_SEPARATOR;
+        saveData += separator;
         saveData += saveEvent(toSave.getUseNonResolvedResult());
-        saveData += INTERACTIVE_DATA_SEPARATOR;
+        saveData += separator;
         saveData += toSave.getSolved();
-        saveData += INTERACTIVE_DATA_SEPARATOR;
-        saveData += saveInteractive(toSave);    // adds the standard interactive data
+        saveData += separator;
+        saveData += saveInteractive(toSave, separator);    // adds the standard interactive data
 
         return saveData;
     }
 
-    private String saveInteractive(interactive toSave) {// converts the interactive to a String
+    private String saveInteractive(interactive toSave, String separator) {// converts the interactive to a String
         String saveData = "";
 
         if (toSave != null) {
             saveData += toSave.getType();
-            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += separator;
             saveData += toSave.getFullItemIs();
-            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += separator;
             saveData += toSave.getDescription();
-            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += separator;
             saveData += toSave.getFeelsLike();
-            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += separator;
             saveData += toSave.getUsedAlone();
-            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += separator;
             saveData += saveEvent(toSave.getTouchResult());
-            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += separator;
             saveData += saveEvent(toSave.getUseResult());
-            saveData += INTERACTIVE_DATA_SEPARATOR;
+            saveData += separator;
             saveData += toSave.getCanTake();
         } else saveData += "an empty space";
 
@@ -128,6 +129,13 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             } else if (toSave.getEventSubType().equals("alterRoom")) {
                 saveData += ((alterRoomEvent) toSave).getEventSpecifics();
             }
+            else if (toSave.getEventSubType().equals("addItem")) {
+                saveData += ((addItemEvent)toSave).getEventSpecifics();
+                saveData += EVENT_DATA_SEPARATOR;
+                saveData += saveInteractive(((addItemEvent)toSave).getToAdd(), INTERNAL_INTERACTIVE_DATA_SEPARATOR);
+                saveData += EVENT_DATA_SEPARATOR;
+                saveData += ((addItemEvent)toSave).getLocation();
+            }
         } else saveData += "null";
         return saveData;
     }
@@ -143,7 +151,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
 
             String desc = roomData[0];  // assign the description to a variable
 
-            interactive[] items = loadItems(roomData[1]);   // parse the second data section into an array of items present
+            interactive[] items = loadItems(roomData[1], EXTERNAL_INTERACTIVE_DATA_SEPARATOR);   // parse the second data section into an array of items present
 
             HashMap<String, interactive> itemMap = new HashMap<>(); // create and fill the item map
             for (interactive current : items) {
@@ -151,7 +159,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
                 itemMap.put(current.getDisplayItemIs(), current);
             }
 
-            obstacle[] obstacles = loadObstacles(roomData[2], itemMap); // create the obstacle array from the third data section
+            obstacle[] obstacles = loadObstacles(roomData[2], EXTERNAL_INTERACTIVE_DATA_SEPARATOR); // create the obstacle array from the third data section
 
             HashMap<String, obstacle> obstacleMap = new HashMap<>();    // create and fill the obstacle map
             for (obstacle current : obstacles) {
@@ -171,7 +179,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
     /*
         converts the String version of the items array back into an array of interactive objects
      */
-    private interactive[] loadItems(String itemsStr) {
+    private interactive[] loadItems(String itemsStr, String separator) {
         String[] parts = itemsStr.split(ARRAY_ENTRY_SEPARATOR);
         interactive[] retData = new interactive[parts.length];
         int insertIndex = 0;
@@ -179,7 +187,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         for (String part : parts) {
             if (part.equals("an empty space"))
                 continue; // skip processing for items that are not present in the room anymore
-            String[] segments = part.split(INTERACTIVE_DATA_SEPARATOR);
+            String[] segments = part.split(separator);
             event touchEvent = loadEvent(segments[5]);
             event useEvent = loadEvent(segments[6]);
             boolean canTake = (segments[7].equals("true"));
@@ -193,13 +201,13 @@ class traversalProcessor {  // can be package-protected since it'll be called in
     /*
         converts the String version of the obstacle array back into an array
      */
-    private obstacle[] loadObstacles(String roomStr, HashMap<String, interactive> itemMap) {
+    private obstacle[] loadObstacles(String roomStr, String separator) {
         String[] parts = roomStr.split(ARRAY_ENTRY_SEPARATOR);
         obstacle[] retData = new obstacle[parts.length];
         int insertIndex = 0;
 
         for (String part : parts) {
-            String[] segments = part.split(INTERACTIVE_DATA_SEPARATOR);
+            String[] segments = part.split(separator);
 
             event useNonResolvedEvent = loadEvent(segments[5]);
             event touchEvent = loadEvent(segments[12]);
@@ -232,6 +240,12 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             } else if (subType.equals("alterRoom")) {
                 String eventSpecifics = segments[4];
                 return new alterRoomEvent(type, eventSpecifics, limit, usedUpMsg);
+            }
+            else if (subType.equals("addItem")) {
+                String eventSpecifics = segments[4];
+                interactive toAdd = loadItems(segments[5], INTERNAL_INTERACTIVE_DATA_SEPARATOR)[0];  // could probably use this to load a single item - maybe
+                String location = segments[6];
+                return new addItemEvent(type, eventSpecifics, toAdd, location);
             }
         }
         return null;
