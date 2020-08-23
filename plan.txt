@@ -1652,3 +1652,68 @@ processing events:
             Now seems to work as intended
 
     Now try to set up the second room I think
+
+        go back by several fucking days to find my idea for the second room
+
+         clearing contains:
+                a stream
+                a tree
+                a bunch of vines
+                two blocked paths
+                an axe
+
+             The stream blocks one path and the vines block the other
+             the vines can be hacked away with the axe
+             the tree can be cut down with the axe - this produces material to create a bridge over the river, either the tree or some wood
+             the axe is laying by the tree
+
+             will also need a door back into the tutorial room
+
+            May need a resolve event to alter the description when the tree is cut down
+            - could have an add itemEvent with type replaceItem that takes the itemIs
+            and uses it to find the item (separate event for room and inventory?)
+            (no since it would rely on the item always being present it can only really
+            affect items that can't be taken or maybe just obstacles)
+
+            so the stream is a blockage resolved by the itm generated when the tree is resolved
+
+                COULD HAVE AN ADD ITEM WITH A LIMIT OVER 1
+                    would just need to give it some way of adding a number
+                    to the generated item - could use a count that is null unless
+                    there is a limit != 1
+
+                    they still can't be limitless though - though 1 could just be the
+                    default for not taking a limit like how limitless is for other event types
+
+            So could give the tree a useEvent that generates a bundle of wood
+            the branches aren't reachable before the tree is cut down i.e. resolved
+
+            no need for resolve event then
+            and currently no need for multi use addItems but would be nice to have
+
+            so process is
+
+            take axe
+            chop tree
+            use tree
+            switch axe with wood
+            use wood to bridge river
+            use path
+
+            or
+            take axe
+            cut vines
+            use path
+
+            so the river needs to be bridged with an item from the tree
+            and the tree is solved with the axe
+            the vines are also solved by the axe
+            paths are blocked by river and vines
+
+            so create the axe first
+            use it's itemIs to create the tree and vines
+            create the wood bundle and use it's itemIs to create the river
+            them create the door back to the tut room and the two paths
+
+
+

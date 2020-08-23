@@ -81,4 +81,47 @@ public class interactionFactory {
         return woodenDoor;
     }
 
+    public interactive createAxe(String isIn) {
+        String itemIs =  isIn + "\"axe\"";
+        String description = "a sturdy looking axe, the handle is long and curves slightly near the end\n" +
+                "The head is dull grey but looks to be in good condition, the blade is sharp.";
+
+        String feelsLike = "the wood is smooth but slightly worn likely where the previous owner would hold it.";
+        String usedAlone = "you lift the axe up to your shoulder and let it rest there, what a stylish pose";
+        event useResult = null;
+        event touchResult = null;
+
+        interactive axe = new interactive(itemIs, description, feelsLike, usedAlone, touchResult, useResult, true);
+        return axe;
+    }
+
+    public interactive createWoodBundle(String isIn) {
+        return null;
+    }
+
+    public obstacle createTree(String isIn, interactive solution) {
+        String solvedBy = solution.getFullItemIs();
+        String itemIs =  isIn + "\"tree\"";
+        String description = "A young fir tree with dozens of branches\n" +
+                "there are two initials - \"A.M & I.K\" carved in a heart\n" +
+                " underneath the heart is carved - \"go die - I.K\"";
+
+        String feelsLike = "the rough bark of the tree is pleasant to touch, sticky sap leaks out in places.";
+        String usedAlone = "you start to pull branches from the fallen tree.";
+
+        String resolvedMsg = "your swings eventually have an effect, the tree groans as it topples to the floor.";
+        String resolveFailMsg = "you bang it against the tree... the tree seems unimpressed.";
+        String alreadyResolvedMsg = "Stop! please! he's already dead : (";
+        String usedWithoutSolveMsg = "you sit for a while under the tree, it's very relaxing";
+
+        event useResult = new addItemEvent("addItem", "you gather several of the branches into a bundle", createWoodBundle(isIn), "laying near the fallen tree is");
+        event touchResult = null;
+        event useNonResolvedResult = null;
+
+        obstacle tree = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
+                itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
+        return tree;
+    }
+
+
 }

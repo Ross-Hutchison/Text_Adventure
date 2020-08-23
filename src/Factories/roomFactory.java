@@ -50,4 +50,33 @@ public class roomFactory {
         return tutorialRoom;
     }
 
+    public room createForestGlade(){
+        // the tutorial room's unique id and interactive prefix
+        String id = "glade";
+        String interactivePrefix = id + ":";    // used to show that say one large key belongs to one room while another belongs to another
+
+        // generating the item array for the room
+        interactive axe = itemGenerator.createAxe(interactivePrefix);
+        interactive[] interactives = new interactive[]{};
+
+        // generating the obstacle array
+        obstacle[] obstacles = new obstacle[]{};
+
+        // generating the HashMap for blocked items
+        HashMap<interactive, obstacle>blockedBy = new HashMap<>();
+
+        // generates the map of Strings to items
+        HashMap<String, interactive>itemIsToItem = new HashMap<>();
+
+        // generates the map of Strings to Obstacles
+        HashMap<String, obstacle> itemIsToObstacle = new HashMap<>();
+
+        // writing the description
+        String description = "";
+
+        // creating and returning the room
+        room tutorialRoom = new room(id, description, interactives, obstacles, blockedBy, itemIsToItem, itemIsToObstacle);
+        return tutorialRoom;
+    }
+
 }
