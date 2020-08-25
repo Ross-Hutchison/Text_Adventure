@@ -20,8 +20,8 @@ public class obstacle extends interactive {
 
         super(itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake);
         this.type = "obsta";
-        this.solved = false;
         this.solvedBy = solvedBy;
+        this.solved = (this.solvedBy == null);  // only receives this if it is created already solved e.g. a door in the room the doors leads to
         this.resolvedMsg = resolvedMsg;
         this.resolveFailMsg = resolveFailMsg;
         this.alreadyResolvedMsg = alreadyResolvedMsg;

@@ -1715,5 +1715,35 @@ processing events:
             create the wood bundle and use it's itemIs to create the river
             them create the door back to the tut room and the two paths
 
+       Might be a good idea to give obstacles a resolve event
+        so I can give obstacles an event that alters the obstacle's description
+        then re-adds the new description to the map
+        and alters the description
+
+            Issue: obstacles are always solved with items from the same room as them
+            as they tend to use the fullItemIs using the current isIn
+            I could hard code in the desired itemIs BUT
+            That could cause issues since I know where the item is from atm
+            but if I change that it could be a problem
+
+            could while not fixing the issue give each obstacle a solutionIsIn
+            String - since the room factory is where all the item locations are defined
+
+            this would replace the current interactive solution parameter
+
+            the way this works could potentially allow me to say
+            use any axe from any room if the solvedBy is "" which would
+            mean that the solved by String would be "" + itemIs
+            so any axe from any room would match the requirement in obstacle.resolve
+            ASSUMING - I alter the resolve check to use endsWith
+                which would work because tutorialRoom:large key still ends with tutorialRoom:large key
+                so obstacles that have a specific room's item to be bypassed will still work
+
+
+            Need to set up obstacle with a constructor for a null solutionItemIs
+            if it receives this it creates an already solved obstacle,
+            I could create interactives that can't be taken but that is
+            less effective since it's creating the same item twice
+
 
 

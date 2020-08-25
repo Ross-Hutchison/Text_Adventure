@@ -22,7 +22,7 @@ public class roomFactory {
         interactive[] interactives = new interactive[]{choco, box};
 
         // generating the obstacle array
-        obstacle door = itemGenerator.createWoodenDoor(interactivePrefix, "tutorialRoom", key);
+        obstacle door = itemGenerator.createWoodenDoor(interactivePrefix, "tutorialRoom", interactivePrefix, key.getDisplayItemIs());
         obstacle[] obstacles = new obstacle[]{door};
 
         // generating the HashMap for blocked items
@@ -57,10 +57,24 @@ public class roomFactory {
 
         // generating the item array for the room
         interactive axe = itemGenerator.createAxe(interactivePrefix);
-        interactive[] interactives = new interactive[]{};
+        interactive woodBundle = itemGenerator.createWoodBundle(interactivePrefix);
+        interactive[] interactives = new interactive[4];    // axe and three doors
+        interactives[0] = axe;
 
         // generating the obstacle array
-        obstacle[] obstacles = new obstacle[]{};
+        obstacle tree = itemGenerator.createTree(interactivePrefix, "", axe.getDisplayItemIs());// "" means any item of this itemIs can solve it
+        obstacle vines = itemGenerator.createVines(interactivePrefix, "", axe.getDisplayItemIs());
+        obstacle river = itemGenerator.createRiver(interactivePrefix, "", woodBundle.getDisplayItemIs());
+        obstacle[] obstacles = new obstacle[]{tree, river, vines};
+
+        // creates the doors to different room
+        interactive woodenDoor = itemGenerator.createWoodenDoor(interactivePrefix, "tutorialRoom", "", null);
+        interactive forestPath = itemGenerator.createPath();
+        interactive civilPath = itemGenerator.createPath();
+        interactives[1] = woodenDoor;
+        interactives[2] = forestPath;
+        interactives[3] = civilPath;
+
 
         // generating the HashMap for blocked items
         HashMap<interactive, obstacle>blockedBy = new HashMap<>();

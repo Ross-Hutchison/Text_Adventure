@@ -52,13 +52,16 @@ public class interactionFactory {
         return box;
     }
 
-    public obstacle createWoodenDoor(String isIn, String to, interactive solution) {
+    public obstacle createWoodenDoor(String isIn, String to, String solutionIsIn, String solutionItemIs) {
 
         String leadsTo;
         if(to != null) leadsTo = to;
         else leadsTo = "nowhere";
 
-        String solvedBy = solution.getFullItemIs();
+        String solvedBy;
+        if(solutionItemIs != null) solvedBy = solutionIsIn + solutionItemIs;
+        else solvedBy = solutionIsIn;   // prevents NullPointerExceptions from String + null
+
         String itemIs =  isIn + "\"wooden door\"";
         String description = "A large brown wooden door with a rectangular base and rounded top\n" +
                 "there is a large metal ring for a handle and below it a large keyhole";
@@ -96,11 +99,25 @@ public class interactionFactory {
     }
 
     public interactive createWoodBundle(String isIn) {
-        return null;
+        String itemIs =  isIn + "\"wood bundle\"";
+        String description = "a bundle of large sturdy sticks, they look like they could support your weight.";
+
+        String feelsLike = "the branches are rough and heavy, several have jagged spikes where smaller branches were broken off.";
+        String usedAlone = "put all but one of the sticks down and begin to swing the remaining one around\n" +
+                "all the while making quiet \"shing, shing, whack\" noises to yourself.";
+        event useResult = null;
+        event touchResult = null;
+
+        interactive woodBundle = new interactive(itemIs, description, feelsLike, usedAlone, touchResult, useResult, true);
+        return woodBundle;
     }
 
-    public obstacle createTree(String isIn, interactive solution) {
-        String solvedBy = solution.getFullItemIs();
+    public obstacle createTree(String isIn, String solutionIsIn, String solutionItemIs) {
+
+        String solvedBy;
+        if(solutionItemIs != null) solvedBy = solutionIsIn + solutionItemIs;
+        else solvedBy = solutionIsIn;   // prevents NullPointerExceptions from String + null
+
         String itemIs =  isIn + "\"tree\"";
         String description = "A young fir tree with dozens of branches\n" +
                 "there are two initials - \"A.M & I.K\" carved in a heart\n" +
@@ -121,6 +138,70 @@ public class interactionFactory {
         obstacle tree = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
                 itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
         return tree;
+    }
+
+    public obstacle createVines(String isIn, String solutionIsIn, String solutionItemIs) {
+
+        String solvedBy;
+        if(solutionItemIs != null) solvedBy = solutionIsIn + solutionItemIs;
+        else solvedBy = solutionIsIn;   // prevents NullPointerExceptions from String + null
+
+        String itemIs =  isIn + "\"vines\"";
+        String description = "A tangle of thick green vines all twisted and tangled together\n" +
+                "they stretch far into the distance seemingly covering most of the forest in that direction.";
+
+        String feelsLike = "the vines are tough and tightly twisted together";
+        String usedAlone = "you think about how long it must have been since this place was maintained for the vines to have grown so much";
+        String resolvedMsg = "you bring the " + solutionItemIs + " down into a section of the vines\n" +
+                "some fall away but it takes several more swings to clear enough space to pass through.";
+
+        String resolveFailMsg = "you try to remove the vines, but this seems to be the wrong tool for the job and you don't make much progress.";
+        String alreadyResolvedMsg = "you go to clear away the vines before remembering that you already have.";
+        String usedWithoutSolveMsg = "you pull at the vines to little effect, a hidden thorn pricks your finger";
+
+        event useResult = null;
+        event touchResult = null;
+        event useNonResolvedResult = null;
+
+        obstacle vines = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
+                itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
+        return vines;
+    }
+
+    public obstacle createRiver(String isIn, String solutionIsIn, String solutionItemIs) {
+
+        String solvedBy;
+        if(solutionItemIs != null) solvedBy = solutionIsIn + solutionItemIs;
+        else solvedBy = solutionIsIn;   // prevents NullPointerExceptions from String + null
+
+        String itemIs =  isIn + "\"river\"";
+        String description = "a deep, fast flowing river, the current looks Strong it would be unwise to try swim across it";
+
+        String feelsLike = "the cold water is relaxing as it flows through your fingers, the noticeable force it exerts on your hand is less so.";
+        String usedAlone = "you move to a point where the water flows fast over rocks and moss and take a quick drink, the cold water is refreshing ";
+        String resolvedMsg = "you take the " + solutionItemIs + " and with it manage to bridge the gap between the river's banks";
+
+        String resolveFailMsg = "you try to bridge the river, but this seems to be the wrong tool for the job and you don't make much progress, nearly losing the " + solutionItemIs + " several times.";
+        String alreadyResolvedMsg = "you already have a way across, best not to tamper with it or you might end up in the drink.";
+        String usedWithoutSolveMsg = usedAlone;
+
+        event useResult = null;
+        event touchResult = null;
+        event useNonResolvedResult = null;
+
+        obstacle river = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
+                itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
+        return river;
+    }
+
+    public interactive createPath() {
+        /*
+        TODO:
+            need either two types of path or for path to take some kind of variable that decided on what type of description
+            this is because I need a nice path to civilisation and a wild path that goes deeper into the forest
+            would prefer the variable approach since a lot of it will be the same just a different description
+         */
+        return null;
     }
 
 
