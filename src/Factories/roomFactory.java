@@ -100,7 +100,7 @@ public class roomFactory {
         // writing the description
         String description = "A clearing surrounded on all sides by a deep wood, the trees loom over you creating patches of shade\n" +
                 "there is the sound of flowing water but otherwise the glade is silent.\n" +
-                "by the " + woodenDoor.getDisplayItemIs() + " you came through there is an " + axe.getDisplayItemIs() + "sitting on a stump\n" +
+                "by the " + woodenDoor.getDisplayItemIs() + " you came through there is an " + axe.getDisplayItemIs() + " sitting on a stump\n" +
                 " leaving the door about 15 meters forwards a " + tree.getDisplayItemIs() + " stands next to a " + river.getDisplayItemIs() + "\n" +
                 "there is what seems to be the ruins of a bridge spanning it and across it a " + civilPath.getDisplayItemIs() + "\n" +
                 "to the left of the door behind a thick patch of " + vines.getDisplayItemIs() + " is a " + forestPath.getDisplayItemIs() + "\n" +

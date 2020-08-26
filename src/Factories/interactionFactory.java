@@ -60,7 +60,7 @@ public class interactionFactory {
 
         String solvedBy;
         if(solutionItemIs != null) solvedBy = solutionIsIn + solutionItemIs;
-        else solvedBy = solutionIsIn;   // prevents NullPointerExceptions from String + null
+        else solvedBy = solutionItemIs;   // prevents NullPointerExceptions from String + null
 
         String itemIs =  isIn + "\"wooden door\"";
         String description = "A large brown wooden door with a rectangular base and rounded top\n" +
@@ -116,7 +116,7 @@ public class interactionFactory {
 
         String solvedBy;
         if(solutionItemIs != null) solvedBy = solutionIsIn + solutionItemIs;
-        else solvedBy = solutionIsIn;   // prevents NullPointerExceptions from String + null
+        else solvedBy = solutionItemIs;   // prevents NullPointerExceptions from String + null
 
         String itemIs =  isIn + "\"tree\"";
         String description = "A young fir tree with dozens of branches\n" +
@@ -144,7 +144,7 @@ public class interactionFactory {
 
         String solvedBy;
         if(solutionItemIs != null) solvedBy = solutionIsIn + solutionItemIs;
-        else solvedBy = solutionIsIn;   // prevents NullPointerExceptions from String + null
+        else solvedBy = solutionItemIs;   // prevents NullPointerExceptions from String + null
 
         String itemIs =  isIn + "\"vines\"";
         String description = "A tangle of thick green vines all twisted and tangled together\n" +
@@ -172,7 +172,7 @@ public class interactionFactory {
 
         String solvedBy;
         if(solutionItemIs != null) solvedBy = solutionIsIn + solutionItemIs;
-        else solvedBy = solutionIsIn;   // prevents NullPointerExceptions from String + null
+        else solvedBy = solutionItemIs;   // prevents NullPointerExceptions from String + null
 
         String itemIs =  isIn + "\"river\"";
         String description = "a deep, fast flowing river, the current looks Strong it would be unwise to try swim across it";
@@ -191,6 +191,7 @@ public class interactionFactory {
 
         obstacle river = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
                 itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
+
         return river;
     }
 

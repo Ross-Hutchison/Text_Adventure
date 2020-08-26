@@ -156,9 +156,9 @@ public class inputProcessor {
                     actionSucceeded = currentRoom.playerSwitchesItems(p, interactiveObj1, interactiveObj2);    // no event attached - ret null
 
                     if (actionSucceeded) {   //alters the description if two items were switched
-                        currentRoom.addItemToDescription(interactiveObj1);
                         currentRoom.removeItemFromDescription(interactiveObj2);
                         interactiveObj2.removeNumber();
+                        currentRoom.addItemToDescription(interactiveObj1);
                     }
 
                     return null;

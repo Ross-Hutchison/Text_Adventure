@@ -106,7 +106,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             saveData += saveEvent(toSave.getUseResult());
             saveData += separator;
             saveData += toSave.getCanTake();
-        } else saveData += "an empty space";
+        } else saveData += "empty space";
 
         return saveData;
     }
@@ -144,9 +144,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         room toLoad = null;
 
         String loadData = roomIdToSaveData.get(id);
-        if (loadData == null) {
-            System.out.println(ROOM_NOT_FOUND_ERR);
-        } else {
+        if (loadData != null) {
             String[] roomData = loadData.split(ROOM_DATA_SEPARATOR);   // get the different room data segments
 
             String desc = roomData[0];  // assign the description to a variable
@@ -185,7 +183,7 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         int insertIndex = 0;
 
         for (String part : parts) {
-            if (part.equals("an empty space"))
+            if (part.equals("empty space"))
                 continue; // skip processing for items that are not present in the room anymore
             String[] segments = part.split(separator);
             event touchEvent = loadEvent(segments[5]);

@@ -53,7 +53,7 @@ public class obstacle extends interactive {
     public void resolve(interactive usedWith) {
         String usedWithId = usedWith.getFullItemIs();
 
-        if (!solved && usedWithId.equals(solvedBy)) {
+        if (!solved && usedWithId.endsWith(solvedBy)) {
             this.solved = true;
             System.out.println(this.resolvedMsg);
         } else if (!solved) {

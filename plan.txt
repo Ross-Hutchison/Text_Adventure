@@ -1750,5 +1750,43 @@ processing events:
 
             second room should now be set up
 
+        Now need to update traversal where if the room is not found it passes it to a switch statement
+        that contains all the room id's from the room factory
+        and if it finds one it creates it and sets the current room to it
+
+
+        The wooden door is locked when you leave - not ideal
+        think I was using the wrong variable in the factory constructor
+        fixed it
+
+        Switching the key with the axe leaves an empty space not a key???
+        why?
+
+        seems to be that when you switch two items it adds the item first before removing the second item
+        which shouldn't really be the case
+
+        surely should remove the axe then put the key in the empty space it leaves behind
+
+        the glade seems to be a bit broken
+        can't use the axe on the tree - invalid command format ???
+        can go down the blocked wild path?????
+
+        Debug time:
+
+        For some reason the fix I made to the regex that meant it could accept a single word at the start isn't present here
+        - bad merging I think
+
+        fixed that - now issues are, axe can't cut tree and can take a supposedly blocked path
+
+        Issue with the tree is probably that I left resolve as .equals not .endsWith
+
+        fixed that now issue is the blocked map not working
+
+        forgot to account for blocked items?
+
+        in room's player used item method forgot to account for the fact that
+        items that can't be taken might still be blocked
+        probably as obstacles aren't blocked at the moment
+
 
 

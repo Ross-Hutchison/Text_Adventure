@@ -113,7 +113,16 @@ class room {
         if (used == null) {
             System.out.println(USE_NULL_OBJ_ERR_MSG);
             return null;
-        } else if (!used.getCanTake()) return used.use();
+        }
+
+        if(!used.getCanTake()){
+            obstacle blockage = blockedBy.get(used);
+            if(blockage == null || blockage.getSolved()) return used.use();
+            else {
+                System.out.println("you attempt to reach the " + used.getDisplayItemIs() + " but you are stopped by " + aOrAn(blockage.getDisplayItemIs()));
+                return null;
+            }
+        }
         else if (p.hasItemInInventory(used.getFullItemIs()) != null)
             return used.use();
         else {
@@ -134,11 +143,28 @@ class room {
     }
 
     public void removeItemFromDescription(interactive toRemove) {
-        this.description = this.description.replaceFirst(toRemove.getDisplayItemIs(), "an empty space");
+        this.description = this.description.replaceFirst(aOrAn(toRemove.getDisplayItemIs()), "an empty space");
     }
 
     public void addItemToDescription(interactive toAdd) {
-        this.description = this.description.replaceFirst("an empty space", toAdd.getDisplayItemIs());
+        this.description = this.description.replaceFirst("an empty space", aOrAn(toAdd.getDisplayItemIs()));
+    }
+
+    /*
+    checks if the String entered will have an a or an before it
+     */
+    private String aOrAn(String toCheck) {
+        String retVal;
+
+        // gets the first letter of the displayItemIs - [1] to skip the "
+        char checkChar = toCheck.toLowerCase().charAt(1);
+
+        if(checkChar == 'a' || checkChar == 'e' || checkChar == 'i' || checkChar == 'o' || checkChar == 'u') {
+            retVal = "an " + toCheck;
+        }
+        else retVal = "a " + toCheck;
+
+        return retVal;
     }
 
     public interactive[] getInteractives() {
