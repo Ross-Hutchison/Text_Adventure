@@ -156,4 +156,8 @@ public class interactive {
     }
 
     public String getType() { return type; }
+
+    public void setTouchResult(event touchResult) { this.touchResult = touchResult; }
+
+    public void setUseResult(event useResult) { this.useResult = useResult; }
 }

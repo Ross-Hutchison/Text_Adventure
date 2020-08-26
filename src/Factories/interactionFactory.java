@@ -56,7 +56,7 @@ public class interactionFactory {
 
         String leadsTo;
         if(to != null) leadsTo = to;
-        else leadsTo = "nowhere";
+        else leadsTo = "nowhere";   // prevents null pointer exceptions
 
         String solvedBy;
         if(solutionItemIs != null) solvedBy = solutionIsIn + solutionItemIs;
@@ -194,14 +194,49 @@ public class interactionFactory {
         return river;
     }
 
-    public interactive createPath() {
-        /*
-        TODO:
-            need either two types of path or for path to take some kind of variable that decided on what type of description
-            this is because I need a nice path to civilisation and a wild path that goes deeper into the forest
-            would prefer the variable approach since a lot of it will be the same just a different description
-         */
-        return null;
+    public interactive createPath(String type, String isIn, String to) {
+
+        String leadsTo;
+        if(to != null) leadsTo = to;
+        else leadsTo = "nowhere";
+
+        String itemIs;
+        String description;
+        String feelsLike;
+        String usedAlone;
+        event useResult;
+        event touchResult;
+
+        if(type.equals("paved")) {
+            itemIs = isIn + "\"" + "paved path" + "\"";
+            description = "the path is made of cobblestones, light green moss grows over and between the stones\n" +
+                    " but the path looks sound and well made, it was obviously created to last a long time.";
+
+            feelsLike = "the cobbles are somewhat worn and rough but the path is much simpler to walk on than the dirt floor.";
+            usedAlone = "you walk along the cobbled path";
+        }
+        else if(type.equals("wild")) {
+            itemIs = isIn + "\"" + "wild path" + "\"";
+            description = "there is less a path here, and more a section of trampled down wilderness\n" +
+                    "while not particularly stable the path seems simple enough to follow\n" +
+                    " if only because of the thickness of the undergrowth outside of it.";
+
+            feelsLike = "the path is rough and uneven underfoot\n" +
+                    " you decide against touching it with your bare skin after a thorn almost pierces your sole";
+
+            usedAlone = "you trek down the wild path";
+        }
+        else {
+            System.out.println("Invalid path type given to path constructor in: " + isIn);
+            return null;   // invalid path type
+        }
+
+        useResult = new alterRoomEvent("moveRoom", leadsTo);
+        touchResult = null;
+
+
+        interactive path = new interactive(itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
+        return path;
     }
 
 

@@ -2,6 +2,7 @@ package Factories;
 
 import java.util.HashMap;
 
+import Events.outputMessageEvent;
 import Interaction.interactive;
 import Interaction.obstacle;
 import Rooms.room;
@@ -12,7 +13,7 @@ public class roomFactory {
 
     public room createTutorialRoom() {
         // the tutorial room's unique id and interactive prefix
-        String id = "tutorialRoom";
+        String id = "dustyRoom";
         String interactivePrefix = id + ":";    // used to show that say one large key belongs to one room while another belongs to another
 
         // generating the item array for the room
@@ -22,7 +23,7 @@ public class roomFactory {
         interactive[] interactives = new interactive[]{choco, box};
 
         // generating the obstacle array
-        obstacle door = itemGenerator.createWoodenDoor(interactivePrefix, "tutorialRoom", interactivePrefix, key.getDisplayItemIs());
+        obstacle door = itemGenerator.createWoodenDoor(interactivePrefix, "glade", interactivePrefix, key.getDisplayItemIs());
         obstacle[] obstacles = new obstacle[]{door};
 
         // generating the HashMap for blocked items
@@ -58,35 +59,52 @@ public class roomFactory {
         // generating the item array for the room
         interactive axe = itemGenerator.createAxe(interactivePrefix);
         interactive woodBundle = itemGenerator.createWoodBundle(interactivePrefix);
-        interactive[] interactives = new interactive[4];    // axe and three doors
+        interactive[] interactives = new interactive[3];    // axe and two paths
         interactives[0] = axe;
 
         // generating the obstacle array
         obstacle tree = itemGenerator.createTree(interactivePrefix, "", axe.getDisplayItemIs());// "" means any item of this itemIs can solve it
         obstacle vines = itemGenerator.createVines(interactivePrefix, "", axe.getDisplayItemIs());
         obstacle river = itemGenerator.createRiver(interactivePrefix, "", woodBundle.getDisplayItemIs());
-        obstacle[] obstacles = new obstacle[]{tree, river, vines};
+        obstacle woodenDoor = itemGenerator.createWoodenDoor(interactivePrefix, "dustyRoom", "", null);
+        obstacle[] obstacles = new obstacle[]{tree, river, vines, woodenDoor};
 
-        // creates the doors to different room
-        interactive woodenDoor = itemGenerator.createWoodenDoor(interactivePrefix, "tutorialRoom", "", null);
-        interactive forestPath = itemGenerator.createPath();
-        interactive civilPath = itemGenerator.createPath();
-        interactives[1] = woodenDoor;
-        interactives[2] = forestPath;
-        interactives[3] = civilPath;
+        // creates the paths to different room and adds them to interactives array
+            // creates the path but alters the useEvent since this path ends the game if taken
+        interactive forestPath = itemGenerator.createPath("wild", interactivePrefix, null);
+        forestPath.setUseResult(new outputMessageEvent("winGame", "perhaps taking an unknown path deep into the woods with no supplies was a bad idea..."));
+
+        interactive civilPath = itemGenerator.createPath("paved", interactivePrefix, "dustyRoom");
+        interactives[1] = forestPath;
+        interactives[2] = civilPath;
 
 
         // generating the HashMap for blocked items
         HashMap<interactive, obstacle>blockedBy = new HashMap<>();
+        blockedBy.put(civilPath, river);
+        blockedBy.put(forestPath, vines);
 
         // generates the map of Strings to items
         HashMap<String, interactive>itemIsToItem = new HashMap<>();
+        itemIsToItem.put(axe.getDisplayItemIs(), axe);
+        itemIsToItem.put(civilPath.getDisplayItemIs(), civilPath);
+        itemIsToItem.put(forestPath.getDisplayItemIs(), forestPath);
 
         // generates the map of Strings to Obstacles
         HashMap<String, obstacle> itemIsToObstacle = new HashMap<>();
+        itemIsToObstacle.put(tree.getDisplayItemIs(), tree);
+        itemIsToObstacle.put(vines.getDisplayItemIs(), vines);
+        itemIsToObstacle.put(river.getDisplayItemIs(), river);
+        itemIsToObstacle.put(woodenDoor.getDisplayItemIs(), woodenDoor);
 
         // writing the description
-        String description = "";
+        String description = "A clearing surrounded on all sides by a deep wood, the trees loom over you creating patches of shade\n" +
+                "there is the sound of flowing water but otherwise the glade is silent.\n" +
+                "by the " + woodenDoor.getDisplayItemIs() + " you came through there is an " + axe.getDisplayItemIs() + "sitting on a stump\n" +
+                " leaving the door about 15 meters forwards a " + tree.getDisplayItemIs() + " stands next to a " + river.getDisplayItemIs() + "\n" +
+                "there is what seems to be the ruins of a bridge spanning it and across it a " + civilPath.getDisplayItemIs() + "\n" +
+                "to the left of the door behind a thick patch of " + vines.getDisplayItemIs() + " is a " + forestPath.getDisplayItemIs() + "\n" +
+                "it does not seem like a good idea to take it unprepared even if you can reach it.";
 
         // creating and returning the room
         room tutorialRoom = new room(id, description, interactives, obstacles, blockedBy, itemIsToItem, itemIsToObstacle);

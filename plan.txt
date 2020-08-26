@@ -1745,5 +1745,10 @@ processing events:
             I could create interactives that can't be taken but that is
             less effective since it's creating the same item twice
 
+            since it is possible to lose cause that's funny then maybe add a gameLost variable
+            and have the loop check both, and the final output can depend on whether it was won or lost
+
+            second room should now be set up
+
 
 
