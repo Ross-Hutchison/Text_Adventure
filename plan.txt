@@ -1790,3 +1790,30 @@ processing events:
 
 
 
+        So the second room is implemented and works fine, what's the next step?
+
+        The room after the glade
+
+        we'll have a town entrance, it can have to start:
+        a gate
+        a guard
+
+        the guard is bribed with chocolate to open the gate
+        the gate will be a door to the town proper
+        it will be resolved through an event
+        will need an event for the guard
+        this event will take in an interactive and resolve it
+        could rename addItemEvent to alterItemEvent
+
+        issue - the chocolate can be used up
+              - will need some way of handling a check for this
+              - the use event can check it's own value
+
+            So what I can do
+            is create a resolve event for obstacles - guard is an obstacle
+                Possible future work is to make people their own class extending interactive
+            can give obstacles a boolean called consumeSolution
+                if it's true then on resolution the player loses the item
+                might need resolve to take in player if I do this
+                since i'l need to call a removeFrom inventoryFn 
+
