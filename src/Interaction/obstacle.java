@@ -12,10 +12,11 @@ public class obstacle extends interactive {
     private String alreadyResolvedMsg;
     private String usedWithoutSolveMsg;
     private event useNonResolvedResult;
+    private event resolveEvent;
 
 
     public obstacle(String solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg,
-                    event useNonResolvedResult, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
+                    event useNonResolvedResult, event resolveEvent, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
                     event useResult, boolean canTake) {
 
         super(itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake);
@@ -28,6 +29,8 @@ public class obstacle extends interactive {
         this.usedWithoutSolveMsg = usedWithoutSolveMsg;
         this.useNonResolvedResult = useNonResolvedResult;
         if(this.useNonResolvedResult != null) this.useNonResolvedResult.setBelongsTo(this);
+        this.resolveEvent = resolveEvent;
+        if(this.resolvedMsg != null) this.resolveEvent.setBelongsTo(this);
         this.canTake = false;   // no matter the input canTake - find a way to remove it, maybe give interactive a constructor without canTake
     }
 
@@ -36,7 +39,7 @@ public class obstacle extends interactive {
         - used with loading obstacles in previously visited rooms
      */
     public obstacle(String solvedBy, String resolvedMsg, String resolveFailMsg, String alreadyResolvedMsg, String usedWithoutSolveMsg,
-                    event useNonResolvedResult, boolean solved, String type, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
+                    event useNonResolvedResult, event resolveEvent, boolean solved, String type, String itemIs, String description, String feelsLike, String usedAlone, event touchResult,
                     event useResult, boolean canTake) {
         super(type, itemIs, description, feelsLike, usedAlone, touchResult, useResult, canTake);
         this.solved = solved;
@@ -47,18 +50,23 @@ public class obstacle extends interactive {
         this.usedWithoutSolveMsg = usedWithoutSolveMsg;
         this.useNonResolvedResult = useNonResolvedResult;
         if(this.useNonResolvedResult != null) this.useNonResolvedResult.setBelongsTo(this);
+        this.resolveEvent = resolveEvent;
+        if(this.resolveEvent != null) this.resolveEvent.setBelongsTo(this);
         this.canTake = false;   // no matter the input canTake - find a way to remove it, maybe give interactive a constructor without canTake
     }
 
-    public void resolve(interactive usedWith) {
+    public event resolve(interactive usedWith) {
         String usedWithId = usedWith.getFullItemIs();
 
         if (!solved && usedWithId.endsWith(solvedBy)) {
             this.solved = true;
             System.out.println(this.resolvedMsg);
-        } else if (!solved) {
-            System.out.println(resolveFailMsg);
-        } else System.out.println(alreadyResolvedMsg);
+            return this.resolveEvent;   // if resolve succeeds return the resolve event
+        }
+        else if (!solved) System.out.println(resolveFailMsg);
+        else System.out.println(alreadyResolvedMsg);
+
+        return null;    // if either already resolved or resolve failed return null
     }
 
     @Override

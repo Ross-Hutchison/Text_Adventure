@@ -1815,5 +1815,26 @@ processing events:
             can give obstacles a boolean called consumeSolution
                 if it's true then on resolution the player loses the item
                 might need resolve to take in player if I do this
-                since i'l need to call a removeFrom inventoryFn 
+                since i'l need to call a removeFrom inventoryFn
+                This would allow me to for example - have chopping down the tree resolve the river obstacle
 
+
+        Adding resolve event
+            first add the variable to the obstacle class
+            then to the two constructors
+            then make resolve return an event
+                specifically the resolveEvent
+            find all instances where resolve is used and check the use of the return value for that segment
+                go to room useOn methods
+                    they call interactive.useOn
+                    this need to be altered
+                    need it to return event
+                I'll need to check game for when useOn is called
+                    it'll return null for now so I'll need to make it return the event
+                    goes to inputProcessor
+                    altered interactive.useOn to return the resolve event
+                    then altered inputProcessor to retuen the result o room.playerUsedItemOnObstacle()
+
+            interactionFactory needed resolveEvent added to the obstacle methods
+
+            need to add resolveEvent to the save and load methods in traversalProcessor

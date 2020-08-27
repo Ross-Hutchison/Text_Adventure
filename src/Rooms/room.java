@@ -131,15 +131,17 @@ class room {
         }
     }
 
-    public void playerUsedItemOnObstacle(player p, interactive used, obstacle usedOn) { //obstacles currently can't be blocked
+    public event playerUsedItemOnObstacle(player p, interactive used, obstacle usedOn) { //obstacles currently can't be blocked
         if (used instanceof obstacle)
             System.out.println(USED_OBST_WITH_OBST_ERR_MSG);
         else if (itemIsToItem.get(usedOn.getDisplayItemIs()) != null)
             System.out.println(USED_ITEM_WITH_ITEM_ERR_MSG);
         else if (p.hasItemInInventory(used.getFullItemIs()) != null)
-            used.useOn(usedOn);
+            return used.useOn(usedOn);
         else
             System.out.println("you reach for your " + used.getDisplayItemIs() + " but realise you don't have one : (");
+
+        return null;   // if it doesn't call used.useOn then return null since no event occurred
     }
 
     public void removeItemFromDescription(interactive toRemove) {

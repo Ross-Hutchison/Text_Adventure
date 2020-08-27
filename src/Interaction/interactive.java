@@ -119,8 +119,8 @@ public class interactive {
         return this.useResult;
     }
 
-    public void useOn(obstacle useOn) {
-        useOn.resolve(this);
+    public event useOn(obstacle useOn) {
+        return useOn.resolve(this);
     }
 
     public String getFullItemIs() {

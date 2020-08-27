@@ -73,13 +73,13 @@ public class interactionFactory {
         String alreadyResolvedMsg = "the door is already unlocked prodding it more probably won't achieve much";
         String usedWithoutSolveMsg = "you push at the door, it doesn't budge. It must be locked";
 
-        event useResult = new alterRoomEvent("moveRoom",
-                leadsTo);
+        event useResult = new alterRoomEvent("moveRoom", leadsTo);
+        event resolveEvent = null;
 
         event touchResult = null;
         event useNonResolvedResult = null;
 
-        obstacle woodenDoor = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
+        obstacle woodenDoor = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult, resolveEvent,
                 itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
         return woodenDoor;
     }
@@ -134,8 +134,9 @@ public class interactionFactory {
         event useResult = new addItemEvent("addItem", "you gather several of the branches into a bundle", createWoodBundle(isIn), "laying near the fallen tree is");
         event touchResult = null;
         event useNonResolvedResult = null;
+        event resolveEvent = null;
 
-        obstacle tree = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
+        obstacle tree = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult, resolveEvent,
                 itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
         return tree;
     }
@@ -162,8 +163,9 @@ public class interactionFactory {
         event useResult = null;
         event touchResult = null;
         event useNonResolvedResult = null;
+        event resolveEvent = null;
 
-        obstacle vines = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
+        obstacle vines = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult, resolveEvent,
                 itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
         return vines;
     }
@@ -188,8 +190,9 @@ public class interactionFactory {
         event useResult = null;
         event touchResult = null;
         event useNonResolvedResult = null;
+        event resolveEvent = null;
 
-        obstacle river = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult,
+        obstacle river = new obstacle(solvedBy, resolvedMsg, resolveFailMsg, alreadyResolvedMsg, usedWithoutSolveMsg, useNonResolvedResult, resolveEvent,
                 itemIs, description, feelsLike, usedAlone, touchResult, useResult, false);
 
         return river;

@@ -171,8 +171,7 @@ public class inputProcessor {
                 obstacle obstacleObj = obstacleChecker.get(interactives[1]);  // look for the second desired Interaction in the rooms obstacle map
 
                 if (obstacleObj != null) {  // if the second Interaction is an obstacle in the room
-                    currentRoom.playerUsedItemOnObstacle(p, interactiveObj1, obstacleObj); // no event attached - ret null
-                    return null;
+                    return currentRoom.playerUsedItemOnObstacle(p, interactiveObj1, obstacleObj); // no event attached - ret null
                 } else {
                     // if the second interaction is an item in the room or the player's inventory
                     if (itemChecker.get(interactives[1]) != null || p.hasItemInInventory(interactives[1]) != null) {
