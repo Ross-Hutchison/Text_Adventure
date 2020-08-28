@@ -1853,3 +1853,9 @@ processing events:
 
                 if all works out then merge the second branch with this one and delete the test branch
                 since I don't want cutting down the tree to bridge the river at the moment
+
+        First step - create resolveObstacleEvent
+            needs:
+                the standard event stuff
+                an obstacle to resolve
+                a resolve message - could extend alterRoom and use eventSpecifics for this
