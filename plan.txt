@@ -1846,3 +1846,10 @@ processing events:
 
                 had an error in the obstacle constructor once fixed everything seems to run
                 though no resolveEvents in use atm so can't really check save and Load
+
+                should alter the glade so cutting down the tree lets you pass the river
+                this would be a resolve event similar to how the gate will work
+                should create the event and add it to save in a separate branch and then test in another
+
+                if all works out then merge the second branch with this one and delete the test branch
+                since I don't want cutting down the tree to bridge the river at the moment
