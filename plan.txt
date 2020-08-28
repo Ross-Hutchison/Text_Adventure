@@ -1838,3 +1838,11 @@ processing events:
             interactionFactory needed resolveEvent added to the obstacle methods
 
             need to add resolveEvent to the save and load methods in traversalProcessor
+                will need to go to saveObstacle
+                    add resolveEvent to saveString between useEvent and Solved boolean
+                    then parse it in loadObstacle and add it to the constructor
+                        every part of segments above 5 has index +1
+                        take [6] and convert to event then add
+
+                had an error in the obstacle constructor once fixed everything seems to run
+                though no resolveEvents in use atm so can't really check save and Load

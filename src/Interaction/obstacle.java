@@ -30,7 +30,7 @@ public class obstacle extends interactive {
         this.useNonResolvedResult = useNonResolvedResult;
         if(this.useNonResolvedResult != null) this.useNonResolvedResult.setBelongsTo(this);
         this.resolveEvent = resolveEvent;
-        if(this.resolvedMsg != null) this.resolveEvent.setBelongsTo(this);
+        if(this.resolveEvent != null) this.resolveEvent.setBelongsTo(this);
         this.canTake = false;   // no matter the input canTake - find a way to remove it, maybe give interactive a constructor without canTake
     }
 
@@ -81,8 +81,9 @@ public class obstacle extends interactive {
     }
 
     @Override
-    public void useOn(obstacle useOn) {   // should never happen
+    public event useOn(obstacle useOn) {   // should never happen
         System.out.println("why have you tried this - stop");
+        return null;
     }
 
 
@@ -110,10 +111,6 @@ public class obstacle extends interactive {
         return solved;
     }
 
-    public boolean isSolved() {
-        return solved;
-    }
-
     public String getResolvedMsg() {
         return resolvedMsg;
     }
@@ -137,4 +134,6 @@ public class obstacle extends interactive {
     public String getSolvedBy() {
         return solvedBy;
     }
+
+    public event getResolveEvent() { return resolveEvent; }
 }

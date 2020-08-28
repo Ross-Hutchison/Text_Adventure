@@ -17,8 +17,6 @@ class traversalProcessor {  // can be package-protected since it'll be called in
     private final String EVENT_DATA_SEPARATOR = " ; ";  // separates the different variables of each event object
     private final String MAP_DATA_SEPARATOR = " ! ";    // separates the different key-value pairings in the map
 
-    private final String ROOM_NOT_FOUND_ERR = "The room could not be loaded - id not present in save data map";
-
     void saveRoom(room toSave) {    // converts the room to a String
         String saveData = ""; // used to store all the data
 
@@ -79,6 +77,8 @@ class traversalProcessor {  // can be package-protected since it'll be called in
         saveData += toSave.getUsedWithoutSolveMsg();
         saveData += separator;
         saveData += saveEvent(toSave.getUseNonResolvedResult());
+        saveData += separator;
+        saveData += saveEvent(toSave.getResolveEvent());
         saveData += separator;
         saveData += toSave.getSolved();
         saveData += separator;
@@ -208,13 +208,14 @@ class traversalProcessor {  // can be package-protected since it'll be called in
             String[] segments = part.split(separator);
 
             event useNonResolvedEvent = loadEvent(segments[5]);
-            event touchEvent = loadEvent(segments[12]);
-            event useEvent = loadEvent(segments[13]);
-            boolean solved = (segments[6].equals("true"));
-            boolean canTake = (segments[14].equals("true"));
+            event resolveEvent = loadEvent(segments[6]);
+            event touchEvent = loadEvent(segments[13]);
+            event useEvent = loadEvent(segments[14]);
+            boolean solved = (segments[7].equals("true"));
+            boolean canTake = (segments[15].equals("true"));
 
-            obstacle toAdd = new obstacle(segments[0], segments[1], segments[2], segments[3], segments[4], useNonResolvedEvent,
-                    solved, segments[7] ,segments[8], segments[9], segments[10], segments[11], touchEvent, useEvent, canTake);
+            obstacle toAdd = new obstacle(segments[0], segments[1], segments[2], segments[3], segments[4], useNonResolvedEvent, resolveEvent,
+                    solved, segments[8] ,segments[9], segments[10], segments[11], segments[12], touchEvent, useEvent, canTake);
 
             retData[insertIndex++] = toAdd;
         }
