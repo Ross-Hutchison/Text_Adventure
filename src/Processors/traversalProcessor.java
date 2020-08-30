@@ -136,6 +136,11 @@ class traversalProcessor {  // can be package-protected since it'll be called in
                 saveData += EVENT_DATA_SEPARATOR;
                 saveData += ((addItemEvent)toSave).getLocation();
             }
+            else if (toSave.getEventSubType().equals("resolveObstacle")) {
+                saveData += ((resolveObstacleEvent)toSave).getEventSpecifics();
+                saveData += EVENT_DATA_SEPARATOR;
+                saveData += ((resolveObstacleEvent)toSave).getToResolve();
+            }
         } else saveData += "null";
         return saveData;
     }
@@ -245,6 +250,13 @@ class traversalProcessor {  // can be package-protected since it'll be called in
                 interactive toAdd = loadItems(segments[5], INTERNAL_INTERACTIVE_DATA_SEPARATOR)[0];  // could probably use this to load a single item - maybe
                 String location = segments[6];
                 return new addItemEvent(type, eventSpecifics, toAdd, location);
+            }
+            else if (subType.equals("resolveObject")) {
+                String eventSpecifics = segments[4];
+                String[] obst = segments[5].split(":"); // should separate back into isIn and
+                String isIn = obst[0] + ":";
+                String itemIs = obst[1];
+                return new resolveObstacleEvent(type, eventSpecifics, isIn, itemIs);
             }
         }
         return null;

@@ -1859,3 +1859,48 @@ processing events:
                 the standard event stuff
                 an obstacle to resolve
                 a resolve message - could extend alterRoom and use eventSpecifics for this
+
+        Next step - add to save and load Event
+            for save - only need to save the String for the obstacle to be resolved
+                I should make it take in the two Strings since that makes it easier to create - take in the room id and the itemIs
+                would allow for more versatility? maybe also easier checking?
+                But since it checks the displayItemIs issue is that this can change if more obstacles are added
+                    (which atm doesn't happen but could)
+
+
+                so the event works by taking in a String and then using it to find the obstacle to resolve
+                it then resolves it using the resolveKey - A string that will not occur as part of any other itemIs
+                and so will only work for obstacles specifically set to open this way
+
+                want it to take in the String so it can be used on obstacles outside the room the solver is in
+                BUT then how to fix the displayItemIs issue?
+
+                too many ways adding obstacles could break this - need to use the fullItemIs since this never changes
+
+                if I'm using the fullItemIs I need some way of searching for that
+                can't alter the room map to use fullItemIs since I set it up that way for a reason
+                considering fullItemIs isn't supposed to change ever but display can since full is used for
+                checks where you don't have access directly to the item or the check can't change
+                e.g leaving a key in a different room can't alter the door that key opens in another room
+                so fullItemIs has to be constant
+
+                    So how to find an item in the room using the fullItemIs
+
+                    could search the description for the displayItemIs
+                    and if it's not found could search for the display itemIs with a number attached
+
+                    if either of these pass can use the map to get the items then take their fullItemIs and compare
+                    to the resolves variable
+
+                    could also do a check with the isIn part to make sure you're in the right room
+
+            anyway back to saving - add the String to the saveData as is no need to save anything else
+
+            for load
+                - loads just like a normal event take the Strings and pass them in
+                - to get them split the part by : should give the isIn as [0] and itemIs as [1]
+                - realised I'm not saving the event specifics in save need to do that then load it
+                - that's done should now be savable
+
+
+
